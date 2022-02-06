@@ -2,18 +2,28 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esNext",
-    "lib": ["es2019", "dom"],
+    "lib": [
+      "es2019",
+      "dom"
+    ],
     "allowJs": true, // jsコンパイル用
     "checkJs": true, // js簡易型チェック
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "./dist/",
+    "outDir": "./dist",
     "noImplicitAny": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "types": ["@types/node", "@types/express", "node"],
-    "typeRoots": ["types", "node_modules/@types"]
+    "types": [
+      "@types/node",
+      "@types/express",
+      "node"
+    ],
+    "typeRoots": [
+      "types",
+      "node_modules/@types"
+    ]
   }
 }

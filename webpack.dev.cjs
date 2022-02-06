@@ -7,7 +7,7 @@ module.exports = {
     // 出力されるファイル名
     filename: 'bundle.js',
     // 出力先ディレクトリ
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/public'),
   },
   module: {
     rules: [
