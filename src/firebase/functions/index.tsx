@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 import {
   getCategories,
@@ -6,8 +6,8 @@ import {
   getCategory,
   getSubCategories,
   getSubCategory,
-  categoryLinkingSubCategory
-} from "./category"
+  categoryLinkingSubCategory,
+} from './category'
 import {
   getOneConditionsSummaries,
   getTwoConditionsSummaries,
@@ -20,17 +20,16 @@ import {
   updateFavoriteSummaries,
   getRankingSummaries,
   getOneConditionsDescPaginationSummaries,
-  getTwoConditionsDescPaginationSummaries
-} from "./summary"
+  getTwoConditionsDescPaginationSummaries,
+} from './summary'
 import {
-  emailAuthMixin_sendVerifyMail,
   register,
   login,
   logout,
   getCurrentUser,
   getIdUser,
-  updateUser
-} from "./user"
+  updateUser,
+} from './user'
 import {
   getFavorite,
   getFavorites,
@@ -38,29 +37,29 @@ import {
   deleteFavorite,
   getDonefavorite,
   getfavoriteNum,
-  getMyFavorites
-} from "./favorite"
+  getMyFavorites,
+} from './favorite'
 import {
   readQuery,
   formatDateHour,
   uploadImage,
   getImage,
-  responseUploadImage
-} from "./defalt"
-import { createBrowsing, getMyBrowsings, getMyBrowsingsCount } from "./browsing"
+  responseUploadImage,
+} from './defalt'
+import { createBrowsing, getMyBrowsings, getMyBrowsingsCount } from './browsing'
 import {
   createSummaryComment,
   getMyComments,
   getSummaryComments,
   getMyCommentCount,
-  getIdComment
-} from "./comment"
+  getIdComment,
+} from './comment'
 import {
   createNotification,
   getMyNotifications,
   getMyNotReadNotificationsCount,
-  updateReadNotifications
-} from "./notification"
+  updateReadNotifications,
+} from './notification'
 
 export {
   getCategories,
@@ -84,7 +83,6 @@ export {
   getIdUser,
   updateUser,
   getCurrentUser,
-  emailAuthMixin_sendVerifyMail,
   register,
   login,
   logout,
@@ -111,5 +109,5 @@ export {
   updateReadNotifications,
   uploadImage,
   getImage,
-  responseUploadImage
+  responseUploadImage,
 }
