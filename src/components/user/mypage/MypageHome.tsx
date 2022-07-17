@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { ResultResponse, ResUser } from "../../../types"
-import { MypageSidebar, MypageProfile } from "../.."
-import { getIdUser } from "../../../firebase/functions"
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { ResultResponse, ResUser } from '../../../types';
+import { MypageSidebar, MypageProfile } from '../..';
+import { getIdUser } from '../../../firebase/functions';
 
 const MypageEdit = () => {
-  const [user, setUser] = useState<ResUser>({})
-  const [loading, setLoading] = useState<boolean>(false)
-  const slug: { id: string } = useParams()
+  const [user, setUser] = useState<ResUser>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const slug: { id: string } = useParams();
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id)
+        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id);
         if (resUser && resUser.status === 200) {
-          setUser(resUser.data)
+          setUser(resUser.data);
         }
-        setLoading(true)
+        setLoading(true);
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [slug])
+    loadData();
+  }, [slug]);
 
   return (
     <>
@@ -44,7 +44,7 @@ const MypageEdit = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default MypageEdit
+export default MypageEdit;

@@ -1,46 +1,46 @@
-import React, { useState, FC } from "react"
-import { Textarea, Select } from "../../../../components"
+import React, { useState, FC } from 'react';
+import { Textarea, Select } from '../../../../components';
 
 type props = {
-  modalInfo?: { title?: string; content?: string }
-  isOverlay?: boolean
-  actionBtn?: any
-  closeModal?: any
-}
+  modalInfo?: { title?: string; content?: string };
+  isOverlay?: boolean;
+  actionBtn?: any;
+  closeModal?: any;
+};
 
 type Question = Partial<{
-  content: string
-  gender: string
-}>
+  content: string;
+  gender: string;
+}>;
 
-const QuestionModal: FC<props> = props => {
-  const [values, setValues] = useState<Question>({})
+const QuestionModal: FC<props> = (props) => {
+  const [values, setValues] = useState<Question>({});
   const [gender, setGender] = useState([
-    { id: "man", name: "男性" },
-    { id: "woman", name: "女性" }
-  ])
-  const { closeModal, isOverlay, modalInfo, actionBtn } = props
+    { id: 'man', name: '男性' },
+    { id: 'woman', name: '女性' },
+  ]);
+  const { closeModal, isOverlay, modalInfo, actionBtn } = props;
   const handleClose = () => {
-    closeModal()
-  }
+    closeModal();
+  };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    const name = target.name
-    setValues({ ...values, [name]: value })
-  }
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setValues({ ...values, [name]: value });
+  };
 
   const handleTextareaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    const name = target.name
-    setValues({ ...values, [name]: value })
-  }
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setValues({ ...values, [name]: value });
+  };
 
   return (
     <>
@@ -75,7 +75,7 @@ const QuestionModal: FC<props> = props => {
         <div className="bmodal-overlay" />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default QuestionModal
+export default QuestionModal;

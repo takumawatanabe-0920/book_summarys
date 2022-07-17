@@ -1,17 +1,17 @@
-import React from "react"
-import { CommentItem } from "./../../components"
-import { comments } from "../../utils/icons"
+import React from 'react';
+import { CommentItem } from './../../components';
+import { comments } from '../../utils/icons';
 
 interface Props<T> {
-  dataList: T[]
+  dataList: T[];
 }
 
 interface PropsData {
-  id?: string
+  id?: string;
 }
 
 function CommentList<T extends PropsData>(props: Props<T>): JSX.Element {
-  const { dataList } = props
+  const { dataList } = props;
 
   return (
     <>
@@ -23,11 +23,11 @@ function CommentList<T extends PropsData>(props: Props<T>): JSX.Element {
           <h3 className="_title">コメント</h3>
         </div>
         {dataList.map((data: T) => {
-          return <CommentItem<T> key={data.id} data={data} />
+          return <CommentItem<T> key={data.id} data={data} />;
         })}
       </div>
     </>
-  )
+  );
 }
 
-export default CommentList
+export default CommentList;

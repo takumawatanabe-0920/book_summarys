@@ -1,80 +1,83 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react';
 // components
-import { SummaryList, SummaryCategories, Pager, Loading } from ".."
-import { ResSummaryBook, ResultResponseList } from "../../types"
+import { SummaryList, SummaryCategories, Pager, Loading } from '..';
+import { ResSummaryBook, ResultResponseList } from '../../types';
 import {
   getOneConditionsSummaries,
   readQuery,
   getTwoConditionsSummaryCount,
-  getTwoConditionsDescPaginationSummaries
-} from "../../firebase/functions"
+  getTwoConditionsDescPaginationSummaries,
+} from '../../firebase/functions';
 
 type UpdateData = {
-  query: string
-  name: string
-}
+  query: string;
+  name: string;
+};
 
 const SummaryIndexPage = () => {
-  const [summaries, setSummaries] = useState<ResSummaryBook[]>([])
-  const [selectSummaries, setSelectSummaries] = useState<ResSummaryBook[]>([])
-  const [summariesNum, setSummariesNum] = useState(0)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [page, setPage] = useState(Number(readQuery("pages") || 1))
+  const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
+  const [selectSummaries, setSelectSummaries] = useState<ResSummaryBook[]>([]);
+  const [summariesNum, setSummariesNum] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState(Number(readQuery('pages') || 1));
   const [updateData, setUpdateData] = useState<UpdateData>({
-    query: readQuery("category"),
-    name: ""
-  })
-  const [dataNumPerPage, setDataNumPerPager] = useState(6)
+    query: readQuery('category'),
+    name: '',
+  });
+  const [dataNumPerPage, setDataNumPerPager] = useState(6);
 
   const fetchData = (categoryId?: string, categoryName?: string) => {
-    setUpdateData({ query: categoryId, name: categoryName })
-    const resetPage = 1
-    setPage(resetPage)
-  }
+    setUpdateData({ query: categoryId, name: categoryName });
+    const resetPage = 1;
+    setPage(resetPage);
+  };
 
   const fetchPager = (num: number) => {
-    setPage(num)
-  }
+    setPage(num);
+  };
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resSummariesDataList: ResultResponseList<ResSummaryBook> = await getOneConditionsSummaries(
-          6,
-          1,
-          ["update_date", "desc"],
-          ["publishing_status", "public"]
-        )
+        let resSummariesDataList: ResultResponseList<ResSummaryBook> =
+          await getOneConditionsSummaries(
+            6,
+            1,
+            ['update_date', 'desc'],
+            ['publishing_status', 'public'],
+          );
         if (resSummariesDataList && resSummariesDataList.status === 200) {
-          setSummaries(resSummariesDataList.data)
+          setSummaries(resSummariesDataList.data);
         }
-        let resSelectSummariesDataList: ResultResponseList<ResSummaryBook> = await getTwoConditionsDescPaginationSummaries(
-          dataNumPerPage,
-          page,
-          ["category", updateData.query, "publishing_status", "public"]
-        )
-        let count: number = 0
+        let resSelectSummariesDataList: ResultResponseList<ResSummaryBook> =
+          await getTwoConditionsDescPaginationSummaries(dataNumPerPage, page, [
+            'category',
+            updateData.query,
+            'publishing_status',
+            'public',
+          ]);
+        let count: number = 0;
         if (updateData && updateData.query) {
           count = await getTwoConditionsSummaryCount([
-            "category",
+            'category',
             updateData.query,
-            "publishing_status",
-            "public"
-          ])
+            'publishing_status',
+            'public',
+          ]);
         }
         if (
           resSelectSummariesDataList &&
           resSelectSummariesDataList.status === 200
         ) {
-          setSelectSummaries(resSelectSummariesDataList.data)
+          setSelectSummaries(resSelectSummariesDataList.data);
         }
-        setSummariesNum(count)
-        setLoading(true)
+        setSummariesNum(count);
+        setLoading(true);
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [page, updateData])
+    loadData();
+  }, [page, updateData]);
 
   return (
     <>
@@ -113,7 +116,7 @@ const SummaryIndexPage = () => {
         <Loading />
       )}
     </>
-  )
-}
+  );
+};
 
-export default SummaryIndexPage
+export default SummaryIndexPage;

@@ -1,18 +1,18 @@
-import React, { FC, useState } from "react"
-import { useParams } from "react-router-dom"
-import { ResSummaryBook, ResUser as CurrentUser } from "../../../types"
-import { formatUpdateDate } from "../../../utils/function"
-import { FavoriteButton, UserIcon } from "../../../components"
-import { ReadOnlyEditor } from "../../../utils/richtext"
-import { FavoriteIcon } from "../../../utils/material"
+import React, { FC, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { ResSummaryBook, ResUser as CurrentUser } from '../../../types';
+import { formatUpdateDate } from '../../../utils/function';
+import { FavoriteButton, UserIcon } from '../../../components';
+import { ReadOnlyEditor } from '../../../utils/richtext';
+import { FavoriteIcon } from '../../../utils/material';
 
 type Props = {
-  summaryBook: ResSummaryBook
-  currentUser: CurrentUser
-}
+  summaryBook: ResSummaryBook;
+  currentUser: CurrentUser;
+};
 
-const SummaryDetails: FC<Props> = props => {
-  const { summaryBook, currentUser } = props
+const SummaryDetails: FC<Props> = (props) => {
+  const { summaryBook, currentUser } = props;
   const {
     title,
     content,
@@ -21,9 +21,9 @@ const SummaryDetails: FC<Props> = props => {
     category,
     sub_category,
     book_name,
-    update_date
-  } = summaryBook
-  const url: { id: string } = useParams()
+    update_date,
+  } = summaryBook;
+  const url: { id: string } = useParams();
 
   return (
     <>
@@ -68,7 +68,7 @@ const SummaryDetails: FC<Props> = props => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SummaryDetails
+export default SummaryDetails;

@@ -1,11 +1,11 @@
-import React, { useRef } from "react"
+import React, { useRef } from 'react';
 
 const Navbar = () => {
-  const el = useRef(null)
+  const el = useRef(null);
 
   const menuAnimation = () => {
-    el.current.classList.toggle("open")
-  }
+    el.current.classList.toggle('open');
+  };
 
   return (
     <nav>
@@ -21,7 +21,7 @@ const Navbar = () => {
         <li onClick={() => menuAnimation()}>About</li>
       </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

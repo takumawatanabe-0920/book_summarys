@@ -1,18 +1,18 @@
-import React, { FC } from "react"
-import TextField from "@material-ui/core/TextField"
+import React, { FC } from 'react';
+import TextField from '@material-ui/core/TextField';
 
 type Props = {
-  title: string
-  value?: string
-  type?: string
-  placeholder?: string
-  required?: boolean
-  name: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
+  title: string;
+  value?: string;
+  type?: string;
+  placeholder?: string;
+  required?: boolean;
+  name: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-const Input: FC<Props> = props => {
-  const { title, required, type, value, placeholder, name, onChange } = props
+const Input: FC<Props> = (props) => {
+  const { title, required, type, value, placeholder, name, onChange } = props;
   return (
     <>
       <dl className="form-group">
@@ -34,12 +34,12 @@ const Input: FC<Props> = props => {
         </dd>
       </dl>
     </>
-  )
-}
+  );
+};
 
 Input.defaultProps = {
-  type: "text",
-  required: false
-}
+  type: 'text',
+  required: false,
+};
 
-export default Input
+export default Input;

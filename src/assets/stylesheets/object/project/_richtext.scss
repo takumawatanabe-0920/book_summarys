@@ -51,7 +51,7 @@
       }
     }
 
-    .public-DraftEditor-content[contenteditable="true"] {
+    .public-DraftEditor-content[contenteditable='true'] {
       -webkit-user-modify: read-write-plaintext-only;
     }
 
@@ -211,27 +211,27 @@
 }
 
 .public-DraftStyleDefault-orderedListItem:before {
-  content: counter(ol0) ". ";
+  content: counter(ol0) '. ';
   counter-increment: ol0;
 }
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before {
-  content: counter(ol1, lower-alpha) ". ";
+  content: counter(ol1, lower-alpha) '. ';
   counter-increment: ol1;
 }
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before {
-  content: counter(ol2, lower-roman) ". ";
+  content: counter(ol2, lower-roman) '. ';
   counter-increment: ol2;
 }
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before {
-  content: counter(ol3) ". ";
+  content: counter(ol3) '. ';
   counter-increment: ol3;
 }
 
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before {
-  content: counter(ol4, lower-alpha) ". ";
+  content: counter(ol4, lower-alpha) '. ';
   counter-increment: ol4;
 }
 
@@ -262,7 +262,7 @@
   padding: 15px;
 
   .RichEditor-controls {
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', sans-serif;
     font-size: 14px;
     margin-bottom: 5px;
     user-select: none;
@@ -325,7 +325,7 @@
 
 .RichEditor-editor .public-DraftStyleDefault-pre {
   background-color: rgba(0, 0, 0, 0.05);
-  font-family: "Inconsolata", "Menlo", "Consolas", monospace;
+  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
   font-size: 16px;
   padding: 20px;
 }

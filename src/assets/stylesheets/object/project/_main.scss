@@ -302,7 +302,7 @@
         width: 100%;
 
         &:before {
-          content: "";
+          content: '';
           display: block;
           position: absolute;
           background: inherit;
@@ -331,7 +331,7 @@
       background-color: rgba(255, 255, 255, 0.5);
 
       &:before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         background: inherit;
@@ -475,7 +475,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        content: " ";
+        content: ' ';
       }
 
       ._data-tag {

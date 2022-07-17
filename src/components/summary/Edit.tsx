@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { SummaryForm } from "./../../components"
-import { getSummaryBook } from "./../../firebase/functions"
-import { ResultResponse, ResSummaryBook } from "../../types"
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { SummaryForm } from './../../components';
+import { getSummaryBook } from './../../firebase/functions';
+import { ResultResponse, ResSummaryBook } from '../../types';
 
 const SummaryEditPage = () => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [summarybook, setSummaryBook] = useState<ResSummaryBook>({})
-  const url: { id: string } = useParams()
+  const [loading, setLoading] = useState<boolean>(false);
+  const [summarybook, setSummaryBook] = useState<ResSummaryBook>({});
+  const url: { id: string } = useParams();
 
   useEffect(() => {
     const loadData = async () => {
       const resSummary: ResultResponse<ResSummaryBook> = await getSummaryBook(
-        url.id
-      )
+        url.id,
+      );
       if (resSummary && resSummary.status === 200) {
-        setSummaryBook(resSummary.data)
+        setSummaryBook(resSummary.data);
       }
-      setLoading(true)
-    }
+      setLoading(true);
+    };
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
   return (
     <>
       {loading && (
@@ -34,7 +34,7 @@ const SummaryEditPage = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SummaryEditPage
+export default SummaryEditPage;

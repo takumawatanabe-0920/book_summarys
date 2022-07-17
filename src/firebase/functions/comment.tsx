@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 // import dayjs from "dayjs"
 import {
   SummaryComment,
@@ -6,186 +6,184 @@ import {
   ResultResponse,
   ResultResponseList,
   ResSummaryBook,
-  ResUser
-} from "../../types"
-import { firebase } from "../config"
-import { getSummaryBook, getIdUser } from "./"
-const db = firebase.firestore()
+  ResUser,
+} from '../../types';
+import { firebase } from '../config';
+import { getSummaryBook, getIdUser } from './';
+const db = firebase.firestore();
 
 export const createSummaryComment = (
-  values: SummaryComment
+  values: SummaryComment,
 ): Promise<ResultResponse<ResSummaryComment>> => {
-  values.create_date = firebase.firestore.Timestamp.now()
-  values.update_date = firebase.firestore.Timestamp.now()
+  values.create_date = firebase.firestore.Timestamp.now();
+  values.update_date = firebase.firestore.Timestamp.now();
 
   const response = db
-    .collection("summaryComment")
+    .collection('summaryComment')
     .add({
-      ...values
+      ...values,
     })
-    .then(res => {
-      const data = { id: res.id }
-      return { status: 200, data }
+    .then((res) => {
+      const data = { id: res.id };
+      return { status: 200, data };
     })
-    .catch(error => {
-      return { status: 400, error }
-    })
+    .catch((error) => {
+      return { status: 400, error };
+    });
 
-  return response
-}
+  return response;
+};
 
 export const getSummaryComments = (
-  summaryId?: string
+  summaryId?: string,
 ): Promise<ResultResponseList<ResSummaryComment>> => {
   const response = db
-    .collection("summaryComment")
-    .where("summary_id", "==", summaryId)
-    .orderBy("update_date")
+    .collection('summaryComment')
+    .where('summary_id', '==', summaryId)
+    .orderBy('update_date')
     .get()
-    .then(async res => {
+    .then(async (res) => {
       let resData: ResSummaryComment[] = await Promise.all(
-        res.docs.map(async doc => {
+        res.docs.map(async (doc) => {
           const resUser: ResultResponse<ResUser> = await getIdUser(
-            doc.data().user_id
-          )
-          let user: ResUser
+            doc.data().user_id,
+          );
+          let user: ResUser;
           if (resUser && resUser.status === 200) {
-            user = resUser.data
+            user = resUser.data;
           }
-          return { id: doc.id, ...doc.data(), user_id: user }
-        })
-      )
-      return { status: 200, data: resData }
+          return { id: doc.id, ...doc.data(), user_id: user };
+        }),
+      );
+      return { status: 200, data: resData };
     })
-    .catch(function(error) {
-      console.log(error)
-      return { status: 400, error }
-    })
+    .catch(function (error) {
+      console.log(error);
+      return { status: 400, error };
+    });
 
-  return response
-}
+  return response;
+};
 
 export const getMyCommentCount = (userId?: string): Promise<number> => {
   const snapShot = db
-    .collection("summaryComment")
-    .where("user_id", "==", userId)
-    .orderBy("update_date", "desc")
+    .collection('summaryComment')
+    .where('user_id', '==', userId)
+    .orderBy('update_date', 'desc')
     .get()
-    .then(snap => {
-      return snap.size
+    .then((snap) => {
+      return snap.size;
     })
-    .catch(error => {
-      console.log(error)
-      return 0
-    })
+    .catch((error) => {
+      console.log(error);
+      return 0;
+    });
 
-  return snapShot
-}
+  return snapShot;
+};
 
 export const getMyComments = async (
   limit?: number,
   page?: number,
-  userId?: string
+  userId?: string,
 ): Promise<ResultResponseList<ResSummaryComment>> => {
-  if (!limit) return
-  let data
-  const skip = page - 1
+  if (!limit) return;
+  let data;
+  const skip = page - 1;
   if (skip === 0) {
-    data = skip
+    data = skip;
   } else {
     data = await db
-      .collection("summaryComment")
-      .where("user_id", "==", userId)
-      .orderBy("update_date", "desc")
+      .collection('summaryComment')
+      .where('user_id', '==', userId)
+      .orderBy('update_date', 'desc')
       .limit(limit * skip)
       .get()
       .then(
-        documentresponses =>
-          documentresponses.docs[documentresponses.docs.length - 1]
-      )
+        (documentresponses) =>
+          documentresponses.docs[documentresponses.docs.length - 1],
+      );
   }
 
-  let next
+  let next;
   if (!data) {
     next = await db
-      .collection("summaryComment")
-      .where("user_id", "==", userId)
-      .orderBy("update_date", "desc")
+      .collection('summaryComment')
+      .where('user_id', '==', userId)
+      .orderBy('update_date', 'desc')
       .endAt(data)
       .limit(limit)
       .get()
-      .then(async res => {
+      .then(async (res) => {
         let resData: ResSummaryComment[] = await Promise.all(
-          res.docs.map(async doc => {
-            const resSummary: ResultResponse<ResSummaryBook> = await getSummaryBook(
-              doc.data().summary_id
-            )
-            let summary: ResSummaryBook
+          res.docs.map(async (doc) => {
+            const resSummary: ResultResponse<ResSummaryBook> =
+              await getSummaryBook(doc.data().summary_id);
+            let summary: ResSummaryBook;
             if (resSummary && resSummary.status === 200) {
-              summary = resSummary.data
+              summary = resSummary.data;
             }
-            return { id: doc.id, ...doc.data(), summary_id: summary }
-          })
-        )
-        return { status: 200, data: resData }
+            return { id: doc.id, ...doc.data(), summary_id: summary };
+          }),
+        );
+        return { status: 200, data: resData };
       })
-      .catch(function(error) {
-        console.log(error)
-        return { status: 400, error }
-      })
+      .catch(function (error) {
+        console.log(error);
+        return { status: 400, error };
+      });
   } else {
     next = await db
-      .collection("summaryComment")
-      .where("user_id", "==", userId)
-      .orderBy("update_date", "desc")
+      .collection('summaryComment')
+      .where('user_id', '==', userId)
+      .orderBy('update_date', 'desc')
       .startAfter(data)
       .limit(limit)
       .get()
-      .then(async res => {
+      .then(async (res) => {
         let resData: ResSummaryComment[] = await Promise.all(
-          res.docs.map(async doc => {
-            const resSummary: ResultResponse<ResSummaryBook> = await getSummaryBook(
-              doc.data().summary_id
-            )
-            let summary: ResSummaryBook
+          res.docs.map(async (doc) => {
+            const resSummary: ResultResponse<ResSummaryBook> =
+              await getSummaryBook(doc.data().summary_id);
+            let summary: ResSummaryBook;
             if (resSummary && resSummary.status === 200) {
-              summary = resSummary.data
+              summary = resSummary.data;
             }
-            return { id: doc.id, ...doc.data(), summary_id: summary }
-          })
-        )
-        return { status: 200, data: resData }
+            return { id: doc.id, ...doc.data(), summary_id: summary };
+          }),
+        );
+        return { status: 200, data: resData };
       })
-      .catch(function(error) {
-        console.log(error)
-        return { status: 400, error }
-      })
+      .catch(function (error) {
+        console.log(error);
+        return { status: 400, error };
+      });
   }
 
-  return next
-}
+  return next;
+};
 
 export const getIdComment = (
-  id?: string
+  id?: string,
 ): Promise<ResultResponse<ResSummaryComment>> => {
   const response = db
-    .collection("summaryComment")
+    .collection('summaryComment')
     .doc(id)
     .get()
-    .then(async doc => {
+    .then(async (doc) => {
       if (doc.exists) {
-        const resSummary = await getSummaryBook(doc.data().summary_id)
-        let summary: ResSummaryBook = {}
+        const resSummary = await getSummaryBook(doc.data().summary_id);
+        let summary: ResSummaryBook = {};
         if (resSummary && resSummary.status === 200) {
-          summary = resSummary.data
+          summary = resSummary.data;
         }
-        const data = { id: doc.id, ...doc.data(), summary_id: summary }
-        return { status: 200, data }
+        const data = { id: doc.id, ...doc.data(), summary_id: summary };
+        return { status: 200, data };
       }
     })
-    .catch(error => {
-      return { status: 400, error }
-    })
+    .catch((error) => {
+      return { status: 400, error };
+    });
 
-  return response
-}
+  return response;
+};

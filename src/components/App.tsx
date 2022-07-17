@@ -1,51 +1,53 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react';
 // components
-import { SummaryList, Sidebar, TopSummaryList, Loading } from "./../components"
-import { ResSummaryBook, ResultResponseList } from "./../types"
-import { getOneConditionsSummaries } from "../firebase/functions"
-import { Link } from "react-router-dom"
+import { SummaryList, Sidebar, TopSummaryList, Loading } from './../components';
+import { ResSummaryBook, ResultResponseList } from './../types';
+import { getOneConditionsSummaries } from '../firebase/functions';
+import { Link } from 'react-router-dom';
 const HomePage = () => {
-  const [summaries, setSummaries] = useState<ResSummaryBook[]>([])
-  const [newSummaries, setNewSummaries] = useState<ResSummaryBook[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
+  const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
+  const [newSummaries, setNewSummaries] = useState<ResSummaryBook[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  let getSummaryNum = 0
+  let getSummaryNum = 0;
   if (window.innerWidth < 768) {
-    getSummaryNum = 4
+    getSummaryNum = 4;
   } else {
-    getSummaryNum = 6
+    getSummaryNum = 6;
   }
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resRecommendSummariesDataList: ResultResponseList<ResSummaryBook> = await getOneConditionsSummaries(
-          6,
-          1,
-          ["favorite_count", "desc"],
-          ["publishing_status", "public"]
-        )
-        let resNewSummariesDataList: ResultResponseList<ResSummaryBook> = await getOneConditionsSummaries(
-          4,
-          1,
-          ["update_date", "desc"],
-          ["publishing_status", "public"]
-        )
+        let resRecommendSummariesDataList: ResultResponseList<ResSummaryBook> =
+          await getOneConditionsSummaries(
+            6,
+            1,
+            ['favorite_count', 'desc'],
+            ['publishing_status', 'public'],
+          );
+        let resNewSummariesDataList: ResultResponseList<ResSummaryBook> =
+          await getOneConditionsSummaries(
+            4,
+            1,
+            ['update_date', 'desc'],
+            ['publishing_status', 'public'],
+          );
         if (
           resRecommendSummariesDataList &&
           resRecommendSummariesDataList.status === 200
         ) {
-          setSummaries(resRecommendSummariesDataList.data)
+          setSummaries(resRecommendSummariesDataList.data);
         }
         if (resNewSummariesDataList && resNewSummariesDataList.status === 200) {
-          setNewSummaries(resNewSummariesDataList.data)
+          setNewSummaries(resNewSummariesDataList.data);
         }
-        setLoading(true)
+        setLoading(true);
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   return (
     <>
@@ -79,7 +81,7 @@ const HomePage = () => {
         <Loading />
       )}
     </>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

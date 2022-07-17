@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import {
   getCategories,
@@ -7,7 +7,7 @@ import {
   getSubCategories,
   getSubCategory,
   categoryLinkingSubCategory,
-} from './category'
+} from './category';
 import {
   getOneConditionsSummaries,
   getTwoConditionsSummaries,
@@ -21,7 +21,7 @@ import {
   getRankingSummaries,
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
-} from './summary'
+} from './summary';
 import {
   register,
   login,
@@ -29,7 +29,7 @@ import {
   getCurrentUser,
   getIdUser,
   updateUser,
-} from './user'
+} from './user';
 import {
   getFavorite,
   getFavorites,
@@ -38,28 +38,32 @@ import {
   getDonefavorite,
   getfavoriteNum,
   getMyFavorites,
-} from './favorite'
+} from './favorite';
 import {
   readQuery,
   formatDateHour,
   uploadImage,
   getImage,
   responseUploadImage,
-} from './defalt'
-import { createBrowsing, getMyBrowsings, getMyBrowsingsCount } from './browsing'
+} from './defalt';
+import {
+  createBrowsing,
+  getMyBrowsings,
+  getMyBrowsingsCount,
+} from './browsing';
 import {
   createSummaryComment,
   getMyComments,
   getSummaryComments,
   getMyCommentCount,
   getIdComment,
-} from './comment'
+} from './comment';
 import {
   createNotification,
   getMyNotifications,
   getMyNotReadNotificationsCount,
   updateReadNotifications,
-} from './notification'
+} from './notification';
 
 export {
   getCategories,
@@ -110,4 +114,4 @@ export {
   uploadImage,
   getImage,
   responseUploadImage,
-}
+};

@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useContext } from "react"
-import { ResUser, ResultResponse } from "../../../types"
-import { useParams } from "react-router-dom"
-import { MypageSidebar } from "../.."
-import { getIdUser } from "../../../firebase/functions"
+import React, { useState, useEffect, useContext } from 'react';
+import { ResUser, ResultResponse } from '../../../types';
+import { useParams } from 'react-router-dom';
+import { MypageSidebar } from '../..';
+import { getIdUser } from '../../../firebase/functions';
 
 const Mypage = () => {
-  const [user, setUser] = useState<ResUser>({})
-  const [loading, setLoading] = useState<boolean>(false)
-  const url: { id: string } = useParams()
+  const [user, setUser] = useState<ResUser>({});
+  const [loading, setLoading] = useState<boolean>(false);
+  const url: { id: string } = useParams();
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(url.id)
+        const resUser: ResultResponse<ResUser> = await getIdUser(url.id);
         if (resUser && resUser.status === 200) {
-          setUser(resUser.data)
+          setUser(resUser.data);
         }
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   return (
     <>
@@ -41,7 +41,7 @@ const Mypage = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Mypage
+export default Mypage;

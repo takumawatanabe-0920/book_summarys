@@ -1,36 +1,40 @@
-import React, { useState, useEffect, FC } from "react"
-import { LazyLoadComponent } from "react-lazy-load-image-component"
+import React, { useState, useEffect, FC } from 'react';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 // components
-import { ResultResponseList, ResCategory } from "../../types"
-import { getCategoriesPopulateImage, readQuery } from "../../firebase/functions"
-import { Link } from "react-router-dom"
-import clsx from "clsx"
-import { url } from "inspector"
+import { ResultResponseList, ResCategory } from '../../types';
+import {
+  getCategoriesPopulateImage,
+  readQuery,
+} from '../../firebase/functions';
+import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+import { url } from 'inspector';
 
 type Props = {
-  fetchData: any
-}
+  fetchData: any;
+};
 
-const SummaryCategories: FC<Props> = props => {
-  const [categories, setCategories] = useState<ResCategory[]>([])
-  const { fetchData } = props
+const SummaryCategories: FC<Props> = (props) => {
+  const [categories, setCategories] = useState<ResCategory[]>([]);
+  const { fetchData } = props;
 
   const updateData = (slug: string, name: string): void => {
-    fetchData(slug, name)
-  }
+    fetchData(slug, name);
+  };
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resCategoryList: ResultResponseList<ResCategory> = await getCategoriesPopulateImage()
+        const resCategoryList: ResultResponseList<ResCategory> =
+          await getCategoriesPopulateImage();
         if (resCategoryList && resCategoryList.status === 200) {
-          setCategories(resCategoryList.data)
+          setCategories(resCategoryList.data);
         }
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   return (
     <>
@@ -43,7 +47,7 @@ const SummaryCategories: FC<Props> = props => {
                 <Link
                   style={{
                     background: `url(${data.image}) no-repeat center center`,
-                    backgroundSize: "cover"
+                    backgroundSize: 'cover',
                   }}
                   onClick={() => updateData(data.id, data.name)}
                   to={`/summary?category=${data.id}`}
@@ -52,12 +56,12 @@ const SummaryCategories: FC<Props> = props => {
                   <p className="_data-tag">{data.name}</p>
                 </Link>
               </LazyLoadComponent>
-            )
+            );
           })}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SummaryCategories
+export default SummaryCategories;

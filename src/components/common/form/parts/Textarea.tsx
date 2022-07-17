@@ -1,25 +1,18 @@
-import React, { FC } from "react"
+import React, { FC } from 'react';
 
 type Props = {
-  title?: string
-  value?: string
-  placeholder?: string
-  required?: boolean
-  name: string
-  errorMessage?: string
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-}
+  title?: string;
+  value?: string;
+  placeholder?: string;
+  required?: boolean;
+  name: string;
+  errorMessage?: string;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+};
 
-const Textarea: FC<Props> = props => {
-  const {
-    title,
-    required,
-    value,
-    placeholder,
-    name,
-    onChange,
-    errorMessage
-  } = props
+const Textarea: FC<Props> = (props) => {
+  const { title, required, value, placeholder, name, onChange, errorMessage } =
+    props;
   return (
     <>
       <dl className="form-group">
@@ -41,11 +34,11 @@ const Textarea: FC<Props> = props => {
         </dd>
       </dl>
     </>
-  )
-}
+  );
+};
 
 Textarea.defaultProps = {
-  required: false
-}
+  required: false,
+};
 
-export default Textarea
+export default Textarea;

@@ -1,7 +1,7 @@
-import firebase from 'firebase/app'
-import 'firebase/storage'
-import 'firebase/firestore'
-import 'firebase/auth'
+import firebase from 'firebase/app';
+import 'firebase/storage';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -13,13 +13,13 @@ var firebaseConfig = {
   messagingSenderId:
     'AAAA4PYc0_A:APA91bGGxWGn-W6GpYeci1rLFH-Gc_ugapom60DmWw12sOUpkIMKDBjyxyh_dytwGzHySSrUpgMpXA-uCENdJcRYJqrx3H2JMOwfOxmF2G3gzw0jw91mFrh9zxm0zHQRphl_1JdG00YN',
   // appId: '1:366733885061:web:abd1767f95da2514a0f3ec',
-}
+};
 
 // Initialize Firebase
 if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig)
+  firebase.initializeApp(firebaseConfig);
 }
 
-const storage = firebase.storage()
+const storage = firebase.storage();
 
-export { firebase, storage }
+export { firebase, storage };

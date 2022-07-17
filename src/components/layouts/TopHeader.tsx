@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 const TopHeader = () => {
   return (
@@ -7,7 +7,7 @@ const TopHeader = () => {
         みんなで本の要約を投稿して知識を共有するサービスです！
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default TopHeader
+export default TopHeader;

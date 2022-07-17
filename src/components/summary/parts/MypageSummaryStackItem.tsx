@@ -1,64 +1,66 @@
-import React, { useState, useEffect, FC, useContext } from "react"
-import { Link } from "react-router-dom"
-import { ResSummaryBook, ResultResponse } from "../../../types"
-import clsx from "clsx"
-import { getImage } from "../../../firebase/functions"
-import { formatUpdateDate } from "../../../utils/function"
-import { GlobalContext } from "../../../assets/hooks/context/Global"
+import React, { useState, useEffect, FC, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { ResSummaryBook, ResultResponse } from '../../../types';
+import clsx from 'clsx';
+import { getImage } from '../../../firebase/functions';
+import { formatUpdateDate } from '../../../utils/function';
+import { GlobalContext } from '../../../assets/hooks/context/Global';
 
 type Props = {
-  data: ResSummaryBook
-  time?: firebase.firestore.Timestamp
-}
+  data: ResSummaryBook;
+  time?: firebase.firestore.Timestamp;
+};
 
-const MypageSummaryStackItem: FC<Props> = props => {
-  const [summaryThumbnail, setSummaryThumbnail] = useState<string>("")
-  const { data, time } = props
-  const [loading, setLoading] = useState<boolean>(false)
-  const { currentUser, setCurrentUser } = useContext(GlobalContext)
+const MypageSummaryStackItem: FC<Props> = (props) => {
+  const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
+  const { data, time } = props;
+  const [loading, setLoading] = useState<boolean>(false);
+  const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
   const formatPublishingStatus = (_status: string) => {
     switch (_status) {
-      case "public":
-        return "公開中"
-      case "private":
-        return "非公開"
+      case 'public':
+        return '公開中';
+      case 'private':
+        return '非公開';
       default:
-        return "非公開"
+        return '非公開';
     }
-  }
+  };
 
   const formatPublishingStatusClassName = (_status: string) => {
     switch (_status) {
-      case "public":
-        return "green"
-      case "private":
-        return "red"
+      case 'public':
+        return 'green';
+      case 'private':
+        return 'red';
       default:
-        return "red"
+        return 'red';
     }
-  }
+  };
 
   const isShowElementOnlyCurrentUser = (): boolean => {
-    return (data.user_id || data.user_id.id) === (currentUser && currentUser.id)
-  }
+    return (
+      (data.user_id || data.user_id.id) === (currentUser && currentUser.id)
+    );
+  };
 
   useEffect(() => {
     const loadData = async () => {
-      if (Object.keys(data).length < 0) return
+      if (Object.keys(data).length < 0) return;
       try {
         const resThumnail: ResultResponse<string> | void = await getImage(
-          data.thumbnail
-        )
+          data.thumbnail,
+        );
         if (resThumnail && resThumnail.status === 200) {
-          setSummaryThumbnail(resThumnail.data)
+          setSummaryThumbnail(resThumnail.data);
         }
       } catch (e) {}
-    }
+    };
 
-    loadData()
-    setLoading(true)
-  }, [])
+    loadData();
+    setLoading(true);
+  }, []);
 
   return (
     <>
@@ -78,8 +80,8 @@ const MypageSummaryStackItem: FC<Props> = props => {
           {isShowElementOnlyCurrentUser() && (
             <span
               className={clsx(
-                "label",
-                `${formatPublishingStatusClassName(data.publishing_status)}`
+                'label',
+                `${formatPublishingStatusClassName(data.publishing_status)}`,
               )}
             >
               {formatPublishingStatus(data.publishing_status)}
@@ -107,7 +109,7 @@ const MypageSummaryStackItem: FC<Props> = props => {
         </div>
       </Link>
     </>
-  )
-}
+  );
+};
 
-export default MypageSummaryStackItem
+export default MypageSummaryStackItem;

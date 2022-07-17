@@ -1,58 +1,55 @@
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   ResultResponseList,
   ResFavorite,
   ResultResponse,
-  ResUser
-} from "../../../types"
-import { MypageSidebar, MypageSummaryStackItem, Pager } from "../.."
+  ResUser,
+} from '../../../types';
+import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import {
   getMyFavorites,
   getfavoriteNum,
   getIdUser,
-  readQuery
-} from "../../../firebase/functions"
+  readQuery,
+} from '../../../firebase/functions';
 
 const MypageFavorites = () => {
-  const [user, setUser] = useState<ResUser>({})
-  const [favorites, setFavorites] = useState<ResFavorite[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
-  const slug: { id: string } = useParams()
-  const [page, setPage] = useState(Number(readQuery("pages") || 1))
-  const [myFavoritesNum, setMyFavoritesNum] = useState(0)
-  const [dataNumPerPage, setDataNumPerPager] = useState(8)
+  const [user, setUser] = useState<ResUser>({});
+  const [favorites, setFavorites] = useState<ResFavorite[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const slug: { id: string } = useParams();
+  const [page, setPage] = useState(Number(readQuery('pages') || 1));
+  const [myFavoritesNum, setMyFavoritesNum] = useState(0);
+  const [dataNumPerPage, setDataNumPerPager] = useState(8);
 
   const fetchPager = (num: number) => {
-    setPage(num)
-  }
+    setPage(num);
+  };
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id)
-        const resMyFavoritesDataList: ResultResponseList<ResFavorite> = await getMyFavorites(
-          dataNumPerPage,
-          page,
-          slug.id
-        )
+        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id);
+        const resMyFavoritesDataList: ResultResponseList<ResFavorite> =
+          await getMyFavorites(dataNumPerPage, page, slug.id);
         const resMyFavoritesCount: number = await getfavoriteNum([
-          "user_id",
-          slug.id
-        ])
-        setMyFavoritesNum(resMyFavoritesCount)
+          'user_id',
+          slug.id,
+        ]);
+        setMyFavoritesNum(resMyFavoritesCount);
         if (resUser && resUser.status === 200) {
-          setUser(resUser.data)
+          setUser(resUser.data);
         }
         if (resMyFavoritesDataList && resMyFavoritesDataList.status === 200) {
-          setFavorites(resMyFavoritesDataList.data)
+          setFavorites(resMyFavoritesDataList.data);
         }
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [page, slug])
+    loadData();
+  }, [page, slug]);
 
   return (
     <>
@@ -71,7 +68,7 @@ const MypageFavorites = () => {
                       favorites.map((favorite: ResFavorite) => {
                         return (
                           <MypageSummaryStackItem data={favorite.summary_id} />
-                        )
+                        );
                       })}
                     <Pager
                       fetchPager={fetchPager}
@@ -86,7 +83,7 @@ const MypageFavorites = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default MypageFavorites
+export default MypageFavorites;

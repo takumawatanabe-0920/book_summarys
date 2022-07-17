@@ -1,19 +1,19 @@
-import React, { FC } from "react"
-import TextField from "@material-ui/core/TextField"
+import React, { FC } from 'react';
+import TextField from '@material-ui/core/TextField';
 
 type Props = {
-  title: string
-  value?: string
-  type?: string
-  placeholder?: string
-  accept?: string
-  required?: boolean
-  name?: string
-  errorMessage?: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-}
+  title: string;
+  value?: string;
+  type?: string;
+  placeholder?: string;
+  accept?: string;
+  required?: boolean;
+  name?: string;
+  errorMessage?: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-const Input: FC<Props> = props => {
+const Input: FC<Props> = (props) => {
   const {
     title,
     required,
@@ -23,8 +23,8 @@ const Input: FC<Props> = props => {
     name,
     onChange,
     accept,
-    errorMessage
-  } = props
+    errorMessage,
+  } = props;
   return (
     <>
       <dl className="form-group">
@@ -41,19 +41,19 @@ const Input: FC<Props> = props => {
             name={name}
             type={type}
             accept={accept}
-            className={type === "file" ? "" : "form-control"}
+            className={type === 'file' ? '' : 'form-control'}
             onChange={onChange}
           />
           {placeholder && <p className="_example-form">例）{placeholder}</p>}
         </dd>
       </dl>
     </>
-  )
-}
+  );
+};
 
 Input.defaultProps = {
-  type: "text",
-  required: false
-}
+  type: 'text',
+  required: false,
+};
 
-export default Input
+export default Input;

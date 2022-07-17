@@ -1,19 +1,19 @@
-import React from "react"
-import { formatDateHour } from "../../firebase/functions"
-import { UserIcon } from "./../"
+import React from 'react';
+import { formatDateHour } from '../../firebase/functions';
+import { UserIcon } from './../';
 type Props<T> = {
-  data: T
-}
+  data: T;
+};
 
 interface PropsData {
-  id?: string
-  user_id?: any
-  comment?: string
-  update_date?: firebase.firestore.Timestamp
+  id?: string;
+  user_id?: any;
+  comment?: string;
+  update_date?: firebase.firestore.Timestamp;
 }
 
 function CommentItem<T extends PropsData>(props: Props<T>): JSX.Element {
-  const { user_id, comment, update_date } = props.data
+  const { user_id, comment, update_date } = props.data;
 
   return (
     <>
@@ -31,7 +31,7 @@ function CommentItem<T extends PropsData>(props: Props<T>): JSX.Element {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default CommentItem
+export default CommentItem;

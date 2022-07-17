@@ -1,22 +1,22 @@
-import React from "react"
-import { NotificationItem } from "./../../components"
+import React from 'react';
+import { NotificationItem } from './../../components';
 
 interface Props<T> {
-  dataList: T[]
+  dataList: T[];
 }
 
 interface PropsData {
-  id?: string
+  id?: string;
 }
 
 function NotificationList<T extends PropsData>(props: Props<T>): JSX.Element {
-  const { dataList } = props
+  const { dataList } = props;
   return (
     <>
       <div className="notification-list">
         {dataList.length > 0 ? (
           dataList.map((data: T) => {
-            return <NotificationItem<T> key={data.id} data={data} />
+            return <NotificationItem<T> key={data.id} data={data} />;
           })
         ) : (
           <div className="_txt">通知は届いておりません。</div>
@@ -26,7 +26,7 @@ function NotificationList<T extends PropsData>(props: Props<T>): JSX.Element {
         })} */}
       </div>
     </>
-  )
+  );
 }
 
-export default NotificationList
+export default NotificationList;

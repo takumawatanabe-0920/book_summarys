@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react"
-import { useParams } from "react-router-dom"
-import { GlobalContext } from "./../../assets/hooks/context/Global"
+import React, { useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { GlobalContext } from './../../assets/hooks/context/Global';
 
 const UserDetailPage = () => {
-  const { currentUser, setCurrentUser } = useContext(GlobalContext)
-  const url: { id: string } = useParams()
+  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const url: { id: string } = useParams();
 
   return (
     <>
@@ -16,7 +16,7 @@ const UserDetailPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserDetailPage
+export default UserDetailPage;

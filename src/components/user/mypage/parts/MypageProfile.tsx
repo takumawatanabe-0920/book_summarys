@@ -1,13 +1,13 @@
-import React, { useState, FC } from "react"
-import { ResUser } from "../../../../types"
-import { userCircleIcon } from "../../../../utils/icons"
+import React, { useState, FC } from 'react';
+import { ResUser } from '../../../../types';
+import { userCircleIcon } from '../../../../utils/icons';
 
 type Props = {
-  user: ResUser
-}
+  user: ResUser;
+};
 
-const MypageSidebar: FC<Props> = props => {
-  const { user } = props
+const MypageSidebar: FC<Props> = (props) => {
+  const { user } = props;
 
   return (
     <div className="_user-profile">
@@ -23,7 +23,7 @@ const MypageSidebar: FC<Props> = props => {
         <dd className="_user-name">{user.email}</dd>
       </dl>
     </div>
-  )
-}
+  );
+};
 
-export default MypageSidebar
+export default MypageSidebar;

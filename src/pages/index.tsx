@@ -1,8 +1,8 @@
-import React, { Suspense, lazy } from "react"
-import ReactDOM from "react-dom"
-import { GlobalProvider } from "../assets/hooks/context/Global"
-import "../assets/stylesheets/main.scss"
-import { Switch, Route, BrowserRouter as Router } from "react-router-dom"
+import React, { Suspense, lazy } from 'react';
+import ReactDOM from 'react-dom';
+import { GlobalProvider } from '../assets/hooks/context/Global';
+import '../assets/stylesheets/main.scss';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import {
   PrivateRoute,
   GuestRoute,
@@ -10,31 +10,31 @@ import {
   Footer,
   TopHeader,
   Alert,
-  Loading
-} from "../components"
-const HomePage = lazy(() => import("../components/App"))
-const SummaryCreatePage = lazy(() => import("../components/summary/Create"))
-const SummaryEditPage = lazy(() => import("../components/summary/Edit"))
-const SummaryShowPage = lazy(() => import("../components/summary/Show"))
-const SignUpPage = lazy(() => import("../components/sign_up"))
-const SignInPage = lazy(() => import("../components/sign_in"))
-const MypageFavorites = lazy(() =>
-  import("../components/user/mypage/MypageFavorites")
-)
-const MypageSummaries = lazy(() =>
-  import("../components/user/mypage/MypageSummaries")
-)
-const MypageBrowsings = lazy(() =>
-  import("../components/user/mypage/MypageBrowsings")
-)
-const MypageComments = lazy(() =>
-  import("../components/user/mypage/MypageComments")
-)
-const MypageHome = lazy(() => import("../components/user/mypage/MypageHome"))
-const MypageEdit = lazy(() => import("../components/user/mypage/MypageEdit"))
-const UserDetailPage = lazy(() => import("../components/user/UserDetail"))
-const NotificationPage = lazy(() => import("../components/notifications"))
-const SummaryPage = lazy(() => import("../components/summary"))
+  Loading,
+} from '../components';
+const HomePage = lazy(() => import('../components/App'));
+const SummaryCreatePage = lazy(() => import('../components/summary/Create'));
+const SummaryEditPage = lazy(() => import('../components/summary/Edit'));
+const SummaryShowPage = lazy(() => import('../components/summary/Show'));
+const SignUpPage = lazy(() => import('../components/sign_up'));
+const SignInPage = lazy(() => import('../components/sign_in'));
+const MypageFavorites = lazy(
+  () => import('../components/user/mypage/MypageFavorites'),
+);
+const MypageSummaries = lazy(
+  () => import('../components/user/mypage/MypageSummaries'),
+);
+const MypageBrowsings = lazy(
+  () => import('../components/user/mypage/MypageBrowsings'),
+);
+const MypageComments = lazy(
+  () => import('../components/user/mypage/MypageComments'),
+);
+const MypageHome = lazy(() => import('../components/user/mypage/MypageHome'));
+const MypageEdit = lazy(() => import('../components/user/mypage/MypageEdit'));
+const UserDetailPage = lazy(() => import('../components/user/UserDetail'));
+const NotificationPage = lazy(() => import('../components/notifications'));
+const SummaryPage = lazy(() => import('../components/summary'));
 
 // コンポーネント読み込み
 
@@ -134,5 +134,5 @@ ReactDOM.render(
       </Router>
     </GlobalProvider>
   </div>,
-  document.getElementById("root")
-)
+  document.getElementById('root'),
+);

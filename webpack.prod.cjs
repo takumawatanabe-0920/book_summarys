@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   mode: 'production', // 本番モード
@@ -54,4 +54,4 @@ module.exports = {
     '@material-ui/core': 'MaterialUI',
   },
   devtool: 'source-map',
-}
+};

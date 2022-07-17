@@ -1,26 +1,19 @@
-import React, { FC } from "react"
-import { number } from "prop-types"
+import React, { FC } from 'react';
+import { number } from 'prop-types';
 
 type Props = {
-  title: string
-  value?: string
-  required?: boolean
-  name: string
-  dataList: { id?: string; name?: string; slug?: string }[]
-  errorMessage?: string
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
-}
+  title: string;
+  value?: string;
+  required?: boolean;
+  name: string;
+  dataList: { id?: string; name?: string; slug?: string }[];
+  errorMessage?: string;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
 
-const Select: FC<Props> = props => {
-  const {
-    title,
-    required,
-    value,
-    name,
-    onChange,
-    dataList,
-    errorMessage
-  } = props
+const Select: FC<Props> = (props) => {
+  const { title, required, value, name, onChange, dataList, errorMessage } =
+    props;
 
   return (
     <>
@@ -38,22 +31,22 @@ const Select: FC<Props> = props => {
               未選択
             </option>
             {dataList &&
-              dataList.map(data => {
+              dataList.map((data) => {
                 return (
                   <option value={data.id} key={data.id}>
                     {data.name}
                   </option>
-                )
+                );
               })}
           </select>
         </dd>
       </dl>
     </>
-  )
-}
+  );
+};
 
 Select.defaultProps = {
-  required: false
-}
+  required: false,
+};
 
-export default Select
+export default Select;

@@ -1,6 +1,6 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import { SummaryForm } from "./../../components"
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { SummaryForm } from './../../components';
 
 const SummaryCreatePage = () => {
   return (
@@ -13,7 +13,7 @@ const SummaryCreatePage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SummaryCreatePage
+export default SummaryCreatePage;

@@ -1,15 +1,15 @@
-import React, { useState, FC } from "react"
-import { Link } from "react-router-dom"
-import clsx from "clsx"
-import { ResSummaryBook } from "./../../types"
-import { formatUpdateDate, formatTagColor } from "./../../utils/function"
-import { UserIcon } from "./../"
+import React, { useState, FC } from 'react';
+import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+import { ResSummaryBook } from './../../types';
+import { formatUpdateDate, formatTagColor } from './../../utils/function';
+import { UserIcon } from './../';
 type Props = {
-  data: ResSummaryBook
-}
+  data: ResSummaryBook;
+};
 
-const SummaryStackItem: FC<Props> = props => {
-  const { data } = props
+const SummaryStackItem: FC<Props> = (props) => {
+  const { data } = props;
 
   return (
     <>
@@ -29,8 +29,8 @@ const SummaryStackItem: FC<Props> = props => {
           <div className="categories">
             <span
               className={clsx(
-                "main-tag",
-                data.category.name ? formatTagColor(data.category.name) : ""
+                'main-tag',
+                data.category.name ? formatTagColor(data.category.name) : '',
               )}
             >
               {data.category && data.category.name}
@@ -43,7 +43,7 @@ const SummaryStackItem: FC<Props> = props => {
         </div>
       </Link>
     </>
-  )
-}
+  );
+};
 
-export default SummaryStackItem
+export default SummaryStackItem;

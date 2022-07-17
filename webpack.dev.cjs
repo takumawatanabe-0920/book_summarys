@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -63,4 +63,4 @@ module.exports = {
     port: 3016,
   },
   devtool: 'source-map',
-}
+};

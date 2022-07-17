@@ -2,31 +2,31 @@
 //  Foundation
 //==========================================================================
 //@import "./foundation/vendor";
-@import "./foundation/variables";
-@import "./foundation/mixin";
-@import "./foundation/initialize";
-@import "./foundation/reset";
+@import './foundation/variables';
+@import './foundation/mixin';
+@import './foundation/initialize';
+@import './foundation/reset';
 
 // ==========================================================================
 //  Layout
 // ==========================================================================
-@import "./layouts/header";
-@import "./layouts/footer";
-@import "./layouts/main";
-@import "./layouts/container";
-@import "./layouts/side";
+@import './layouts/header';
+@import './layouts/footer';
+@import './layouts/main';
+@import './layouts/container';
+@import './layouts/side';
 
 // Project
 // -----------------------------------------------------------------
 
-@import "./object/project/summary";
-@import "./object/project/register";
-@import "./object/project/comment";
-@import "./object/project/richtext";
-@import "./object/project/main";
-@import "./object/project/navbar";
-@import "./object/project/loading";
+@import './object/project/summary';
+@import './object/project/register';
+@import './object/project/comment';
+@import './object/project/richtext';
+@import './object/project/main';
+@import './object/project/navbar';
+@import './object/project/loading';
 
 // common
 
-@import "./common/text.scss";
+@import './common/text.scss';

@@ -1,78 +1,72 @@
-import React, { useState, useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
-import useReactRouter from "use-react-router"
-import { ResUser as CurrentUser, ResultResponse, Login } from "../../types"
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import useReactRouter from 'use-react-router';
+import { ResUser as CurrentUser, ResultResponse, Login } from '../../types';
 import {
   getMyNotReadNotificationsCount,
-  logout
-} from "../../firebase/functions"
+  logout,
+} from '../../firebase/functions';
 import {
   logoIcon,
   editIcon,
   userCircleIcon,
   bellIcon,
-  caretDownIcon
-} from "../../utils/icons"
-import useAlertState from "./../../assets/hooks/useAlertState"
-import { GlobalContext } from "./../../assets/hooks/context/Global"
+  caretDownIcon,
+} from '../../utils/icons';
+import useAlertState from './../../assets/hooks/useAlertState';
+import { GlobalContext } from './../../assets/hooks/context/Global';
 
 const Header = () => {
-  const [mouseOver, setMouseOver] = useState<boolean>(false)
-  const [userIcon, setUserIcon] = useState<string>("")
-  const { history } = useReactRouter()
-  const [
-    isShowAlert,
-    alertStatus,
-    alertText,
-    throwAlert,
-    closeAlert
-  ] = useAlertState(false)
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
+  const [userIcon, setUserIcon] = useState<string>('');
+  const { history } = useReactRouter();
+  const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
+    useAlertState(false);
   const {
     currentUser,
     setCurrentUser,
     notificationCount,
-    setNotificationCount
-  } = useContext(GlobalContext)
+    setNotificationCount,
+  } = useContext(GlobalContext);
 
   const enterPulldown = () => {
-    setMouseOver(true)
-  }
+    setMouseOver(true);
+  };
 
   const closePulldown = () => {
-    setMouseOver(false)
-  }
+    setMouseOver(false);
+  };
 
   const leavePulldown = () => {
     setTimeout(() => {
-      setMouseOver(false)
-    }, 300)
-  }
+      setMouseOver(false);
+    }, 300);
+  };
 
   const handleLogout = async () => {
-    if (window.confirm("ログアウトしますか？")) {
-      const resLogout: ResultResponse<Login> = await logout()
+    if (window.confirm('ログアウトしますか？')) {
+      const resLogout: ResultResponse<Login> = await logout();
       if (resLogout && resLogout.status === 200) {
-        setCurrentUser(null)
-        await throwAlert("success", "ログアウトしました。")
-        history.replace(`/`)
+        setCurrentUser(null);
+        await throwAlert('success', 'ログアウトしました。');
+        history.replace(`/`);
       } else {
-        await throwAlert("danger", "ログアウトが失敗しました。")
+        await throwAlert('danger', 'ログアウトが失敗しました。');
       }
     }
-  }
+  };
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resNotificationCount: number = await getMyNotReadNotificationsCount(
-          currentUser.id
-        )
-        setNotificationCount(resNotificationCount)
+        const resNotificationCount: number =
+          await getMyNotReadNotificationsCount(currentUser.id);
+        setNotificationCount(resNotificationCount);
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [currentUser, notificationCount])
+    loadData();
+  }, [currentUser, notificationCount]);
 
   return (
     <header className="l-header__container">
@@ -156,7 +150,7 @@ const Header = () => {
                   <div
                     className="_item"
                     onClick={() => {
-                      handleLogout(), closePulldown()
+                      handleLogout(), closePulldown();
                     }}
                   >
                     ログアウト
@@ -179,7 +173,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

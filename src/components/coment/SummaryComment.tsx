@@ -1,12 +1,12 @@
-import React from "react"
-import { CommentList } from "./../../components"
+import React from 'react';
+import { CommentList } from './../../components';
 
 interface Props<T> {
-  dataList: T[]
+  dataList: T[];
 }
 
 function SummaryComment<T>(props: Props<T>): JSX.Element {
-  const { dataList } = props
+  const { dataList } = props;
 
   return (
     <>
@@ -14,7 +14,7 @@ function SummaryComment<T>(props: Props<T>): JSX.Element {
         <CommentList<T> dataList={dataList} />
       </div>
     </>
-  )
+  );
 }
 
-export default SummaryComment
+export default SummaryComment;

@@ -1,60 +1,57 @@
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   ResUser,
   ResSummaryComment,
   ResultResponseList,
-  ResultResponse
-} from "../../../types"
-import { MypageSidebar, MypageSummaryStackItem, Pager } from "../.."
+  ResultResponse,
+} from '../../../types';
+import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import {
   getIdUser,
   getMyComments,
   readQuery,
-  getMyCommentCount
-} from "../../../firebase/functions"
+  getMyCommentCount,
+} from '../../../firebase/functions';
 
 const MypageComments = () => {
-  const [user, setUser] = useState<ResUser>({})
+  const [user, setUser] = useState<ResUser>({});
   const [summaryComments, setSummaryComments] = useState<ResSummaryComment[]>(
-    []
-  )
-  const [myCommentsNum, setMyCommentsNum] = useState(0)
-  const [dataNumPerPage, setDataNumPerPager] = useState(8)
-  const [page, setPage] = useState(Number(readQuery("pages") || 1))
-  const [loading, setLoading] = useState<boolean>(false)
-  const slug: { id: string } = useParams()
+    [],
+  );
+  const [myCommentsNum, setMyCommentsNum] = useState(0);
+  const [dataNumPerPage, setDataNumPerPager] = useState(8);
+  const [page, setPage] = useState(Number(readQuery('pages') || 1));
+  const [loading, setLoading] = useState<boolean>(false);
+  const slug: { id: string } = useParams();
 
   const fetchPager = (num: number) => {
-    setPage(num)
-  }
+    setPage(num);
+  };
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id)
-        const resMySummaryCommentsDataList: ResultResponseList<ResSummaryComment> = await getMyComments(
-          dataNumPerPage,
-          page,
-          slug.id
-        )
-        const count: number = await getMyCommentCount(slug.id)
-        setMyCommentsNum(count)
+        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id);
+        const resMySummaryCommentsDataList: ResultResponseList<ResSummaryComment> =
+          await getMyComments(dataNumPerPage, page, slug.id);
+        const count: number = await getMyCommentCount(slug.id);
+        setMyCommentsNum(count);
         if (resUser && resUser.status === 200) {
-          setUser(resUser.data)
+          setUser(resUser.data);
         }
         if (
           resMySummaryCommentsDataList &&
           resMySummaryCommentsDataList.status === 200
         ) {
-          setSummaryComments(resMySummaryCommentsDataList.data)
+          setSummaryComments(resMySummaryCommentsDataList.data);
         }
       } catch (e) {}
-    }
+    };
 
-    loadData()
-  }, [page, slug])
+    loadData();
+  }, [page, slug]);
 
   return (
     <>
@@ -75,8 +72,8 @@ const MypageComments = () => {
                             <MypageSummaryStackItem
                               data={summaryComment.summary_id}
                             />
-                          )
-                        }
+                          );
+                        },
                       )}
                     <Pager
                       fetchPager={fetchPager}
@@ -91,7 +88,7 @@ const MypageComments = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default MypageComments
+export default MypageComments;

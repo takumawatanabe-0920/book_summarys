@@ -1,5 +1,5 @@
-import React from "react"
-import { RegisterForm } from "./../../components"
+import React from 'react';
+import { RegisterForm } from './../../components';
 
 const SignUpPage = () => {
   return (
@@ -11,7 +11,7 @@ const SignUpPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

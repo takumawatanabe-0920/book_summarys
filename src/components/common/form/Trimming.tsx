@@ -1,82 +1,82 @@
-import React, { useState, FC } from "react"
-import ReactCrop, { Crop } from "react-image-crop"
-import "react-image-crop/lib/ReactCrop.scss"
-import { Input } from "../../../components"
-import { createUniqueStr } from "../../../utils/function"
+import React, { useState, FC } from 'react';
+import ReactCrop, { Crop } from 'react-image-crop';
+import 'react-image-crop/lib/ReactCrop.scss';
+import { Input } from '../../../components';
+import { createUniqueStr } from '../../../utils/function';
 
 export type stateFile = {
-  src?: any
-  blobFile?: any
-  crop?: Crop
-}
+  src?: any;
+  blobFile?: any;
+  crop?: Crop;
+};
 
 type Props = {
-  title: string
-  setState: React.Dispatch<React.SetStateAction<stateFile>>
-  required?: boolean
-  userIcon?: string
-  isEdit?: boolean
-}
+  title: string;
+  setState: React.Dispatch<React.SetStateAction<stateFile>>;
+  required?: boolean;
+  userIcon?: string;
+  isEdit?: boolean;
+};
 
-const Trimming: FC<Props> = props => {
-  const { setState, required, title, userIcon, isEdit } = props
+const Trimming: FC<Props> = (props) => {
+  const { setState, required, title, userIcon, isEdit } = props;
   const [childState, setChildState] = useState<stateFile>({
     src: null,
     crop: {
-      unit: "%",
+      unit: '%',
       width: 50,
       height: 50,
-      aspect: 1
-    }
-  })
-  const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null)
-  const [previewImage, setPreviewImage] = useState<string>(null)
+      aspect: 1,
+    },
+  });
+  const [imageRef, setImageRef] = useState<HTMLImageElement | null>(null);
+  const [previewImage, setPreviewImage] = useState<string>(null);
 
   const onSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist()
-    event.preventDefault()
+    event.persist();
+    event.preventDefault();
     if (event.target.files && event.target.files.length > 0) {
-      const reader = new FileReader()
-      reader.addEventListener("load", () =>
-        setChildState({ ...childState, src: reader.result })
-      )
-      reader.readAsDataURL(event.target.files[0])
+      const reader = new FileReader();
+      reader.addEventListener('load', () =>
+        setChildState({ ...childState, src: reader.result }),
+      );
+      reader.readAsDataURL(event.target.files[0]);
     }
-  }
+  };
 
   const onImageLoaded = (image: HTMLImageElement) => {
-    setImageRef(image)
-  }
+    setImageRef(image);
+  };
 
   const onCropChange = (crop: Crop) => {
-    setChildState({ ...childState, crop })
-  }
+    setChildState({ ...childState, crop });
+  };
 
   const onCropComplete = async (crop: Crop) => {
     if (imageRef && crop.width && crop.height) {
-      const UNIQUEID = createUniqueStr()
+      const UNIQUEID = createUniqueStr();
       const [croppedImageUrl, blobFile] = await getCroppedImg(
         imageRef,
         crop,
-        `${UNIQUEID}.jpeg`
-      )
-      setPreviewImage(croppedImageUrl)
-      setChildState({ ...childState, blobFile })
-      setState({ ...childState, blobFile })
+        `${UNIQUEID}.jpeg`,
+      );
+      setPreviewImage(croppedImageUrl);
+      setChildState({ ...childState, blobFile });
+      setState({ ...childState, blobFile });
     }
-  }
+  };
 
   const getCroppedImg = (
     image: HTMLImageElement,
     crop: Crop,
-    fileName: string
+    fileName: string,
   ): Promise<[string, Blob]> => {
-    const canvas = document.createElement("canvas")
-    const scaleX = image.naturalWidth / image.width
-    const scaleY = image.naturalHeight / image.height
-    canvas.width = crop.width
-    canvas.height = crop.height
-    const ctx = canvas.getContext("2d")
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
 
     ctx.drawImage(
       image,
@@ -87,21 +87,21 @@ const Trimming: FC<Props> = props => {
       0,
       0,
       crop.width,
-      crop.height
-    )
+      crop.height,
+    );
 
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob: any) => {
         if (!blob) {
-          return
+          return;
         }
-        blob.name = fileName
-        const fileUrl = window.URL.createObjectURL(blob)
-        const blobFile = blob
-        resolve([fileUrl, blobFile])
-      }, "image/jpeg")
-    })
-  }
+        blob.name = fileName;
+        const fileUrl = window.URL.createObjectURL(blob);
+        const blobFile = blob;
+        resolve([fileUrl, blobFile]);
+      }, 'image/jpeg');
+    });
+  };
   return (
     <>
       <div>
@@ -125,7 +125,7 @@ const Trimming: FC<Props> = props => {
         {previewImage && (
           <dl>
             <dt>
-              {isEdit ? "変更後ユーザーアイコン" : "登録ユーザーアイコン"}
+              {isEdit ? '変更後ユーザーアイコン' : '登録ユーザーアイコン'}
             </dt>
             <dd>
               <img alt="Crop" src={previewImage} className="image-circle" />
@@ -145,7 +145,7 @@ const Trimming: FC<Props> = props => {
         />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Trimming
+export default Trimming;
