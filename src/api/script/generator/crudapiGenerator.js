@@ -269,7 +269,6 @@ const main = async () => {
   const skipApplication = opts.skipApplication;
 
   try {
-    console.log(__dirname, process.cwd());
     const dirPath = `${__dirname}/generated/${name}`;
     if (!skipModule) {
       await generateFileAndFolder({
@@ -307,7 +306,6 @@ const main = async () => {
         dryRun,
       });
     }
-    console.log('write end', dirPath);
   } catch (e) {
     console.log(e);
   }
