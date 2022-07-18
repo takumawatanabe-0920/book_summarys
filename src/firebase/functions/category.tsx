@@ -4,68 +4,68 @@ import { responseUploadImage } from './';
 import { firebase } from '../config';
 const db = firebase.firestore();
 
-export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
-  const response = db
-    .collection('category')
-    .orderBy('display_order')
-    .get()
-    .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
-      return { status: 200, data: resData };
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
+// export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
+//   const response = db
+//     .collection('category')
+//     .orderBy('display_order')
+//     .get()
+//     .then((res) => {
+//       let resData: ResCategory[] = res.docs.map((doc) => {
+//         return { id: doc.id, ...doc.data() };
+//       });
+//       return { status: 200, data: resData };
+//     })
+//     .catch((error) => {
+//       return { status: 400, error };
+//     });
 
-  return response;
-};
+//   return response;
+// };
 
-export const getCategoriesPopulateImage = (): Promise<
-  ResultResponseList<ResCategory>
-> => {
-  const response = db
-    .collection('category')
-    .orderBy('display_order')
-    .get()
-    .then(async (res) => {
-      let resData: ResCategory[] = await await Promise.all(
-        res.docs.map(async (doc) => {
-          const resCategoryImage: string = await responseUploadImage(
-            doc.data().image,
-          );
-          return { id: doc.id, ...doc.data(), image: resCategoryImage };
-        }),
-      );
-      return { status: 200, data: resData };
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
+// export const getCategoriesPopulateImage = (): Promise<
+//   ResultResponseList<ResCategory>
+// > => {
+//   const response = db
+//     .collection('category')
+//     .orderBy('display_order')
+//     .get()
+//     .then(async (res) => {
+//       let resData: ResCategory[] = await await Promise.all(
+//         res.docs.map(async (doc) => {
+//           const resCategoryImage: string = await responseUploadImage(
+//             doc.data().image,
+//           );
+//           return { id: doc.id, ...doc.data(), image: resCategoryImage };
+//         }),
+//       );
+//       return { status: 200, data: resData };
+//     })
+//     .catch((error) => {
+//       return { status: 400, error };
+//     });
 
-  return response;
-};
+//   return response;
+// };
 
-export const getCategory = (
-  id: string,
-): Promise<ResultResponse<ResCategory>> => {
-  const response = db
-    .collection('category')
-    .doc(id)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const data = { id: doc.id, ...doc.data() };
-        return { status: 200, data };
-      }
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
+// export const getCategory = (
+//   id: string,
+// ): Promise<ResultResponse<ResCategory>> => {
+//   const response = db
+//     .collection('category')
+//     .doc(id)
+//     .get()
+//     .then((doc) => {
+//       if (doc.exists) {
+//         const data = { id: doc.id, ...doc.data() };
+//         return { status: 200, data };
+//       }
+//     })
+//     .catch((error) => {
+//       return { status: 400, error };
+//     });
 
-  return response;
-};
+//   return response;
+// };
 
 export const getSubCategories = (): Promise<
   ResultResponseList<ResCategory>
@@ -74,7 +74,7 @@ export const getSubCategories = (): Promise<
     .collection('sub_category')
     .get()
     .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
+      const resData: ResCategory[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -115,7 +115,7 @@ export const categoryLinkingSubCategory = async (
     .orderBy('display_order', 'desc')
     .get()
     .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
+      const resData: ResCategory[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };

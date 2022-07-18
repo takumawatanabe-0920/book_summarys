@@ -8,7 +8,7 @@
     "sourceMap": true,
     "inlineSources": true,
     "outDir": "./dist",
-    "noImplicitAny": true,
+    // "noImplicitAny": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
