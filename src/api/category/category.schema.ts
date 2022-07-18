@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type CategoryDocument = Category & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Category {
   @Prop({ type: String })
   name: string;
