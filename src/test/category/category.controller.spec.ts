@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoryController } from '../../api/category/core/category.controller';
+import { CategoryController } from '../../api/category/category.controller';
 
 describe('CategoryController', () => {
   let controller: CategoryController;

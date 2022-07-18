@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CategoryController } from './category/core/category.controller';
-import { CategoryService } from './category/core/category.service';
-import { CategoryModule } from './category/core/category.module';
+import { CategoryModule } from './category/category.module';
 import * as config from 'config';
 @Module({
   imports: [
@@ -14,7 +12,7 @@ import * as config from 'config';
     ),
     CategoryModule,
   ],
-  controllers: [AppController, CategoryController],
-  providers: [AppService, CategoryService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
