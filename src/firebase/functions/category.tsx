@@ -1,4 +1,3 @@
-import React from 'react';
 import { ResCategory, ResultResponse, ResultResponseList } from '../../types';
 import { responseUploadImage } from './';
 import { firebase } from '../config';
@@ -10,7 +9,7 @@ export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
     .orderBy('display_order')
     .get()
     .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
+      const resData: ResCategory[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -30,7 +29,7 @@ export const getCategoriesPopulateImage = (): Promise<
     .orderBy('display_order')
     .get()
     .then(async (res) => {
-      let resData: ResCategory[] = await await Promise.all(
+      const resData: ResCategory[] = await await Promise.all(
         res.docs.map(async (doc) => {
           const resCategoryImage: string = await responseUploadImage(
             doc.data().image,
@@ -74,7 +73,7 @@ export const getSubCategories = (): Promise<
     .collection('sub_category')
     .get()
     .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
+      const resData: ResCategory[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -115,7 +114,7 @@ export const categoryLinkingSubCategory = async (
     .orderBy('display_order', 'desc')
     .get()
     .then((res) => {
-      let resData: ResCategory[] = res.docs.map((doc) => {
+      const resData: ResCategory[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };

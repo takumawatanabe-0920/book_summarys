@@ -1,5 +1,3 @@
-import React from 'react';
-// import dayjs from "dayjs"
 import {
   Browsing,
   ResultResponse,
@@ -66,7 +64,7 @@ export const getMyBrowsings = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResBrowsing[] = await Promise.all(
+        const resData: ResBrowsing[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
@@ -92,7 +90,7 @@ export const getMyBrowsings = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResBrowsing[] = await Promise.all(
+        const resData: ResBrowsing[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
