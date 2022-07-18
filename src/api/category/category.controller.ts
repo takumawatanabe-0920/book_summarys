@@ -18,13 +18,13 @@ import { CategoryApplication } from './category.application';
 export class CategoryController {
   constructor(
     @Inject(CategoryApplication)
-    private readonly CategoryApplication: CategoryApplication,
+    private readonly categoryApplication: CategoryApplication,
   ) {}
 
   @Get()
   async index(): Promise<ReturnType<CategoryApplication['index']>> {
     try {
-      return await this.CategoryApplication.index();
+      return await this.categoryApplication.index();
     } catch (error) {
       console.error(error);
       throw error;
@@ -39,7 +39,7 @@ export class CategoryController {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const category = await this.CategoryApplication.show(id);
+      const category = await this.categoryApplication.show(id);
       if (!category) {
         throw new NotFoundException('category not found');
       }
@@ -55,7 +55,7 @@ export class CategoryController {
     @Body(new ValidationPipe()) body: CategoryDTO,
   ): Promise<ReturnType<CategoryApplication['create']>> {
     try {
-      return await this.CategoryApplication.create(body);
+      return await this.categoryApplication.create(body);
     } catch (error) {
       console.error(error);
       throw error;
@@ -71,7 +71,7 @@ export class CategoryController {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      return await this.CategoryApplication.update(id, body);
+      return await this.categoryApplication.update(id, body);
     } catch (error) {
       console.error(error);
       throw error;
@@ -86,7 +86,7 @@ export class CategoryController {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      return await this.CategoryApplication.delete(id);
+      return await this.categoryApplication.delete(id);
     } catch (error) {
       console.error(error);
       throw error;
