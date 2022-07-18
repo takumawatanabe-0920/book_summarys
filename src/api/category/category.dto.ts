@@ -1,9 +1,6 @@
-import { IsMongoId, IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsOptional, IsNumber, IsString } from 'class-validator';
 
 export class CategoryDTO {
-  // @IsMongoId()
-  // id: string;
-
   @IsOptional()
   @IsString()
   name: string;
