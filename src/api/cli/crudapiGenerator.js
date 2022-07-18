@@ -27,27 +27,52 @@ const generateModule = (name) => {
   export class ${upperCaseName}Module {}`;
 };
 
+const generateFileAndFolder = async ({
+  name,
+  dirPath,
+  fileType = 'module',
+  generateFun,
+  dryRun,
+}) => {
+  if (!dirPath) throw new Error('path name is required');
+  if (!generateFun) throw new Error('generateFun is required');
+
+  const generateSource = generateFun(name);
+  const generateFilePath = `${dirPath}/${name}.${fileType}.ts`;
+
+  if (dryRun) {
+    console.log({ generateFilePath });
+    console.log({ generateSource });
+    return;
+  }
+
+  if (!fsExtra.existsSync(dirPath)) {
+    fsExtra.mkdirsSync(dirPath);
+  }
+  fsExtra.writeFileSync(generateFilePath, generateSource);
+};
 const main = async () => {
   program
     .version('1.0.0')
     .option('-n, --name <name>', 'name')
-    .option('--exec')
+    .option('--dryRun')
     .parse(process.argv);
 
   const opts = program.opts();
   const name = opts.name;
+  const dryRun = opts.dryRun;
 
   try {
     console.log(__dirname, process.cwd());
-    const moduleDirPath = `${__dirname}/generated/${name}`;
-    if (!fsExtra.existsSync(moduleDirPath)) {
-      fsExtra.mkdirsSync(moduleDirPath);
-    }
-    fsExtra.writeFileSync(
-      `${moduleDirPath}/${name}.module.ts`,
-      generateModule(name),
-    );
-    console.log('write end', moduleDirPath);
+    const dirPath = `${__dirname}/generated/${name}`;
+    generateFileAndFolder({
+      name,
+      dirPath,
+      fileType: 'module',
+      generateFun: generateModule,
+      dryRun,
+    });
+    console.log('write end', dirPath);
   } catch (e) {
     console.log(e);
   }
