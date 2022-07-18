@@ -48,7 +48,6 @@ export class ${upperCaseName}DTO {
   };
 
   try {
-    console.log(__dirname, process.cwd());
     const dirPath = `${__dirname}/generated/${name}`;
     generateFileAndFolder({
       dirPath,
@@ -65,7 +64,6 @@ export class ${upperCaseName}DTO {
       generateFun: generateDto,
       fileType: 'dto',
     });
-    console.log('write end', dirPath);
   } catch (e) {
     console.log(e);
   }
