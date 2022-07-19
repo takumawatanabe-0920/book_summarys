@@ -1,6 +1,3 @@
-import React, { FC } from 'react';
-import { deflate } from 'zlib';
-
 //要約スキーマ
 export type SummaryBook = Partial<{
   title: string;

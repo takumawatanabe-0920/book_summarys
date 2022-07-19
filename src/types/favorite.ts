@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type Favorite = Partial<{
   user_id: string;
   user_name: string;

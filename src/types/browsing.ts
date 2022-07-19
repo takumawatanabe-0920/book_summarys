@@ -1,4 +1,3 @@
-import React from 'react';
 import { ResSummaryBook } from './summary';
 
 export type Browsing = Partial<{

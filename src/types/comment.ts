@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type SummaryComment = Partial<{
   comment: string;
   user_id: any;

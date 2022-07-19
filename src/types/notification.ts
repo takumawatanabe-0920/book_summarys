@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type Notification = Partial<{
   user_id: string;
   target_user_id: string;
