@@ -2,11 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../user/user.schema';
 import { Summary } from '../summary/summary.schema';
-
-export type FavoriteDocument = Favorite & Document;
+export type BrowsingDocument = Browsing & Document;
 
 @Schema({ timestamps: true })
-export class Favorite {
+export class Browsing {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
@@ -14,4 +13,4 @@ export class Favorite {
   summary: Summary;
 }
 
-export const FavoriteSchema = SchemaFactory.createForClass(Favorite);
+export const BrowsingSchema = SchemaFactory.createForClass(Browsing);

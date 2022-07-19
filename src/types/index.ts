@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Favorite, ResFavorite } from './favorite';
 import {
   SummaryBook,

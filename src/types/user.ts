@@ -1,5 +1,3 @@
-import React from 'react';
-
 type OnlyEmailLogin = Pick<Login, 'email'>;
 
 export type RegisterUser = Partial<{

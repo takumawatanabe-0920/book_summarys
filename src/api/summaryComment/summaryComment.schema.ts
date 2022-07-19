@@ -1,12 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-
+import { User } from '../user/user.schema';
+import { Summary } from '../summary/summary.schema';
+import * as mongoose from 'mongoose';
 export type SummaryCommentDocument = SummaryComment & Document;
 
 @Schema({ timestamps: true })
 export class SummaryComment {
-  // ex.
-  // @Prop({ type: String, required: true })
-  // name: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Summary' })
+  summary: Summary;
+
+  @Prop({ type: String })
+  comment: string;
 }
 
 export const SummaryCommentSchema =

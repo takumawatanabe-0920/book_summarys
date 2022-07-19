@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type ResultResponse<T> = Partial<{
   status: number;
   data: T;

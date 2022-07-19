@@ -10,7 +10,7 @@ export class Category {
   @Prop({ type: String })
   slug: string;
 
-  @Prop({ type: Number })
+  @Prop({ type: Number, default: 0 })
   display_order: number;
 
   @Prop({ type: String })
