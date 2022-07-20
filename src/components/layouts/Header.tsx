@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
-import { ResUser as CurrentUser, ResultResponse, Login } from '../../types';
+import { ResultResponse, Login } from '../../types';
 import {
   getMyNotReadNotificationsCount,
   logout,
@@ -18,7 +18,6 @@ import { GlobalContext } from './../../assets/hooks/context/Global';
 
 const Header = () => {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
-  const [userIcon, setUserIcon] = useState<string>('');
   const { history } = useReactRouter();
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
