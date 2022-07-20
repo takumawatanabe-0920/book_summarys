@@ -19,7 +19,7 @@ export type SummaryBook = Partial<{
 export type Category = Partial<{
   name: string;
   slug: string;
-  display_order: number;
+  displayOrder: number;
   image: string;
 }>;
 
@@ -27,7 +27,7 @@ export type SubCategory = Partial<{
   category_id: string;
   name: string;
   slug: string;
-  display_order: number;
+  displayOrder: number;
 }>;
 
 export type ResSummaryBook = SummaryBook & {

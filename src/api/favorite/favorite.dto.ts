@@ -1,8 +1,9 @@
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsMongoId } from 'class-validator';
 
 export class FavoriteDTO {
-  // ex.
-  // @IsOptional()
-  // @IsString()
-  // name: string
+  @IsMongoId()
+  user: string;
+
+  @IsMongoId()
+  summary: string;
 }

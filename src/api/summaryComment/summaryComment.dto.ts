@@ -1,8 +1,12 @@
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsString, IsMongoId } from 'class-validator';
 
 export class SummaryCommentDTO {
-  // ex.
-  // @IsOptional()
-  // @IsString()
-  // name: string
+  @IsMongoId()
+  user: string;
+
+  @IsMongoId()
+  summary: string;
+
+  @IsString()
+  comment: string;
 }
