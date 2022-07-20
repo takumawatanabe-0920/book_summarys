@@ -12,7 +12,7 @@ export class SubCategory {
   slug: string;
 
   @Prop({ type: Number, default: 0 })
-  display_order: number;
+  displayOrder: number;
 
   @Prop({ type: String })
   image: string;

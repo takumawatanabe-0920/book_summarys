@@ -1,8 +1,18 @@
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsMongoId, isString } from 'class-validator';
 
 export class SubCategoryDTO {
-  // ex.
-  // @IsOptional()
-  // @IsString()
-  // name: string
+  @isString()
+  name: string;
+
+  @isString()
+  slug: string;
+
+  @isNumber()
+  displayOrder: number;
+
+  @isString()
+  image: string;
+
+  @IsMongoId()
+  category: string;
 }

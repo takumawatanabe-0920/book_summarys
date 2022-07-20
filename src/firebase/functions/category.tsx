@@ -6,7 +6,7 @@ const db = firebase.firestore();
 export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
   const response = db
     .collection('category')
-    .orderBy('display_order')
+    .orderBy('displayOrder')
     .get()
     .then((res) => {
       const resData: ResCategory[] = res.docs.map((doc) => {
@@ -26,7 +26,7 @@ export const getCategoriesPopulateImage = (): Promise<
 > => {
   const response = db
     .collection('category')
-    .orderBy('display_order')
+    .orderBy('displayOrder')
     .get()
     .then(async (res) => {
       const resData: ResCategory[] = await await Promise.all(
@@ -111,7 +111,7 @@ export const categoryLinkingSubCategory = async (
   const response = await db
     .collection('sub_category')
     .where('category_id', '==', categoryId)
-    .orderBy('display_order', 'desc')
+    .orderBy('displayOrder', 'desc')
     .get()
     .then((res) => {
       const resData: ResCategory[] = res.docs.map((doc) => {

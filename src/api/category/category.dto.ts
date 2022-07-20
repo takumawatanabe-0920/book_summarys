@@ -11,7 +11,7 @@ export class CategoryDTO {
 
   @IsOptional()
   @IsNumber()
-  display_order: number;
+  displayOrder: number;
 
   @IsOptional()
   @IsString()

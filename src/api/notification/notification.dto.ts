@@ -1,8 +1,18 @@
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsString, IsMongoId } from 'class-validator';
 
 export class NotificationDTO {
-  // ex.
-  // @IsOptional()
-  // @IsString()
-  // name: string
+  @IsMongoId()
+  user: string;
+
+  @IsMongoId()
+  targetUser: string;
+
+  @IsMongoId()
+  item: string;
+
+  @IsString()
+  reference: string;
+
+  @IsBoolean()
+  isRead: boolean;
 }

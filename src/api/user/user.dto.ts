@@ -1,8 +1,18 @@
-import { IsOptional, IsNumber, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class UserDTO {
-  // ex.
-  // @IsOptional()
-  // @IsString()
-  // name: string
+  @IsString()
+  displayName: string;
+
+  @IsString()
+  photoURL: string;
+
+  @IsString()
+  login_id: string;
+
+  @IsString()
+  email: string;
+
+  @IsString()
+  password: string;
 }
