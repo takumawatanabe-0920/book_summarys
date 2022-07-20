@@ -1,16 +1,16 @@
-import { IsMongoId, isString } from 'class-validator';
+import { IsMongoId, IsString, IsNumber } from 'class-validator';
 
 export class SubCategoryDTO {
-  @isString()
+  @IsString()
   name: string;
 
-  @isString()
+  @IsString()
   slug: string;
 
-  @isNumber()
+  @IsNumber()
   displayOrder: number;
 
-  @isString()
+  @IsString()
   image: string;
 
   @IsMongoId()

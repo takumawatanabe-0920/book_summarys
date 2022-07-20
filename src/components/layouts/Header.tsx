@@ -127,13 +127,6 @@ const Header = () => {
                   </Link>
                   <Link
                     onClick={() => closePulldown()}
-                    to={`/mypage/${currentUser.id}/browsings`}
-                    className="_item"
-                  >
-                    閲覧履歴一覧
-                  </Link>
-                  <Link
-                    onClick={() => closePulldown()}
                     to={`/mypage/${currentUser.id}/favorites`}
                     className="_item"
                   >

@@ -2,8 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   ResSummaryBook,
-  ResBrowsing,
-  SummaryComment as SummaryCommentType,
   ResSummaryComment,
   ResultResponseList,
   ResultResponse,
@@ -18,8 +16,6 @@ import {
 } from './../../components';
 import {
   getSummaryBookPopulate,
-  createBrowsing,
-  getMyBrowsings,
   getSummaryComments,
   getTwoConditionsSummaries,
 } from '../../firebase/functions';
@@ -88,26 +84,6 @@ const SummaryShowPage = () => {
     const loadData = async () => {
       window.scrollTo(0, 0);
       try {
-        if (slug && slug.id && currentUser) {
-          const browsing = {
-            summary_id: slug.id,
-            user_id: currentUser.id,
-            user_name: currentUser.displayName ? currentUser.displayName : '',
-          };
-          let resBrowsing: ResultResponseList<ResBrowsing> =
-            await getMyBrowsings(1, 1, browsing.user_id);
-          if (resBrowsing.status === 200) {
-            let [beforeBrowsing]: ResBrowsing[] = resBrowsing.data;
-            if (
-              !beforeBrowsing ||
-              (beforeBrowsing.summary_id &&
-                beforeBrowsing.summary_id.id !== browsing.summary_id)
-            ) {
-              createBrowsing(browsing);
-            }
-          }
-        }
-
         const resSummaryCommentList: ResultResponseList<ResSummaryComment> =
           await getSummaryComments(slug.id);
         if (resSummaryCommentList && resSummaryCommentList.status === 200) {

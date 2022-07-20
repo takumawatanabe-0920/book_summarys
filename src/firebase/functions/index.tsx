@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   getCategories,
   getCategoriesPopulateImage,
@@ -47,11 +45,6 @@ import {
   responseUploadImage,
 } from './defalt';
 import {
-  createBrowsing,
-  getMyBrowsings,
-  getMyBrowsingsCount,
-} from './browsing';
-import {
   createSummaryComment,
   getMyComments,
   getSummaryComments,
@@ -97,9 +90,6 @@ export {
   getFavorite,
   getfavoriteNum,
   readQuery,
-  createBrowsing,
-  getMyBrowsings,
-  getMyBrowsingsCount,
   formatDateHour,
   getMyComments,
   getMyCommentCount,

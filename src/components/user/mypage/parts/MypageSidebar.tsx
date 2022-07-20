@@ -76,16 +76,6 @@ const MypageSidebar: FC<Props> = (props) => {
             >
               投稿記事
             </Link>
-            {isMyAccount ? (
-              <Link
-                to={`/mypage/${user.id ? user.id : slug.id}/browsings`}
-                className={clsx('_side-item', isActive('browsings'))}
-              >
-                閲覧履歴
-              </Link>
-            ) : (
-              ''
-            )}
             <Link
               to={`/mypage/${user.id ? user.id : slug.id}/favorites`}
               className={clsx('_side-item', isActive('favorites'))}
