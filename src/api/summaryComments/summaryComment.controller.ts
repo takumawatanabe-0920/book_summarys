@@ -14,7 +14,7 @@ import {
 import { SummaryCommentDTO } from './summaryComment.dto';
 import { SummaryCommentApplication } from './summaryComment.application';
 
-@Controller('summaryComment')
+@Controller('summaryComments')
 export class SummaryCommentController {
   constructor(
     @Inject(SummaryCommentApplication)

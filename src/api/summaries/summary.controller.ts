@@ -11,20 +11,20 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { FavoriteDTO } from './favorite.dto';
-import { FavoriteApplication } from './favorite.application';
+import { SummaryDTO } from './summary.dto';
+import { SummaryApplication } from './summary.application';
 
-@Controller('favorite')
-export class FavoriteController {
+@Controller('summaries')
+export class SummaryController {
   constructor(
-    @Inject(FavoriteApplication)
-    private readonly favoriteApplication: FavoriteApplication,
+    @Inject(SummaryApplication)
+    private readonly summaryApplication: SummaryApplication,
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<FavoriteApplication['index']>> {
+  async index(): Promise<ReturnType<SummaryApplication['index']>> {
     try {
-      return await this.favoriteApplication.index();
+      return await this.summaryApplication.index();
     } catch (error) {
       console.error(error);
       throw error;
@@ -34,16 +34,16 @@ export class FavoriteController {
   @Get(':id')
   async show(
     @Param('id') id: string,
-  ): Promise<ReturnType<FavoriteApplication['show']>> {
+  ): Promise<ReturnType<SummaryApplication['show']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const favorite = await this.favoriteApplication.show(id);
-      if (!favorite) {
-        throw new NotFoundException('favorite not found');
+      const summary = await this.summaryApplication.show(id);
+      if (!summary) {
+        throw new NotFoundException('summary not found');
       }
-      return favorite;
+      return summary;
     } catch (error) {
       console.error(error);
       throw error;
@@ -52,10 +52,10 @@ export class FavoriteController {
 
   @Post()
   async create(
-    @Body(new ValidationPipe()) body: FavoriteDTO,
-  ): Promise<ReturnType<FavoriteApplication['create']>> {
+    @Body(new ValidationPipe()) body: SummaryDTO,
+  ): Promise<ReturnType<SummaryApplication['create']>> {
     try {
-      return await this.favoriteApplication.create(body);
+      return await this.summaryApplication.create(body);
     } catch (error) {
       console.error(error);
       throw error;
@@ -65,13 +65,13 @@ export class FavoriteController {
   @Put(':id')
   async update(
     @Param('id') id,
-    @Body(new ValidationPipe()) body: FavoriteDTO,
-  ): Promise<ReturnType<FavoriteApplication['update']>> {
+    @Body(new ValidationPipe()) body: SummaryDTO,
+  ): Promise<ReturnType<SummaryApplication['update']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      return await this.favoriteApplication.update(id, body);
+      return await this.summaryApplication.update(id, body);
     } catch (error) {
       console.error(error);
       throw error;
@@ -81,12 +81,12 @@ export class FavoriteController {
   @Delete(':id')
   async delete(
     @Param('id') id,
-  ): Promise<ReturnType<FavoriteApplication['delete']>> {
+  ): Promise<ReturnType<SummaryApplication['delete']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      return await this.favoriteApplication.delete(id);
+      return await this.summaryApplication.delete(id);
     } catch (error) {
       console.error(error);
       throw error;

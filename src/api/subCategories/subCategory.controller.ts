@@ -14,7 +14,7 @@ import {
 import { SubCategoryDTO } from './subCategory.dto';
 import { SubCategoryApplication } from './subCategory.application';
 
-@Controller('subCategory')
+@Controller('subCategories')
 export class SubCategoryController {
   constructor(
     @Inject(SubCategoryApplication)

@@ -14,7 +14,7 @@ import {
 import { NotificationDTO } from './notification.dto';
 import { NotificationApplication } from './notification.application';
 
-@Controller('notification')
+@Controller('notifications')
 export class NotificationController {
   constructor(
     @Inject(NotificationApplication)
