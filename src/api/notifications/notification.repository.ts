@@ -11,11 +11,11 @@ export class NotificationRepository {
     private readonly notificationModel: Model<NotificationDocument>,
   ) {}
 
-  async findAll(): Promise<Notification[]> {
+  async list(): Promise<Notification[]> {
     return this.notificationModel.find().lean();
   }
 
-  async findById(id: string): Promise<Notification> {
+  async getById(id: string): Promise<Notification> {
     return this.notificationModel.findById(id).lean();
   }
 

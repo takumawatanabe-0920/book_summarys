@@ -11,11 +11,11 @@ export class UserRepository {
     private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async list(): Promise<User[]> {
     return this.userModel.find().lean();
   }
 
-  async findById(id: string): Promise<User> {
+  async getById(id: string): Promise<User> {
     return this.userModel.findById(id).lean();
   }
 

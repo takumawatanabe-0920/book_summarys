@@ -9,20 +9,20 @@ export class NotificationApplication {
     private notificationRepository: NotificationRepository,
   ) {}
 
-  async index(): Promise<ReturnType<NotificationRepository['findAll']>> {
+  async list(): Promise<ReturnType<NotificationRepository['list']>> {
     try {
-      return await this.notificationRepository.findAll();
+      return await this.notificationRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(
+  async get(
     id: string,
-  ): Promise<ReturnType<NotificationRepository['findById']>> {
+  ): Promise<ReturnType<NotificationRepository['getById']>> {
     try {
-      return await this.notificationRepository.findById(id);
+      return await this.notificationRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

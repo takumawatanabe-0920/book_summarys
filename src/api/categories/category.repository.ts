@@ -11,11 +11,11 @@ export class CategoryRepository {
     private readonly categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async findAll(): Promise<Category[]> {
+  async list(): Promise<Category[]> {
     return this.categoryModel.find().lean();
   }
 
-  async findById(id: string): Promise<Category> {
+  async getById(id: string): Promise<Category> {
     return this.categoryModel.findById(id).lean();
   }
 

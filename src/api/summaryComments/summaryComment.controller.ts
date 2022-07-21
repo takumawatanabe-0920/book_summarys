@@ -22,9 +22,9 @@ export class SummaryCommentController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<SummaryCommentApplication['index']>> {
+  async list(): Promise<ReturnType<SummaryCommentApplication['list']>> {
     try {
-      return await this.summaryCommentApplication.index();
+      return await this.summaryCommentApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class SummaryCommentController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<SummaryCommentApplication['show']>> {
+  ): Promise<ReturnType<SummaryCommentApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const summaryComment = await this.summaryCommentApplication.show(id);
+      const summaryComment = await this.summaryCommentApplication.get(id);
       if (!summaryComment) {
         throw new NotFoundException('summaryComment not found');
       }

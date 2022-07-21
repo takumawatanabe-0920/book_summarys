@@ -9,18 +9,18 @@ export class FavoriteApplication {
     private favoriteRepository: FavoriteRepository,
   ) {}
 
-  async index(): Promise<ReturnType<FavoriteRepository['findAll']>> {
+  async list(): Promise<ReturnType<FavoriteRepository['list']>> {
     try {
-      return await this.favoriteRepository.findAll();
+      return await this.favoriteRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(id: string): Promise<ReturnType<FavoriteRepository['findById']>> {
+  async get(id: string): Promise<ReturnType<FavoriteRepository['getById']>> {
     try {
-      return await this.favoriteRepository.findById(id);
+      return await this.favoriteRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

@@ -9,18 +9,18 @@ export class UserApplication {
     private userRepository: UserRepository,
   ) {}
 
-  async index(): Promise<ReturnType<UserRepository['findAll']>> {
+  async list(): Promise<ReturnType<UserRepository['list']>> {
     try {
-      return await this.userRepository.findAll();
+      return await this.userRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(id: string): Promise<ReturnType<UserRepository['findById']>> {
+  async get(id: string): Promise<ReturnType<UserRepository['getById']>> {
     try {
-      return await this.userRepository.findById(id);
+      return await this.userRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

@@ -11,11 +11,11 @@ export class SummaryRepository {
     private readonly summaryModel: Model<SummaryDocument>,
   ) {}
 
-  async findAll(): Promise<Summary[]> {
+  async list(): Promise<Summary[]> {
     return this.summaryModel.find().lean();
   }
 
-  async findById(id: string): Promise<Summary> {
+  async getById(id: string): Promise<Summary> {
     return this.summaryModel.findById(id).lean();
   }
 

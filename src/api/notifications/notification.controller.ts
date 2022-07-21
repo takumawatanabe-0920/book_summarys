@@ -22,9 +22,9 @@ export class NotificationController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<NotificationApplication['index']>> {
+  async list(): Promise<ReturnType<NotificationApplication['list']>> {
     try {
-      return await this.notificationApplication.index();
+      return await this.notificationApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class NotificationController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<NotificationApplication['show']>> {
+  ): Promise<ReturnType<NotificationApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const notification = await this.notificationApplication.show(id);
+      const notification = await this.notificationApplication.get(id);
       if (!notification) {
         throw new NotFoundException('notification not found');
       }

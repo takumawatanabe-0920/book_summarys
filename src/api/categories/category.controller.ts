@@ -22,9 +22,9 @@ export class CategoryController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<CategoryApplication['index']>> {
+  async list(): Promise<ReturnType<CategoryApplication['list']>> {
     try {
-      return await this.categoryApplication.index();
+      return await this.categoryApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class CategoryController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<CategoryApplication['show']>> {
+  ): Promise<ReturnType<CategoryApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const category = await this.categoryApplication.show(id);
+      const category = await this.categoryApplication.get(id);
       if (!category) {
         throw new NotFoundException('category not found');
       }

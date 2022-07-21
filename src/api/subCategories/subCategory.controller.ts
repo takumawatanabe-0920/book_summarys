@@ -22,9 +22,9 @@ export class SubCategoryController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<SubCategoryApplication['index']>> {
+  async list(): Promise<ReturnType<SubCategoryApplication['list']>> {
     try {
-      return await this.subCategoryApplication.index();
+      return await this.subCategoryApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class SubCategoryController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<SubCategoryApplication['show']>> {
+  ): Promise<ReturnType<SubCategoryApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const subCategory = await this.subCategoryApplication.show(id);
+      const subCategory = await this.subCategoryApplication.get(id);
       if (!subCategory) {
         throw new NotFoundException('subCategory not found');
       }
