@@ -3,7 +3,7 @@ import { FavoriteRepository } from './favorite.repository';
 import { FavoriteDTO } from './favorite.dto';
 
 @Injectable()
-export class FavoriteApplication {
+export class UserFavoriteApplication {
   constructor(
     @Inject(FavoriteRepository)
     private favoriteRepository: FavoriteRepository,
@@ -38,21 +38,54 @@ export class FavoriteApplication {
     }
   }
 
-  async update(
-    id: string,
-    body: FavoriteDTO,
-  ): Promise<ReturnType<FavoriteRepository['update']>> {
+  async delete(id: string): Promise<ReturnType<FavoriteRepository['update']>> {
     try {
-      return await this.favoriteRepository.update(id, body);
+      return await this.favoriteRepository.delete(id);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+}
+
+@Injectable()
+export class FavoriteApplication {
+  constructor(
+    @Inject(FavoriteRepository)
+    private favoriteRepository: FavoriteRepository,
+  ) {}
+
+  async list(): Promise<ReturnType<FavoriteRepository['list']>> {
+    try {
+      return await this.favoriteRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async delete(id: string): Promise<ReturnType<FavoriteRepository['update']>> {
+  async count(): Promise<ReturnType<FavoriteRepository['count']>> {
     try {
-      return await this.favoriteRepository.delete(id);
+      return await this.favoriteRepository.count();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+}
+
+@Injectable()
+export class SummaryFavoriteApplication {
+  constructor(
+    @Inject(FavoriteRepository)
+    private favoriteRepository: FavoriteRepository,
+  ) {}
+
+  async getByUserId(args: {
+    query: Partial<FavoriteDTO>;
+  }): Promise<ReturnType<FavoriteRepository['get']>> {
+    try {
+      return await this.favoriteRepository.get(args.query);
     } catch (error) {
       console.error(error);
       throw error;

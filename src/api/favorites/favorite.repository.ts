@@ -19,6 +19,10 @@ export class FavoriteRepository {
     return this.favoriteModel.findById(id).lean();
   }
 
+  async get(args: Partial<FavoriteDTO>): Promise<Favorite[]> {
+    return this.favoriteModel.find(args).lean();
+  }
+
   async create(favorite: FavoriteDTO): Promise<Favorite> {
     const createdFavorite = new this.favoriteModel(favorite);
     return createdFavorite.save();
@@ -26,6 +30,10 @@ export class FavoriteRepository {
 
   async update(id: string, favorite: FavoriteDTO): Promise<Favorite> {
     return this.favoriteModel.findByIdAndUpdate(id, favorite);
+  }
+
+  async count(): Promise<number> {
+    return this.favoriteModel.countDocuments();
   }
 
   async delete(id: string): Promise<Favorite> {

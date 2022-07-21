@@ -1,7 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { FavoriteController } from './favorite.controller';
-import { FavoriteApplication } from './favorite.application';
+import {
+  FavoriteController,
+  SummaryFavoriteController,
+  UserFavoriteController,
+} from './favorite.controller';
+import {
+  FavoriteApplication,
+  UserFavoriteApplication,
+  SummaryFavoriteApplication,
+} from './favorite.application';
 import { FavoriteRepository } from './favorite.repository';
 import { Favorite, FavoriteSchema } from './favorite.schema';
 @Module({
@@ -10,7 +18,16 @@ import { Favorite, FavoriteSchema } from './favorite.schema';
       { name: Favorite.name, schema: FavoriteSchema },
     ]),
   ],
-  controllers: [FavoriteController],
-  providers: [FavoriteApplication, FavoriteRepository],
+  controllers: [
+    FavoriteController,
+    SummaryFavoriteController,
+    UserFavoriteController,
+  ],
+  providers: [
+    FavoriteApplication,
+    UserFavoriteApplication,
+    SummaryFavoriteApplication,
+    FavoriteRepository,
+  ],
 })
 export class FavoriteModule {}
