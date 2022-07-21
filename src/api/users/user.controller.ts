@@ -14,7 +14,7 @@ import {
 import { UserDTO } from './user.dto';
 import { UserApplication } from './user.application';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(
     @Inject(UserApplication)

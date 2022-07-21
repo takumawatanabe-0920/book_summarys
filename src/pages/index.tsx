@@ -10,7 +10,6 @@ import {
   Footer,
   TopHeader,
   Alert,
-  Loading,
 } from '../components';
 const HomePage = lazy(() => import('../components/App'));
 const SummaryCreatePage = lazy(() => import('../components/summary/Create'));
@@ -23,9 +22,6 @@ const MypageFavorites = lazy(
 );
 const MypageSummaries = lazy(
   () => import('../components/user/mypage/MypageSummaries'),
-);
-const MypageBrowsings = lazy(
-  () => import('../components/user/mypage/MypageBrowsings'),
 );
 const MypageComments = lazy(
   () => import('../components/user/mypage/MypageComments'),
@@ -77,11 +73,6 @@ ReactDOM.render(
                 <Route exact path="/mypage/:id/favorites">
                   <Suspense fallback={<div />}>
                     <MypageFavorites />
-                  </Suspense>
-                </Route>
-                <Route exact path="/mypage/:id/browsings">
-                  <Suspense fallback={<div />}>
-                    <MypageBrowsings />
                   </Suspense>
                 </Route>
                 <Route exact path="/mypage/:id/comments">
