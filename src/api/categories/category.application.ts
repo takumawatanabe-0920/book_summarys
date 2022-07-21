@@ -9,18 +9,18 @@ export class CategoryApplication {
     private categoryRepository: CategoryRepository,
   ) {}
 
-  async index(): Promise<ReturnType<CategoryRepository['findAll']>> {
+  async list(): Promise<ReturnType<CategoryRepository['list']>> {
     try {
-      return await this.categoryRepository.findAll();
+      return await this.categoryRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(id: string): Promise<ReturnType<CategoryRepository['findById']>> {
+  async get(id: string): Promise<ReturnType<CategoryRepository['getById']>> {
     try {
-      return await this.categoryRepository.findById(id);
+      return await this.categoryRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

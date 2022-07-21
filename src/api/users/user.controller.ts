@@ -22,9 +22,9 @@ export class UserController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<UserApplication['index']>> {
+  async list(): Promise<ReturnType<UserApplication['list']>> {
     try {
-      return await this.userApplication.index();
+      return await this.userApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class UserController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<UserApplication['show']>> {
+  ): Promise<ReturnType<UserApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const user = await this.userApplication.show(id);
+      const user = await this.userApplication.get(id);
       if (!user) {
         throw new NotFoundException('user not found');
       }

@@ -45,18 +45,18 @@ const generateApplication = (name) => {
       private ${lowerCaseName}Repository: ${upperCaseName}Repository,
     ) {}
   
-    async index(): Promise<ReturnType<${upperCaseName}Repository['findAll']>> {
+    async list(): Promise<ReturnType<${upperCaseName}Repository['list']>> {
       try {
-        return await this.${lowerCaseName}Repository.findAll();
+        return await this.${lowerCaseName}Repository.list();
       } catch (error) {
         console.error(error);
         throw error;
       }
     }
   
-    async show(id: string): Promise<ReturnType<${upperCaseName}Repository['findById']>> {
+    async show(id: string): Promise<ReturnType<${upperCaseName}Repository['getById']>> {
       try {
-        return await this.${lowerCaseName}Repository.findById(id);
+        return await this.${lowerCaseName}Repository.getById(id);
       } catch (error) {
         console.error(error);
         throw error;
@@ -130,9 +130,9 @@ const generateController = (name) => {
     ) {}
   
     @Get()
-    async index(): Promise<ReturnType<${upperCaseName}Application['index']>> {
+    async list(): Promise<ReturnType<${upperCaseName}Application['index']>> {
       try {
-        return await this.${lowerCaseName}Application.index();
+        return await this.${lowerCaseName}Application.list();
       } catch (error) {
         console.error(error);
         throw error;
@@ -225,12 +225,12 @@ export class ${upperCaseName}Repository {
     private readonly ${lowerCaseName}Model: Model<${upperCaseName}Document>,
   ) {}
 
-  async findAll(): Promise<${upperCaseName}[]> {
+  async list(): Promise<${upperCaseName}[]> {
     return this.${lowerCaseName}Model.find().lean();
   }
 
-  async findById(id: string): Promise<${upperCaseName}> {
-    return this.${lowerCaseName}Model.findById(id).lean();
+  async getById(id: string): Promise<${upperCaseName}> {
+    return this.${lowerCaseName}Model.getById(id).lean();
   }
 
   async create(${lowerCaseName}: ${upperCaseName}DTO): Promise<${upperCaseName}> {

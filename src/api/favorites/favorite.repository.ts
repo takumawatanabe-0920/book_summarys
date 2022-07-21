@@ -11,11 +11,11 @@ export class FavoriteRepository {
     private readonly favoriteModel: Model<FavoriteDocument>,
   ) {}
 
-  async findAll(): Promise<Favorite[]> {
+  async list(): Promise<Favorite[]> {
     return this.favoriteModel.find().lean();
   }
 
-  async findById(id: string): Promise<Favorite> {
+  async getById(id: string): Promise<Favorite> {
     return this.favoriteModel.findById(id).lean();
   }
 

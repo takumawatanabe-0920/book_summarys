@@ -22,9 +22,9 @@ export class SummaryController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<SummaryApplication['index']>> {
+  async list(): Promise<ReturnType<SummaryApplication['list']>> {
     try {
-      return await this.summaryApplication.index();
+      return await this.summaryApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class SummaryController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<SummaryApplication['show']>> {
+  ): Promise<ReturnType<SummaryApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const summary = await this.summaryApplication.show(id);
+      const summary = await this.summaryApplication.get(id);
       if (!summary) {
         throw new NotFoundException('summary not found');
       }

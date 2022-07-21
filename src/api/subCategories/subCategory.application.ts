@@ -9,20 +9,18 @@ export class SubCategoryApplication {
     private subCategoryRepository: SubCategoryRepository,
   ) {}
 
-  async index(): Promise<ReturnType<SubCategoryRepository['findAll']>> {
+  async list(): Promise<ReturnType<SubCategoryRepository['list']>> {
     try {
-      return await this.subCategoryRepository.findAll();
+      return await this.subCategoryRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(
-    id: string,
-  ): Promise<ReturnType<SubCategoryRepository['findById']>> {
+  async get(id: string): Promise<ReturnType<SubCategoryRepository['getById']>> {
     try {
-      return await this.subCategoryRepository.findById(id);
+      return await this.subCategoryRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

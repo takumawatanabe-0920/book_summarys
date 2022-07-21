@@ -9,20 +9,20 @@ export class SummaryCommentApplication {
     private summaryCommentRepository: SummaryCommentRepository,
   ) {}
 
-  async index(): Promise<ReturnType<SummaryCommentRepository['findAll']>> {
+  async list(): Promise<ReturnType<SummaryCommentRepository['list']>> {
     try {
-      return await this.summaryCommentRepository.findAll();
+      return await this.summaryCommentRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(
+  async get(
     id: string,
-  ): Promise<ReturnType<SummaryCommentRepository['findById']>> {
+  ): Promise<ReturnType<SummaryCommentRepository['getById']>> {
     try {
-      return await this.summaryCommentRepository.findById(id);
+      return await this.summaryCommentRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;

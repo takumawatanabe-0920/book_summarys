@@ -11,11 +11,11 @@ export class SubCategoryRepository {
     private readonly subCategoryModel: Model<SubCategoryDocument>,
   ) {}
 
-  async findAll(): Promise<SubCategory[]> {
+  async list(): Promise<SubCategory[]> {
     return this.subCategoryModel.find().lean();
   }
 
-  async findById(id: string): Promise<SubCategory> {
+  async getById(id: string): Promise<SubCategory> {
     return this.subCategoryModel.findById(id).lean();
   }
 

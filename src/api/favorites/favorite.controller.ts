@@ -22,9 +22,9 @@ export class FavoriteController {
   ) {}
 
   @Get()
-  async index(): Promise<ReturnType<FavoriteApplication['index']>> {
+  async list(): Promise<ReturnType<FavoriteApplication['list']>> {
     try {
-      return await this.favoriteApplication.index();
+      return await this.favoriteApplication.list();
     } catch (error) {
       console.error(error);
       throw error;
@@ -32,14 +32,14 @@ export class FavoriteController {
   }
 
   @Get(':id')
-  async show(
+  async get(
     @Param('id') id: string,
-  ): Promise<ReturnType<FavoriteApplication['show']>> {
+  ): Promise<ReturnType<FavoriteApplication['get']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
       }
-      const favorite = await this.favoriteApplication.show(id);
+      const favorite = await this.favoriteApplication.get(id);
       if (!favorite) {
         throw new NotFoundException('favorite not found');
       }

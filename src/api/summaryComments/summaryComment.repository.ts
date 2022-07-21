@@ -14,11 +14,11 @@ export class SummaryCommentRepository {
     private readonly summaryCommentModel: Model<SummaryCommentDocument>,
   ) {}
 
-  async findAll(): Promise<SummaryComment[]> {
+  async list(): Promise<SummaryComment[]> {
     return this.summaryCommentModel.find().lean();
   }
 
-  async findById(id: string): Promise<SummaryComment> {
+  async getById(id: string): Promise<SummaryComment> {
     return this.summaryCommentModel.findById(id).lean();
   }
 

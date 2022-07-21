@@ -9,18 +9,18 @@ export class SummaryApplication {
     private summaryRepository: SummaryRepository,
   ) {}
 
-  async index(): Promise<ReturnType<SummaryRepository['findAll']>> {
+  async list(): Promise<ReturnType<SummaryRepository['list']>> {
     try {
-      return await this.summaryRepository.findAll();
+      return await this.summaryRepository.list();
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 
-  async show(id: string): Promise<ReturnType<SummaryRepository['findById']>> {
+  async get(id: string): Promise<ReturnType<SummaryRepository['getById']>> {
     try {
-      return await this.summaryRepository.findById(id);
+      return await this.summaryRepository.getById(id);
     } catch (error) {
       console.error(error);
       throw error;
