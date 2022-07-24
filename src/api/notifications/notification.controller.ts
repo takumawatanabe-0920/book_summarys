@@ -55,6 +55,12 @@ export class NotificationController {
     @Body(new ValidationPipe()) body: NotificationDTO,
   ): Promise<ReturnType<NotificationApplication['create']>> {
     try {
+      const { user, targetUser, reference, item } = body;
+      if (!user || !targetUser || !reference || !item) {
+        throw new BadRequestException(
+          'user, targetUser, reference, item is required',
+        );
+      }
       return await this.notificationApplication.create(body);
     } catch (error) {
       console.error(error);

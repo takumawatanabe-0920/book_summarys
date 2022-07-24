@@ -66,6 +66,10 @@ export class CategoryController {
     @Body(new ValidationPipe()) body: CategoryDTO,
   ): Promise<ReturnType<CategoryApplication['create']>> {
     try {
+      const { name, slug } = body;
+      if (!name || !slug) {
+        throw new BadRequestException('name and slug are required');
+      }
       return await this.categoryApplication.create(body);
     } catch (error) {
       console.error(error);

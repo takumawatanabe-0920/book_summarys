@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Notification,
   ResultResponse,
@@ -48,7 +47,7 @@ export const getMyNotifications = (
     .get()
     .then(async (res) => {
       if (res.docs.length <= 0) return [];
-      let resData = await Promise.all(
+      const resData = await Promise.all(
         res.docs.map(async (doc) => {
           const resSummary: ResultResponse<ResSummaryBook> =
             await getSummaryBook(doc.data().target_id);
@@ -106,7 +105,7 @@ export const updateReadNotifications = async (
   type: string,
 ): Promise<any> => {
   const batch = await db.batch();
-  let resCount = await db
+  const resCount = await db
     .collection('notification')
     .where('target_user_id', '==', target_user_id)
     .where('type', '==', type)
@@ -117,7 +116,9 @@ export const updateReadNotifications = async (
       await Promise.all(
         res.docs.map(async (doc: any) => {
           count++;
-          let notificationRef = await db.collection('notification').doc(doc.id);
+          const notificationRef = await db
+            .collection('notification')
+            .doc(doc.id);
           batch.update(notificationRef, { is_read: true });
         }),
       );

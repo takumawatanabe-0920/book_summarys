@@ -4,10 +4,10 @@ export type CategoryDocument = Category & Document;
 
 @Schema({ timestamps: true })
 export class Category {
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   slug: string;
 
   @Prop({ type: Number, default: 0 })

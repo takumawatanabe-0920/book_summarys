@@ -66,6 +66,10 @@ export class SubCategoryController {
     @Body(new ValidationPipe()) body: SubCategoryDTO,
   ): Promise<ReturnType<SubCategoryApplication['create']>> {
     try {
+      const { name, category, slug } = body;
+      if (!name || !category || !slug) {
+        throw new BadRequestException('name, category, slug is required');
+      }
       return await this.subCategoryApplication.create(body);
     } catch (error) {
       console.error(error);
