@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   SummaryBook,
   ResSummaryBook,
@@ -58,6 +57,7 @@ export const updateSummary = async (
   return response;
 };
 
+// done
 export const updateFavoriteSummaries = async (
   favorite_id?: string,
   summary_id?: string,
@@ -80,12 +80,10 @@ export const updateFavoriteSummaries = async (
         favorite_count: favArray.length,
       });
     });
-  })
-    .then((newPopulation) => {})
-    .catch((error) => {
-      // This will be an "population is too big" error.
-      console.error(error);
-    });
+  }).catch((error) => {
+    // This will be an "population is too big" error.
+    console.error(error);
+  });
 };
 
 // done FEで日付ロジックを持たせる
