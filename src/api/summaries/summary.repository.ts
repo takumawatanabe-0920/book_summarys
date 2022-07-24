@@ -3,8 +3,9 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Summary, SummaryDocument } from './summary.schema';
 import { SummaryDTO } from './summary.dto';
-import { PaginationOptions } from '../../config/mongoOption';
+import { PaginationOptions, repositories } from '../../config/mongoOption';
 import { getPaginationQuery } from '../../config/lib/repositories';
+import { UpdateBody } from '../../types/mongoose';
 @Injectable()
 export class SummaryRepository {
   constructor(
@@ -31,8 +32,11 @@ export class SummaryRepository {
     return this.summaryModel.countDocuments(conditions);
   }
 
-  async getById(id: string): Promise<Summary> {
-    return (await this.summaryModel.findById(id))
+  async getById(
+    id: string,
+    option: repositories.BaseOptions = {},
+  ): Promise<Summary> {
+    return (await this.summaryModel.findById(id, option))
       .populated('user')
       .populated('category')
       .populated('subCategory')
@@ -44,11 +48,18 @@ export class SummaryRepository {
     return createdSummary.save();
   }
 
-  async update(id: string, summary: SummaryDTO): Promise<Summary> {
-    return this.summaryModel.findByIdAndUpdate(id, summary);
+  async update(
+    id: string,
+    summary: UpdateBody<any> | SummaryDTO,
+    option?: repositories.BaseOptions,
+  ): Promise<Summary> {
+    return this.summaryModel.findByIdAndUpdate(id, summary, option);
   }
 
-  async delete(id: string): Promise<Summary> {
-    return this.summaryModel.findByIdAndRemove(id);
+  async delete(
+    id: string,
+    option?: repositories.BaseOptions,
+  ): Promise<Summary> {
+    return this.summaryModel.findByIdAndRemove(id, option);
   }
 }

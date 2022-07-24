@@ -70,40 +70,6 @@ export class UserFavoriteController {
       throw error;
     }
   }
-
-  @Post()
-  async create(
-    @Body(new ValidationPipe()) body: FavoriteDTO,
-  ): Promise<ReturnType<UserFavoriteApplication['create']>> {
-    try {
-      const { user, summary } = body;
-      if (!getId(user)) {
-        throw new BadRequestException('user is required');
-      }
-      if (!getId(summary)) {
-        throw new BadRequestException('summary is required');
-      }
-      return await this.userFavoriteApplication.create(body);
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  @Delete(':id')
-  async delete(
-    @Param('id') id,
-  ): Promise<ReturnType<UserFavoriteApplication['delete']>> {
-    try {
-      if (!id) {
-        throw new BadRequestException('id is required');
-      }
-      return await this.userFavoriteApplication.delete(id);
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
 }
 
 @Controller('summaries/:summaryId/favorites')
@@ -128,6 +94,42 @@ export class SummaryFavoriteController {
       return await this.summaryFavoriteApplication.getByUserId({
         query: { summary: summaryId, user: userId },
       });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  @Post()
+  async create(
+    @Param('userId') userId: string,
+    @Param('summaryId') summaryId: string,
+    @Body(new ValidationPipe()) body: FavoriteDTO,
+  ): Promise<ReturnType<SummaryFavoriteApplication['create']>> {
+    try {
+      if (!getId(userId)) {
+        throw new BadRequestException('user is required');
+      }
+      if (!getId(summaryId)) {
+        throw new BadRequestException('summary is required');
+      }
+      return await this.summaryFavoriteApplication.create(body);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  @Delete(':id')
+  async delete(
+    @Param('id') id,
+    @Param('summaryId') summaryId: string,
+  ): Promise<ReturnType<SummaryFavoriteApplication['delete']>> {
+    try {
+      if (!id || !summaryId) {
+        throw new BadRequestException('id or summaryId is required');
+      }
+      return await this.summaryFavoriteApplication.delete({ id, summaryId });
     } catch (error) {
       console.error(error);
       throw error;

@@ -10,6 +10,7 @@ import {
   UserFavoriteApplication,
   SummaryFavoriteApplication,
 } from './favorite.application';
+import { SummaryRepository } from '../summaries/summary.repository';
 import { FavoriteRepository } from './favorite.repository';
 import { Favorite, FavoriteSchema } from './favorite.schema';
 @Module({
@@ -28,6 +29,7 @@ import { Favorite, FavoriteSchema } from './favorite.schema';
     UserFavoriteApplication,
     SummaryFavoriteApplication,
     FavoriteRepository,
+    SummaryRepository,
   ],
 })
 export class FavoriteModule {}

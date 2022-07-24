@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Favorite, FavoriteDocument } from './favorite.schema';
 import { FavoriteDTO } from './favorite.dto';
+import { repositories } from '../../config/mongoOption';
 
 @Injectable()
 export class FavoriteRepository {
@@ -23,9 +24,12 @@ export class FavoriteRepository {
     return this.favoriteModel.find(args).lean();
   }
 
-  async create(favorite: FavoriteDTO): Promise<Favorite> {
+  async create(
+    favorite: FavoriteDTO,
+    option?: repositories.BaseOptions,
+  ): Promise<Favorite> {
     const createdFavorite = new this.favoriteModel(favorite);
-    return createdFavorite.save();
+    return createdFavorite.save(option);
   }
 
   async update(id: string, favorite: FavoriteDTO): Promise<Favorite> {
@@ -36,7 +40,10 @@ export class FavoriteRepository {
     return this.favoriteModel.countDocuments();
   }
 
-  async delete(id: string): Promise<Favorite> {
-    return this.favoriteModel.findByIdAndRemove(id);
+  async delete(
+    id: string,
+    option?: repositories.BaseOptions,
+  ): Promise<Favorite> {
+    return this.favoriteModel.findByIdAndRemove(id, option);
   }
 }
