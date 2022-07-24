@@ -103,6 +103,7 @@ export const getMyNotReadNotificationsCount = (
   return response;
 };
 
+// done
 export const updateReadNotifications = async (
   target_user_id: string,
   type: string,

@@ -47,4 +47,12 @@ export class NotificationRepository {
   async delete(id: string): Promise<Notification> {
     return this.notificationModel.findByIdAndRemove(id);
   }
+
+  async markAsRead(conditions: Partial<NotificationDTO> = {}): Promise<void> {
+    await this.notificationModel.updateMany(conditions, {
+      $set: {
+        isRead: true,
+      },
+    });
+  }
 }

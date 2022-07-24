@@ -13,7 +13,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { NotificationDTO } from './notification.dto';
-import { NotificationApplication } from './notification.application';
+import {
+  NotificationApplication,
+  UserNotificationApplication,
+} from './notification.application';
 import { PaginationOptions } from '../../config/mongoOption';
 @Controller('notifications')
 export class NotificationController {
@@ -149,6 +152,33 @@ export class NotificationController {
         throw new BadRequestException('id is required');
       }
       return await this.notificationApplication.delete(id);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+}
+
+@Controller('user/:userId/notifications')
+export class UserNotificationController {
+  constructor(
+    @Inject(NotificationApplication)
+    private readonly userNotificationApplication: UserNotificationApplication,
+  ) {}
+
+  @Put('read')
+  async markAllAsRead(
+    @Param('userId') userId,
+    @Param('type') type,
+  ): Promise<ReturnType<UserNotificationApplication['markAllAsRead']>> {
+    try {
+      if (!userId || !type) {
+        throw new BadRequestException('type or userId is required');
+      }
+      return await this.userNotificationApplication.markAllAsRead({
+        targetUser: userId,
+        type,
+      });
     } catch (error) {
       console.error(error);
       throw error;
