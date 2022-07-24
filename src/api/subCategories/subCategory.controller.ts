@@ -10,10 +10,11 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { SubCategoryDTO } from './subCategory.dto';
 import { SubCategoryApplication } from './subCategory.application';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Controller('subCategories')
 export class SubCategoryController {
   constructor(
@@ -22,9 +23,19 @@ export class SubCategoryController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<SubCategoryApplication['list']>> {
+  async list(
+    @Query('sortKey') sortKey,
+    @Query('order') order,
+  ): Promise<ReturnType<SubCategoryApplication['list']>> {
     try {
-      return await this.subCategoryApplication.list();
+      let option: PaginationOptions = {};
+      if (sortKey) {
+        option = {
+          sort: sortKey,
+          direction: order ? 'desc' : 'asc',
+        };
+      }
+      return await this.subCategoryApplication.list(option);
     } catch (error) {
       console.error(error);
       throw error;

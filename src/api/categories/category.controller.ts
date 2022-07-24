@@ -10,10 +10,11 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { CategoryDTO } from './category.dto';
 import { CategoryApplication } from './category.application';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Controller('categories')
 export class CategoryController {
   constructor(
@@ -22,9 +23,19 @@ export class CategoryController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<CategoryApplication['list']>> {
+  async list(
+    @Query('sortKey') sortKey,
+    @Query('order') order,
+  ): Promise<ReturnType<CategoryApplication['list']>> {
     try {
-      return await this.categoryApplication.list();
+      let option: PaginationOptions = {};
+      if (sortKey) {
+        option = {
+          sort: sortKey,
+          direction: order ? 'desc' : 'asc',
+        };
+      }
+      return await this.categoryApplication.list(option);
     } catch (error) {
       console.error(error);
       throw error;

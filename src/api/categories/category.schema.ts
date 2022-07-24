@@ -17,4 +17,6 @@ export class Category {
   image: string;
 }
 
+// TODO virtual image
+
 export const CategorySchema = SchemaFactory.createForClass(Category);
