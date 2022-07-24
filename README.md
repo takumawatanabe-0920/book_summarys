@@ -55,7 +55,6 @@
 - react hook
 - draft-js 記事編集（リッチテキストエディター）
 - react-slick（カルーセル)
-- react-image-crop(画像トリミング)
 
 #### ビルド
 

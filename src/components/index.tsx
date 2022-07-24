@@ -29,7 +29,6 @@ import MypageSidebar from './user/mypage/parts/MypageSidebar';
 import MypageProfile from './user/mypage/parts/MypageProfile';
 import SummaryComment from './coment/SummaryComment';
 import SummaryCommentForm from './coment/SummaryCommentForm';
-import Trimming from './common/form/Trimming';
 import CommentList from './coment/CommentList';
 import CommentItem from './coment/CommentItem';
 import Navbar from './common/parts/Navbar';
@@ -76,6 +75,5 @@ export {
   NotificationItem,
   Alert,
   Navbar,
-  Trimming,
   Loading,
 };

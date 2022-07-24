@@ -1,19 +1,16 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
-import { Input, Trimming } from '../../../components';
+import { Input } from '../../../components';
 import {
   RegisterUser,
   ResultResponse,
   ResUser as CurrentUser,
 } from '../../../types';
-import { stateFile } from '../../../components/common/form/Trimming';
 import useAlertState from '../../../assets/hooks/useAlertState';
 import {
   register,
   updateUser,
-  uploadImage,
-  responseUploadImage,
   getCurrentUser,
 } from '../../../firebase/functions';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
@@ -27,19 +24,9 @@ const RegisterForm: FC<Props> = (props) => {
   const { isEdit, userData } = props;
   const [values, setValues] = useState<RegisterUser>({});
   const [errorTexts, setErrorTexts] = useState<RegisterUser>({});
-  const [userIcon, setUserIcon] = useState<string>('');
-  const [state, setState] = useState<stateFile>({
-    src: null,
-    crop: {
-      unit: '%',
-      width: 50,
-      height: 50,
-      aspect: 1,
-    },
-  });
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { setCurrentUser } = useContext(GlobalContext);
   const { history } = useReactRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,8 +59,8 @@ const RegisterForm: FC<Props> = (props) => {
   };
 
   const validationCheck = async (): Promise<boolean> => {
-    let isError: boolean = false;
-    let errorText: RegisterUser = {};
+    let isError = false;
+    const errorText: RegisterUser = {};
     const { displayName, email, password } = values;
     if (!displayName || !displayName.match(/\S/g)) {
       isError = true;
@@ -121,20 +108,6 @@ const RegisterForm: FC<Props> = (props) => {
     if (
       window.confirm(isEdit ? '会員情報を編集しますか？' : '会員登録しますか？')
     ) {
-      if (state && state.blobFile) {
-        const resUpload: ResultResponse<any> = await uploadImage(
-          state.blobFile,
-          'user',
-        );
-        if (resUpload.status === 200) {
-          values.photoURL = resUpload.data;
-        } else {
-          return await throwAlert(
-            'danger',
-            '画像のアップロードに失敗しました。',
-          );
-        }
-      }
       let resCreateOrUpdate: ResultResponse<RegisterUser>;
       if (isEdit) {
         resCreateOrUpdate = await updateUser(
@@ -205,13 +178,6 @@ const RegisterForm: FC<Props> = (props) => {
           required={true}
           onChange={handleInputChange}
           errorMessage={errorTexts.displayName ? errorTexts.displayName : ''}
-        />
-        <Trimming
-          setState={setState}
-          title="ユーザーアイコン"
-          required={true}
-          userIcon={currentUser.photoURL}
-          isEdit={isEdit}
         />
         {!isEdit && (
           <Input

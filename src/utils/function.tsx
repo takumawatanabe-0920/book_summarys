@@ -3,18 +3,18 @@ import dayjs from 'dayjs';
 
 export const formatUpdateDate = (_datetime: firebase.firestore.Timestamp) => {
   const dateTime = _datetime.seconds;
-  let messageTime = dateTime ? dayjs.unix(dateTime).format('MM/DD') : '';
-  let now = new Date();
-  let nowTime = Math.floor(now.getTime() / 1000);
+  const messageTime = dateTime ? dayjs.unix(dateTime).format('MM/DD') : '';
+  const now = new Date();
+  const nowTime = Math.floor(now.getTime() / 1000);
   let diffTime = nowTime - dateTime;
-  let diffDays = Math.floor(diffTime / 86400);
+  const diffDays = Math.floor(diffTime / 86400);
 
   diffTime -= diffDays * 86400;
-  let diffHours = Math.floor(diffTime / 3600) % 24;
+  const diffHours = Math.floor(diffTime / 3600) % 24;
   diffTime -= diffHours * 3600;
-  let diffMinutes = Math.floor(diffTime / 60) % 60;
+  const diffMinutes = Math.floor(diffTime / 60) % 60;
   diffTime -= diffMinutes * 60;
-  let diffSeconds = diffTime % 60;
+  const diffSeconds = diffTime % 60;
 
   if (diffDays >= 7) {
     return messageTime;
@@ -44,12 +44,4 @@ export const formatTagColor = (_categoryName: string): string => {
     default:
       return 'all-tag';
   }
-};
-
-export const createUniqueStr = () => {
-  const number = 1000;
-  return (
-    new Date().getTime().toString(16) +
-    Math.floor(number * Math.random()).toString(16)
-  );
 };
