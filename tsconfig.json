@@ -13,7 +13,13 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "types": ["@types/node", "@types/express", "node"],
+    "types": [
+      "@types/node",
+      "@types/express",
+      "node",
+      "reflect-metadata",
+      "jest"
+    ],
     "typeRoots": ["types", "node_modules/@types"],
     // "module": "commonjs",
     "declaration": true,

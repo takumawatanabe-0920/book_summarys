@@ -13,10 +13,13 @@ import {
 import { SummaryRepository } from '../summaries/summary.repository';
 import { FavoriteRepository } from './favorite.repository';
 import { Favorite, FavoriteSchema } from './favorite.schema';
+import { Summary, SummarySchema } from '../summaries/summary.schema';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Favorite.name, schema: FavoriteSchema },
+      { name: Summary.name, schema: SummarySchema },
     ]),
   ],
   controllers: [

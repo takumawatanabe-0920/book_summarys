@@ -3,11 +3,13 @@ const { generateFileAndFolder } = require('./common');
 
 const main = async () => {
   program
+    // @ts-ignore
     .version('1.0.0')
     .option('-n, --name <name>', 'name')
     .option('--dryRun')
     .parse(process.argv);
 
+  // @ts-ignore
   const opts = program.opts();
   const name = opts.name;
   const dryRun = opts.dryRun;
