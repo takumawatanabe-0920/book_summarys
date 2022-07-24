@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { SummaryRepository } from './summary.repository';
 import { SummaryDTO } from './summary.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Injectable()
 export class SummaryApplication {
   constructor(
@@ -9,9 +9,21 @@ export class SummaryApplication {
     private summaryRepository: SummaryRepository,
   ) {}
 
-  async list(): Promise<ReturnType<SummaryRepository['list']>> {
+  async list(
+    conditions: Partial<SummaryDTO>,
+    option: PaginationOptions,
+  ): Promise<ReturnType<SummaryRepository['list']>> {
     try {
-      return await this.summaryRepository.list();
+      return await this.summaryRepository.list(conditions, option);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async count(conditions: Partial<SummaryDTO>): Promise<number> {
+    try {
+      return await this.summaryRepository.count(conditions);
     } catch (error) {
       console.error(error);
       throw error;

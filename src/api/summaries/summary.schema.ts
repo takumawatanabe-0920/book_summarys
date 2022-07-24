@@ -5,6 +5,8 @@ import { Category } from '../categories/category.schema';
 import { SubCategory } from '../subCategories/subCategory.schema';
 import { Favorite } from '../favorites/favorite.schema';
 
+export const publishingStatuses = ['draft', 'published'] as const;
+
 export type SummaryDocument = Summary & Document;
 
 @Schema({ timestamps: true })
@@ -24,11 +26,7 @@ export class Summary {
   @Prop({ type: String })
   thumbnail: string;
 
-  @Prop({ type: Number, default: 0 })
-  favoriteCount: number;
-
-  // TODO enum
-  @Prop({ type: String })
+  @Prop({ type: String, enum: publishingStatuses })
   publishingStatus: string;
 
   @Prop({ type: String })
@@ -43,8 +41,11 @@ export class Summary {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Favorite' })
-  favorite: Favorite;
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Favorite' }],
+    default: [],
+  })
+  favorites: (Favorite | string)[];
 }
 
 export const SummarySchema = SchemaFactory.createForClass(Summary);

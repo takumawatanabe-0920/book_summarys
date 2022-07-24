@@ -3,7 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Summary, SummaryDocument } from './summary.schema';
 import { SummaryDTO } from './summary.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
+import { getPaginationQuery } from '../../config/lib/repositories';
 @Injectable()
 export class SummaryRepository {
   constructor(
@@ -11,12 +12,31 @@ export class SummaryRepository {
     private readonly summaryModel: Model<SummaryDocument>,
   ) {}
 
-  async list(): Promise<Summary[]> {
-    return this.summaryModel.find().lean();
+  async list(
+    conditions: Partial<SummaryDTO>,
+    option: PaginationOptions,
+  ): Promise<Summary[]> {
+    const query = getPaginationQuery(
+      this.summaryModel
+        .find({ ...conditions })
+        .populate('category')
+        .populate('subCategory')
+        .populate('user'),
+      option,
+    );
+    return await query.exec();
+  }
+
+  async count(conditions: Partial<SummaryDTO> = {}): Promise<number> {
+    return this.summaryModel.countDocuments(conditions);
   }
 
   async getById(id: string): Promise<Summary> {
-    return this.summaryModel.findById(id).lean();
+    return (await this.summaryModel.findById(id))
+      .populated('user')
+      .populated('category')
+      .populated('subCategory')
+      .lean();
   }
 
   async create(summary: SummaryDTO): Promise<Summary> {
