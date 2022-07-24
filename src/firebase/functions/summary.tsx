@@ -11,6 +11,7 @@ import { firebase } from '../config';
 import { getCategory, getSubCategory, getIdUser } from './';
 const db = firebase.firestore();
 
+// done
 export const createSummary = (
   values: SummaryBook,
 ): Promise<ResultResponse<ResSummaryBook>> => {
@@ -36,6 +37,7 @@ export const createSummary = (
   return response;
 };
 
+// done
 export const updateSummary = async (
   values: ResSummaryBook,
 ): Promise<ResultResponse<ResSummaryBook>> => {
@@ -63,10 +65,10 @@ export const updateFavoriteSummaries = async (
   const sfDocRef = db.collection('summary').doc(summary_id);
   db.runTransaction((transaction) => {
     return transaction.get(sfDocRef).then((doc) => {
-      let favArray = doc.data().favorite_id;
-      let isDoneFavorite: boolean = favArray.includes(favorite_id);
+      const favArray = doc.data().favorite_id;
+      const isDoneFavorite: boolean = favArray.includes(favorite_id);
       if (isDoneFavorite) {
-        let index = favArray.indexOf(favorite_id);
+        const index = favArray.indexOf(favorite_id);
         if (index > -1) {
           favArray.splice(index, 1);
         }
@@ -86,6 +88,7 @@ export const updateFavoriteSummaries = async (
     });
 };
 
+// done FEで日付ロジックを持たせる
 export const getRankingSummaries = async (
   limit?: number,
   publishing_status?: string,
@@ -125,7 +128,7 @@ export const getRankingSummaries = async (
     .limit(limit)
     .get()
     .then(async (res) => {
-      let resData: any = await Promise.all(
+      const resData: any = await Promise.all(
         res.docs.map(async (doc) => {
           const resCategory: ResultResponse<ResCategory> = await getCategory(
             doc.data().category,
@@ -153,6 +156,7 @@ export const getRankingSummaries = async (
   return response;
 };
 
+// done
 export const getOneConditionsSummaries = async (
   limit?: number,
   page?: number,
@@ -169,7 +173,7 @@ export const getOneConditionsSummaries = async (
     .limit(limit)
     .get()
     .then(async (res) => {
-      let resData: ResSummaryBook[] = await Promise.all(
+      const resData: ResSummaryBook[] = await Promise.all(
         res.docs.map(async (doc) => {
           const resCategory: ResultResponse<ResCategory> = await getCategory(
             doc.data().category,
@@ -210,6 +214,7 @@ export const getOneConditionsSummaries = async (
   return response;
 };
 
+// done
 export const getTwoConditionsSummaries = async (
   limit?: number,
   page?: number,
@@ -227,7 +232,7 @@ export const getTwoConditionsSummaries = async (
     .limit(limit)
     .get()
     .then(async (res) => {
-      let resData: ResSummaryBook[] = await Promise.all(
+      const resData: ResSummaryBook[] = await Promise.all(
         res.docs.map(async (doc) => {
           const resCategory: ResultResponse<ResCategory> = await getCategory(
             doc.data().category,
@@ -268,6 +273,7 @@ export const getTwoConditionsSummaries = async (
   return response;
 };
 
+// done
 export const getOneConditionsDescPaginationSummaries = async (
   limit?: number,
   page?: number,
@@ -306,7 +312,7 @@ export const getOneConditionsDescPaginationSummaries = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryBook[] = await Promise.all(
+        const resData: ResSummaryBook[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resCategory: ResultResponse<ResCategory> = await getCategory(
               doc.data().category,
@@ -340,7 +346,7 @@ export const getOneConditionsDescPaginationSummaries = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryBook[] = await Promise.all(
+        const resData: ResSummaryBook[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resCategory: ResultResponse<ResCategory> = await getCategory(
               doc.data().category,
@@ -371,6 +377,7 @@ export const getOneConditionsDescPaginationSummaries = async (
   return next;
 };
 
+// done
 export const getTwoConditionsDescPaginationSummaries = async (
   limit?: number,
   page?: number,
@@ -410,7 +417,7 @@ export const getTwoConditionsDescPaginationSummaries = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryBook[] = await Promise.all(
+        const resData: ResSummaryBook[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resCategory: ResultResponse<ResCategory> = await getCategory(
               doc.data().category,
@@ -445,7 +452,7 @@ export const getTwoConditionsDescPaginationSummaries = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryBook[] = await Promise.all(
+        const resData: ResSummaryBook[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resCategory: ResultResponse<ResCategory> = await getCategory(
               doc.data().category,
@@ -474,11 +481,12 @@ export const getTwoConditionsDescPaginationSummaries = async (
   return next;
 };
 
+// done
 export const getOneConditionsSummaryCount = async (
   queryList?: string[],
 ): Promise<number> => {
   const [fieldPath, query] = queryList;
-  let docNum = await db
+  const docNum = await db
     .collection('summary')
     .where(fieldPath, '==', query)
     .get()
@@ -493,11 +501,12 @@ export const getOneConditionsSummaryCount = async (
   return docNum;
 };
 
+// done
 export const getTwoConditionsSummaryCount = async (
   queryList?: string[],
 ): Promise<number> => {
   const [fieldPath1, query1, fieldPath2, query2] = queryList;
-  let docNum = await db
+  const docNum = await db
     .collection('summary')
     .where(fieldPath1, '==', query1)
     .where(fieldPath2, '==', query2)
@@ -513,6 +522,7 @@ export const getTwoConditionsSummaryCount = async (
   return docNum;
 };
 
+// done
 export const getSummaryBook = (
   id: string,
 ): Promise<ResultResponse<ResSummaryBook>> => {
@@ -533,6 +543,7 @@ export const getSummaryBook = (
   return response;
 };
 
+// done
 export const getSummaryBookPopulate = (
   id: string,
 ): Promise<ResultResponse<ResSummaryBook>> => {

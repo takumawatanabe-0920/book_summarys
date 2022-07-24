@@ -3,6 +3,7 @@ type PaginationOptions = {
   perPage?: number;
   sort?: string;
   direction?: 'asc' | 'desc';
+  limit?: number;
 };
 
 function getPaginationQuery(query: any, options: PaginationOptions = {}) {
@@ -17,6 +18,9 @@ function getPaginationQuery(query: any, options: PaginationOptions = {}) {
     newQuery = newQuery.sort({
       [options.sort]: options.direction === 'desc' ? -1 : 1,
     });
+  }
+  if (options.limit) {
+    newQuery = newQuery.limit(options.limit);
   }
 
   return newQuery;

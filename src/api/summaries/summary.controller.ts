@@ -10,9 +10,12 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { SummaryDTO } from './summary.dto';
 import { SummaryApplication } from './summary.application';
+import { PaginationOptions } from '../../config/mongoOption';
+import dayjs from 'dayjs';
 
 @Controller('summaries')
 export class SummaryController {
@@ -22,9 +25,70 @@ export class SummaryController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<SummaryApplication['list']>> {
+  async list(
+    @Query('sortKey') sortKey,
+    @Query('order') order,
+    @Query('userId') userId,
+    @Query('categoryId') categoryId,
+    @Query('publishingStatus') publishingStatus,
+    @Query('startDate') startDate,
+    @Query('endDate') endDate,
+  ): Promise<ReturnType<SummaryApplication['list']>> {
     try {
-      return await this.summaryApplication.list();
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      if (categoryId) {
+        conditions['category'] = categoryId;
+      }
+      if (publishingStatus) {
+        conditions['publishingStatus'] = publishingStatus;
+      }
+      if (startDate || endDate) {
+        conditions['createdAt'] = {};
+        const startAt = dayjs(startDate);
+        if (startDate && startAt.isValid()) {
+          conditions['createdAt.$gte'] = startAt.startOf('date').toDate();
+        }
+        const endAt = dayjs(endDate);
+        if (endDate && endAt.isValid()) {
+          conditions['createdAt.$lte'] = endAt.endOf('date').toDate();
+        }
+      }
+
+      let option: PaginationOptions = {};
+      if (sortKey) {
+        option = {
+          sort: sortKey,
+          direction: order ? 'desc' : 'asc',
+        };
+      }
+      return await this.summaryApplication.list(conditions, option);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  @Get('count')
+  async count(
+    @Query('categoryId') categoryId: string,
+    @Query('userId') userId: string,
+    @Query('publishingStatus') publishingStatus: string,
+  ): Promise<ReturnType<SummaryApplication['count']>> {
+    try {
+      const conditions = {};
+      if (categoryId) {
+        conditions['category'] = categoryId;
+      }
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      if (publishingStatus) {
+        conditions['publishingStatus'] = publishingStatus;
+      }
+      return await this.summaryApplication.count(conditions);
     } catch (error) {
       console.error(error);
       throw error;

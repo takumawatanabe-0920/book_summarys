@@ -1,6 +1,13 @@
-import { IsNumber, IsString, IsMongoId } from 'class-validator';
-
+import {
+  IsString,
+  IsMongoId,
+  IsEnum,
+  IsNotEmpty,
+  IsArray,
+} from 'class-validator';
+import { publishingStatuses } from './summary.schema';
 export class SummaryDTO {
+  @IsNotEmpty()
   @IsString()
   title: string;
 
@@ -16,10 +23,7 @@ export class SummaryDTO {
   @IsString()
   thumbnail: string;
 
-  @IsNumber()
-  favoriteCount: number;
-
-  @IsString()
+  @IsEnum(publishingStatuses)
   publishingStatus: string;
 
   @IsString()
@@ -35,5 +39,6 @@ export class SummaryDTO {
   user: string;
 
   @IsMongoId()
-  favorite: string;
+  @IsArray()
+  favorites: string[];
 }
