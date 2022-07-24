@@ -1,4 +1,3 @@
-import React from 'react';
 const db = firebase.firestore();
 import {
   RegisterUser,
@@ -10,7 +9,6 @@ import {
 } from '../../types';
 import { firebase } from '../config';
 import { responseUploadImage } from './';
-import { getImage } from '../../firebase/functions/defalt';
 
 export const getCurrentUser = (): CurrentUser => {
   const currentUserData = localStorage.getItem('user');
@@ -126,7 +124,7 @@ export const getIdUser = (id: string): Promise<ResultResponse<ResUser>> => {
     .get()
     .then(async (doc) => {
       if (doc.exists) {
-        let photoURL: string = '';
+        let photoURL = '';
         if (doc.data().photoURL) {
           photoURL = await responseUploadImage(doc.data().photoURL);
         }
@@ -147,9 +145,9 @@ const getUidUser = (uid: string): Promise<ResultResponse<ResUser[]>> => {
     .where('login_id', '==', uid)
     .get()
     .then(async (res) => {
-      let resData: ResUser[] = await Promise.all(
+      const resData: ResUser[] = await Promise.all(
         res.docs.map(async (doc) => {
-          let photoURL: string = '';
+          let photoURL = '';
           if (doc.data().photoURL) {
             photoURL = await responseUploadImage(doc.data().photoURL);
           }
@@ -173,7 +171,7 @@ const checkAlreadyEmail = (
     .where('email', '==', email)
     .get()
     .then((res) => {
-      let resData: ResUser[] = res.docs.map((doc) => {
+      const resData: ResUser[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -213,7 +211,7 @@ const setUser = async (
   firebase.auth().onAuthStateChanged((login) => {
     if (login) {
       const { uid, email } = login;
-      let { id, displayName, photoURL, update_date, create_date } = user;
+      const { id, displayName, photoURL, update_date, create_date } = user;
 
       const currentUser: CurrentUser = {
         id,

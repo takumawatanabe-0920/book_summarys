@@ -85,7 +85,7 @@ export const getMyCommentCount = (userId?: string): Promise<number> => {
   return snapShot;
 };
 
-// TODO pagenation
+// done
 export const getMyComments = async (
   limit?: number,
   page?: number,
