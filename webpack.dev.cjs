@@ -1,13 +1,12 @@
 const path = require('path');
-
 module.exports = {
   mode: 'development',
-  entry: [path.resolve(__dirname, './src/pages/index.tsx')],
+  entry: path.join(__dirname, '/src/pages/index.tsx'),
   output: {
-    // 出力されるファイル名
-    filename: 'bundle.js',
+    publicPath: '/',
     // 出力先ディレクトリ
-    path: path.resolve(__dirname, 'dist/public'),
+    path: path.join(__dirname, 'dist/public'),
+    filename: 'main.js',
   },
   module: {
     rules: [
@@ -58,9 +57,18 @@ module.exports = {
   //plugins: [new BundleAnalyzerPlugin()],
   devServer: {
     historyApiFallback: true,
-    contentBase: './dist',
+    contentBase: path.join(__dirname, '/public'),
     host: '0.0.0.0',
     port: 3016,
+    // hot: true,
+    // inline: true,
+    // stats: 'errors-only',
+    // proxy: {
+    //   '**': {
+    //     target: `http://0.0.0.0:${config.get('port')}'}`,
+    //     changeOrigin: true,
+    //   },
+    // },
   },
   devtool: 'source-map',
 };
