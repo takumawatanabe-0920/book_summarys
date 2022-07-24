@@ -11,6 +11,7 @@ import {
 } from '../../types';
 import { getSummaryBook } from './';
 
+// done
 export const getFavorite = (
   userId?: string,
   summaryId?: string,
@@ -23,7 +24,7 @@ export const getFavorite = (
     .where('summary_id', '==', summaryId)
     .get()
     .then((res) => {
-      let resData: ResFavorite[] = res.docs.map((doc) => {
+      const resData: ResFavorite[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -34,12 +35,13 @@ export const getFavorite = (
   return response;
 };
 
+// done
 export const getFavorites = (): Promise<ResultResponseList<ResFavorite>> => {
   const response = db
     .collection('favorite')
     .get()
     .then((res) => {
-      let resData: ResFavorite[] = res.docs.map((doc) => {
+      const resData: ResFavorite[] = res.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       return { status: 200, data: resData };
@@ -51,6 +53,7 @@ export const getFavorites = (): Promise<ResultResponseList<ResFavorite>> => {
   return response;
 };
 
+// done
 export const getMyFavorites = async (
   limit?: number,
   page?: number,
@@ -84,7 +87,7 @@ export const getMyFavorites = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resdata = await Promise.all(
+        const resdata = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
@@ -110,7 +113,7 @@ export const getMyFavorites = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resdata = await Promise.all(
+        const resdata = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
@@ -132,6 +135,7 @@ export const getMyFavorites = async (
   return next;
 };
 
+// done
 export const getDonefavorite = (
   id: string,
 ): Promise<ResultResponse<ResFavorite>> => {
@@ -152,8 +156,9 @@ export const getDonefavorite = (
   return response;
 };
 
+// done
 export const getfavoriteNum = async (queryList?: string[]): Promise<number> => {
-  let count: number = 0;
+  let count = 0;
   const [fieldPath, query] = queryList;
   await db
     .collection('favorite')
@@ -167,6 +172,7 @@ export const getfavoriteNum = async (queryList?: string[]): Promise<number> => {
   return count ? count : 0;
 };
 
+// done
 export const createFavorite = async (
   values: Favorite,
 ): Promise<ResultResponse<ResFavorite>> => {
@@ -191,7 +197,7 @@ export const createFavorite = async (
 
   return response;
 };
-
+// done
 export const deleteFavorite = async (
   favoriteId: string,
 ): Promise<ResultResponse<ResFavorite>> => {

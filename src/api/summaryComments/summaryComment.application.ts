@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { SummaryCommentRepository } from './summaryComment.repository';
 import { SummaryCommentDTO } from './summaryComment.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Injectable()
 export class SummaryCommentApplication {
   constructor(
@@ -9,9 +9,12 @@ export class SummaryCommentApplication {
     private summaryCommentRepository: SummaryCommentRepository,
   ) {}
 
-  async list(): Promise<ReturnType<SummaryCommentRepository['list']>> {
+  async list(
+    conditions: Partial<SummaryCommentDTO> = {},
+    option: PaginationOptions,
+  ): Promise<ReturnType<SummaryCommentRepository['list']>> {
     try {
-      return await this.summaryCommentRepository.list();
+      return await this.summaryCommentRepository.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;

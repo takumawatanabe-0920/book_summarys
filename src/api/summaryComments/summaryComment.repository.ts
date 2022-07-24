@@ -6,7 +6,8 @@ import {
   SummaryCommentDocument,
 } from './summaryComment.schema';
 import { SummaryCommentDTO } from './summaryComment.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
+import { getPaginationQuery } from '../../config/lib/repositories';
 @Injectable()
 export class SummaryCommentRepository {
   constructor(
@@ -14,12 +15,19 @@ export class SummaryCommentRepository {
     private readonly summaryCommentModel: Model<SummaryCommentDocument>,
   ) {}
 
-  async list(): Promise<SummaryComment[]> {
-    return this.summaryCommentModel.find().lean();
+  async list(
+    conditions: Partial<SummaryCommentDTO> = {},
+    option: PaginationOptions,
+  ): Promise<SummaryComment[]> {
+    const query = getPaginationQuery(
+      this.summaryCommentModel.find({ ...conditions }).populate('user'),
+      option,
+    );
+    return await query.exec();
   }
 
   async getById(id: string): Promise<SummaryComment> {
-    return this.summaryCommentModel.findById(id).lean();
+    return (await this.summaryCommentModel.findById(id)).populate('summary');
   }
 
   async create(summaryComment: SummaryCommentDTO): Promise<SummaryComment> {

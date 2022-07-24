@@ -12,6 +12,7 @@ import { firebase } from '../config';
 import { getSummaryBook, getIdUser } from './';
 const db = firebase.firestore();
 
+// done
 export const createSummaryComment = (
   values: SummaryComment,
 ): Promise<ResultResponse<ResSummaryComment>> => {
@@ -34,6 +35,7 @@ export const createSummaryComment = (
   return response;
 };
 
+// done
 export const getSummaryComments = (
   summaryId?: string,
 ): Promise<ResultResponseList<ResSummaryComment>> => {
@@ -43,7 +45,7 @@ export const getSummaryComments = (
     .orderBy('update_date')
     .get()
     .then(async (res) => {
-      let resData: ResSummaryComment[] = await Promise.all(
+      const resData: ResSummaryComment[] = await Promise.all(
         res.docs.map(async (doc) => {
           const resUser: ResultResponse<ResUser> = await getIdUser(
             doc.data().user_id,
@@ -65,6 +67,7 @@ export const getSummaryComments = (
   return response;
 };
 
+// done
 export const getMyCommentCount = (userId?: string): Promise<number> => {
   const snapShot = db
     .collection('summaryComment')
@@ -82,6 +85,7 @@ export const getMyCommentCount = (userId?: string): Promise<number> => {
   return snapShot;
 };
 
+// TODO pagenation
 export const getMyComments = async (
   limit?: number,
   page?: number,
@@ -115,7 +119,7 @@ export const getMyComments = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryComment[] = await Promise.all(
+        const resData: ResSummaryComment[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
@@ -141,7 +145,7 @@ export const getMyComments = async (
       .limit(limit)
       .get()
       .then(async (res) => {
-        let resData: ResSummaryComment[] = await Promise.all(
+        const resData: ResSummaryComment[] = await Promise.all(
           res.docs.map(async (doc) => {
             const resSummary: ResultResponse<ResSummaryBook> =
               await getSummaryBook(doc.data().summary_id);
@@ -163,6 +167,7 @@ export const getMyComments = async (
   return next;
 };
 
+// done
 export const getIdComment = (
   id?: string,
 ): Promise<ResultResponse<ResSummaryComment>> => {

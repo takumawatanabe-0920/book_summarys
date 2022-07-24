@@ -10,10 +10,11 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { SummaryCommentDTO } from './summaryComment.dto';
 import { SummaryCommentApplication } from './summaryComment.application';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Controller('summaryComments')
 export class SummaryCommentController {
   constructor(
@@ -22,9 +23,28 @@ export class SummaryCommentController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<SummaryCommentApplication['list']>> {
+  async list(
+    @Query('sortKey') sortKey,
+    @Query('order') order,
+    @Query('summaryId') summaryId,
+    @Query('userId') userId,
+  ): Promise<ReturnType<SummaryCommentApplication['list']>> {
     try {
-      return await this.summaryCommentApplication.list();
+      const conditions = {};
+      if (summaryId) {
+        conditions['summary'] = summaryId;
+      }
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      let option: PaginationOptions = {};
+      if (sortKey) {
+        option = {
+          sort: sortKey,
+          direction: order ? 'desc' : 'asc',
+        };
+      }
+      return await this.summaryCommentApplication.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;
