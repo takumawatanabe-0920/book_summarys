@@ -10,6 +10,7 @@ import { firebase } from '../config';
 // import dayjs from "dayjs"
 const db = firebase.firestore();
 
+// done
 export const createNotification = (values: Notification) => {
   const { target_id, type, user_id, target_user_id } = values;
   if (!target_id || !type || !user_id || !target_user_id) {
@@ -35,6 +36,7 @@ export const createNotification = (values: Notification) => {
   return response;
 };
 
+// done
 export const getMyNotifications = (
   target_user_id: string,
   type: string,
@@ -81,6 +83,7 @@ export const getMyNotifications = (
   return response;
 };
 
+// done
 export const getMyNotReadNotificationsCount = (
   target_user_id: string,
 ): Promise<number> => {

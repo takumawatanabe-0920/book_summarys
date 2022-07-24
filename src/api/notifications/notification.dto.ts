@@ -1,5 +1,8 @@
 import { IsBoolean, IsMongoId, IsNotEmpty, IsEnum } from 'class-validator';
-import { notificationTypes } from './notification.schema';
+import {
+  notificationTypes,
+  notificationReferences,
+} from './notification.schema';
 export class NotificationDTO {
   @IsNotEmpty()
   @IsMongoId()
@@ -14,9 +17,13 @@ export class NotificationDTO {
 
   @IsNotEmpty()
   @IsEnum(notificationTypes)
-  reference: typeof notificationTypes;
+  reference: typeof notificationReferences;
 
   @IsNotEmpty()
   @IsMongoId()
   item: string;
+
+  @IsNotEmpty()
+  @IsEnum(notificationTypes)
+  type: typeof notificationTypes;
 }

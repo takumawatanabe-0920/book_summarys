@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { NotificationRepository } from './notification.repository';
 import { NotificationDTO } from './notification.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Injectable()
 export class NotificationApplication {
   constructor(
@@ -9,9 +9,23 @@ export class NotificationApplication {
     private notificationRepository: NotificationRepository,
   ) {}
 
-  async list(): Promise<ReturnType<NotificationRepository['list']>> {
+  async list(
+    conditions: Partial<NotificationDTO> = {},
+    option: PaginationOptions,
+  ): Promise<ReturnType<NotificationRepository['list']>> {
     try {
-      return await this.notificationRepository.list();
+      return await this.notificationRepository.list(conditions, option);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async count(
+    conditions: Partial<NotificationDTO> = {},
+  ): Promise<ReturnType<NotificationRepository['count']>> {
+    try {
+      return await this.notificationRepository.count(conditions);
     } catch (error) {
       console.error(error);
       throw error;

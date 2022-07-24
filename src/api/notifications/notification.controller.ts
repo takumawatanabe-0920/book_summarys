@@ -10,10 +10,11 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { NotificationDTO } from './notification.dto';
 import { NotificationApplication } from './notification.application';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Controller('notifications')
 export class NotificationController {
   constructor(
@@ -22,9 +23,64 @@ export class NotificationController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<NotificationApplication['list']>> {
+  async list(
+    @Query('sortKey') sortKey,
+    @Query('order') order,
+    @Query('userId') userId,
+    @Query('targetUserId') targetUserId,
+    @Query('type') type,
+    @Query('isRead') isRead,
+  ): Promise<ReturnType<NotificationApplication['list']>> {
     try {
-      return await this.notificationApplication.list();
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      if (targetUserId) {
+        conditions['targetUser'] = targetUserId;
+      }
+      if (isRead) {
+        conditions['isRead'] = isRead;
+      }
+      if (type) {
+        conditions['type'] = type;
+      }
+      let option: PaginationOptions = {};
+      if (sortKey) {
+        option = {
+          sort: sortKey,
+          direction: order ? 'desc' : 'asc',
+        };
+      }
+      return await this.notificationApplication.list(conditions, option);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  @Get('count')
+  async count(
+    @Query('userId') userId,
+    @Query('targetUserId') targetUserId,
+    @Query('type') type,
+    @Query('isRead') isRead,
+  ): Promise<ReturnType<NotificationApplication['count']>> {
+    try {
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      if (targetUserId) {
+        conditions['targetUser'] = targetUserId;
+      }
+      if (isRead) {
+        conditions['isRead'] = isRead;
+      }
+      if (type) {
+        conditions['type'] = type;
+      }
+      return await this.notificationApplication.count(conditions);
     } catch (error) {
       console.error(error);
       throw error;
@@ -55,10 +111,10 @@ export class NotificationController {
     @Body(new ValidationPipe()) body: NotificationDTO,
   ): Promise<ReturnType<NotificationApplication['create']>> {
     try {
-      const { user, targetUser, reference, item } = body;
-      if (!user || !targetUser || !reference || !item) {
+      const { user, targetUser, reference, item, type } = body;
+      if (!user || !targetUser || !reference || !item || !type) {
         throw new BadRequestException(
-          'user, targetUser, reference, item is required',
+          'user, targetUser, reference,type, item is required',
         );
       }
       return await this.notificationApplication.create(body);
