@@ -8,10 +8,6 @@ import {
 import { publishingStatuses } from './summary.schema';
 export class SummaryDTO {
   @IsNotEmpty()
-  @IsMongoId()
-  _id: string;
-
-  @IsNotEmpty()
   @IsString()
   title: string;
 
