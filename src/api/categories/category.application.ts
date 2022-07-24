@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { CategoryDTO } from './category.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
 @Injectable()
 export class CategoryApplication {
   constructor(
@@ -9,9 +9,11 @@ export class CategoryApplication {
     private categoryRepository: CategoryRepository,
   ) {}
 
-  async list(): Promise<ReturnType<CategoryRepository['list']>> {
+  async list(
+    option: PaginationOptions,
+  ): Promise<ReturnType<CategoryRepository['list']>> {
     try {
-      return await this.categoryRepository.list();
+      return await this.categoryRepository.list(option);
     } catch (error) {
       console.error(error);
       throw error;

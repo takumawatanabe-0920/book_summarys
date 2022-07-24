@@ -3,7 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Category, CategoryDocument } from './category.schema';
 import { CategoryDTO } from './category.dto';
-
+import { PaginationOptions } from '../../config/mongoOption';
+import { getPaginationQuery } from '../../config/lib/repositories';
 @Injectable()
 export class CategoryRepository {
   constructor(
@@ -11,8 +12,9 @@ export class CategoryRepository {
     private readonly categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async list(): Promise<Category[]> {
-    return this.categoryModel.find().lean();
+  async list(option: PaginationOptions): Promise<Category[]> {
+    const query = getPaginationQuery(this.categoryModel.find(), option);
+    return await query.exec();
   }
 
   async getById(id: string): Promise<Category> {
