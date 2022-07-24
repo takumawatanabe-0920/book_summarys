@@ -3,6 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { SubCategory, SubCategoryDocument } from './subCategory.schema';
 import { SubCategoryDTO } from './subCategory.dto';
+import { PaginationOptions } from '../../config/mongoOption';
+import { getPaginationQuery } from '../../config/lib/repositories';
 
 @Injectable()
 export class SubCategoryRepository {
@@ -11,8 +13,9 @@ export class SubCategoryRepository {
     private readonly subCategoryModel: Model<SubCategoryDocument>,
   ) {}
 
-  async list(): Promise<SubCategory[]> {
-    return this.subCategoryModel.find().lean();
+  async list(option: PaginationOptions): Promise<SubCategory[]> {
+    const query = getPaginationQuery(this.subCategoryModel.find(), option);
+    return await query.exec();
   }
 
   async getById(id: string): Promise<SubCategory> {

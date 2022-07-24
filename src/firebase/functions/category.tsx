@@ -3,6 +3,7 @@ import { responseUploadImage } from './';
 import { firebase } from '../config';
 const db = firebase.firestore();
 
+// done
 export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
   const response = db
     .collection('category')
@@ -21,6 +22,7 @@ export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
   return response;
 };
 
+// done but image schdema
 export const getCategoriesPopulateImage = (): Promise<
   ResultResponseList<ResCategory>
 > => {
@@ -46,6 +48,7 @@ export const getCategoriesPopulateImage = (): Promise<
   return response;
 };
 
+// done
 export const getCategory = (
   id: string,
 ): Promise<ResultResponse<ResCategory>> => {
@@ -66,6 +69,7 @@ export const getCategory = (
   return response;
 };
 
+// done
 export const getSubCategories = (): Promise<
   ResultResponseList<ResCategory>
 > => {
@@ -85,6 +89,7 @@ export const getSubCategories = (): Promise<
   return response;
 };
 
+// done
 export const getSubCategory = (
   id: string,
 ): Promise<ResultResponse<ResCategory>> => {
@@ -105,6 +110,8 @@ export const getSubCategory = (
   return response;
 };
 
+// done
+// frontend send query to backend
 export const categoryLinkingSubCategory = async (
   categoryId?: string,
 ): Promise<ResultResponseList<ResCategory>> => {
