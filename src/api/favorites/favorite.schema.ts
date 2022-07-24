@@ -7,10 +7,14 @@ export type FavoriteDocument = Favorite & Document;
 
 @Schema({ timestamps: true })
 export class Favorite {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Summary' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Summary',
+    required: true,
+  })
   summary: Summary;
 }
 

@@ -48,8 +48,8 @@ const SummaryCommentForm: FC<Props> = (props) => {
   };
 
   const validationCheck = async (): Promise<boolean> => {
-    let isError: boolean = false;
-    let errorText: SummaryComment = {};
+    let isError = false;
+    const errorText: SummaryComment = {};
     const { comment } = comments;
     if (!comment || !comment.match(/\S/g)) {
       isError = true;
@@ -82,6 +82,7 @@ const SummaryCommentForm: FC<Props> = (props) => {
           user_id,
           target_user_id: summary_book.user_id.id,
           user_name: currentUser.displayName ? currentUser.displayName : '',
+          // item
           target_id: resCommnet.data.id,
           type: 'summary_comment',
         });

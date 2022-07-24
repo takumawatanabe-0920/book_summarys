@@ -5,10 +5,10 @@ export type SubCategoryDocument = SubCategory & Document;
 
 @Schema({ timestamps: true })
 export class SubCategory {
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   name: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   slug: string;
 
   @Prop({ type: Number, default: 0 })
@@ -17,7 +17,11 @@ export class SubCategory {
   @Prop({ type: String })
   image: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  })
   category: Category;
 }
 

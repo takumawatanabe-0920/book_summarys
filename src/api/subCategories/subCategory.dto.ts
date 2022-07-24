@@ -1,9 +1,11 @@
-import { IsMongoId, IsString, IsNumber } from 'class-validator';
+import { IsMongoId, IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class SubCategoryDTO {
+  @IsNotEmpty()
   @IsString()
   name: string;
 
+  @IsNotEmpty()
   @IsString()
   slug: string;
 
@@ -13,6 +15,7 @@ export class SubCategoryDTO {
   @IsString()
   image: string;
 
+  @IsNotEmpty()
   @IsMongoId()
   category: string;
 }

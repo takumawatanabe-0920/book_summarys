@@ -6,13 +6,17 @@ export type SummaryCommentDocument = SummaryComment & Document;
 
 @Schema({ timestamps: true })
 export class SummaryComment {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   user: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Summary' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Summary',
+    required: true,
+  })
   summary: Summary;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   comment: string;
 }
 

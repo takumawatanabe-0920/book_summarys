@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Notification,
   ResultResponse,
@@ -11,6 +10,7 @@ import { firebase } from '../config';
 // import dayjs from "dayjs"
 const db = firebase.firestore();
 
+// done
 export const createNotification = (values: Notification) => {
   const { target_id, type, user_id, target_user_id } = values;
   if (!target_id || !type || !user_id || !target_user_id) {
@@ -36,6 +36,7 @@ export const createNotification = (values: Notification) => {
   return response;
 };
 
+// done
 export const getMyNotifications = (
   target_user_id: string,
   type: string,
@@ -48,7 +49,7 @@ export const getMyNotifications = (
     .get()
     .then(async (res) => {
       if (res.docs.length <= 0) return [];
-      let resData = await Promise.all(
+      const resData = await Promise.all(
         res.docs.map(async (doc) => {
           const resSummary: ResultResponse<ResSummaryBook> =
             await getSummaryBook(doc.data().target_id);
@@ -82,6 +83,7 @@ export const getMyNotifications = (
   return response;
 };
 
+// done
 export const getMyNotReadNotificationsCount = (
   target_user_id: string,
 ): Promise<number> => {
@@ -101,12 +103,13 @@ export const getMyNotReadNotificationsCount = (
   return response;
 };
 
+// done
 export const updateReadNotifications = async (
   target_user_id: string,
   type: string,
 ): Promise<any> => {
   const batch = await db.batch();
-  let resCount = await db
+  const resCount = await db
     .collection('notification')
     .where('target_user_id', '==', target_user_id)
     .where('type', '==', type)
@@ -117,7 +120,9 @@ export const updateReadNotifications = async (
       await Promise.all(
         res.docs.map(async (doc: any) => {
           count++;
-          let notificationRef = await db.collection('notification').doc(doc.id);
+          const notificationRef = await db
+            .collection('notification')
+            .doc(doc.id);
           batch.update(notificationRef, { is_read: true });
         }),
       );

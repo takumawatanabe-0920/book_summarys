@@ -75,6 +75,10 @@ export class SummaryCommentController {
     @Body(new ValidationPipe()) body: SummaryCommentDTO,
   ): Promise<ReturnType<SummaryCommentApplication['create']>> {
     try {
+      const { summary, user, comment } = body;
+      if (!summary || !user || !comment) {
+        throw new BadRequestException('summary, user and comment are required');
+      }
       return await this.summaryCommentApplication.create(body);
     } catch (error) {
       console.error(error);
