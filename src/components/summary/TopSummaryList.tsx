@@ -1,6 +1,6 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getRankingSummaries } from '../../firebase/functions';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import { SummaryItem } from '../../components';
 import { ResultResponseList, ResSummaryBook } from '../../types';
 
@@ -49,7 +49,7 @@ const TopSummaryList = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
+        const resSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
           await getRankingSummaries(6, 'public', 'month');
         if (
           resSummariesRankingDataList &&
@@ -66,7 +66,8 @@ const TopSummaryList = () => {
   return (
     <>
       {loading && (
-        <Slider {...settings}>
+        // <Slider {...settings}>
+        <>
           {rankingThisMonthSummaries.map((data: ResSummaryBook) => {
             return (
               <SummaryItem
@@ -77,7 +78,8 @@ const TopSummaryList = () => {
               />
             );
           })}
-        </Slider>
+        </>
+        // </Slider>
       )}
     </>
   );
