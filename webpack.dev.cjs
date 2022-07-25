@@ -57,9 +57,7 @@ module.exports = {
   //plugins: [new BundleAnalyzerPlugin()],
   devServer: {
     historyApiFallback: true,
-    contentBase: path.join(__dirname, '/public'),
     host: '0.0.0.0',
-    port: 3016,
     // hot: true,
     // inline: true,
     // stats: 'errors-only',
@@ -69,6 +67,10 @@ module.exports = {
     //     changeOrigin: true,
     //   },
     // },
+    static: {
+      directory: path.join(__dirname, '/public'),
+    },
+    port: 3016,
   },
   devtool: 'source-map',
 };
