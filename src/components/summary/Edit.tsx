@@ -7,12 +7,12 @@ import { ResultResponse, ResSummaryBook } from '../../types';
 const SummaryEditPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [summarybook, setSummaryBook] = useState<ResSummaryBook>({});
-  const url: { id: string } = useParams();
+  const { id } = useParams<'id'>();
 
   useEffect(() => {
     const loadData = async () => {
       const resSummary: ResultResponse<ResSummaryBook> = await getSummaryBook(
-        url.id,
+        id,
       );
       if (resSummary && resSummary.status === 200) {
         setSummaryBook(resSummary.data);

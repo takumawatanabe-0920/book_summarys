@@ -7,14 +7,14 @@ import { GlobalContext } from './../../../assets/hooks/context/Global';
 const MypageEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { history } = useReactRouter();
-  const url: { id: string } = useParams();
+  const { id } = useParams<'id'>();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      if (url.id !== (currentUser && currentUser.id)) {
-        history.push(`/mypage/${url.id}/home`);
+      if (id !== (currentUser && currentUser.id)) {
+        history.push(`/mypage/${id}/home`);
       }
     };
 

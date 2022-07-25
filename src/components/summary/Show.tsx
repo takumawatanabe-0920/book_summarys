@@ -32,7 +32,7 @@ const SummaryShowPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
-  const slug: { id: string } = useParams();
+  const { id } = useParams<'id'>();
 
   const publicSummary = (_type: string, user_id: string) => {
     if (_type === 'public' || (currentUser && currentUser.id === user_id)) {
@@ -42,7 +42,7 @@ const SummaryShowPage = () => {
           <SummaryComment<ResSummaryComment> dataList={summaryCommentList} />
           {currentUser && currentUser.id ? (
             <SummaryCommentForm
-              slug={slug}
+              slug={{ id }}
               user_id={currentUser.id}
               summary_book={summarybook}
             />
@@ -67,7 +67,7 @@ const SummaryShowPage = () => {
             <SummaryComment<ResSummaryComment> dataList={summaryCommentList} />
             {currentUser && currentUser.id ? (
               <SummaryCommentForm
-                slug={slug}
+                slug={{ id }}
                 user_id={currentUser.id}
                 summary_book={summarybook}
               />
@@ -85,13 +85,13 @@ const SummaryShowPage = () => {
       window.scrollTo(0, 0);
       try {
         const resSummaryCommentList: ResultResponseList<ResSummaryComment> =
-          await getSummaryComments(slug.id);
+          await getSummaryComments(id);
         if (resSummaryCommentList && resSummaryCommentList.status === 200) {
           setSummaryCommentList(resSummaryCommentList.data);
         }
 
         const resSummaryBook: ResultResponse<ResSummaryBook> =
-          await getSummaryBookPopulate(slug.id);
+          await getSummaryBookPopulate(id);
         if (resSummaryBook && resSummaryBook.status === 200) {
           setSummaryBook(resSummaryBook.data);
         }
@@ -122,7 +122,7 @@ const SummaryShowPage = () => {
     };
 
     loadData();
-  }, [slug]);
+  }, [id]);
 
   return (
     <>

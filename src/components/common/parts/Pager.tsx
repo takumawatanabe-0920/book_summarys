@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { readQuery } from '../../../firebase/functions';
 
@@ -13,28 +13,28 @@ const Pager: FC<props> = (props) => {
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
 
   const { fetchPager, dataNum, dataNumPerPage } = props;
-  const history = useHistory();
-  let path = useLocation().pathname;
+  const navigate = useNavigate();
+  const path = useLocation().pathname;
   const location = useLocation();
 
   const updateData = (num?: number) => {
     setPage(num);
-    let searchParams: { pages?: number } = {};
+    const searchParams: { pages?: number } = {};
     searchParams.pages = num;
-    let searchQuery = queryString.stringify(searchParams);
+    const searchQuery = queryString.stringify(searchParams);
     const queryPath = location.search.replace(/[?&]+\pages=\d+/gi, '');
     if (location && !queryPath.match(/[?]/)) {
-      history.push(`${`${path}`}?${`${queryPath}&`}${searchQuery}`);
+      navigate(`${`${path}`}?${`${queryPath}&`}${searchQuery}`);
     } else if (queryPath.match(/[?]/)) {
-      history.push(`${`${path}`}${`${queryPath}&`}${searchQuery}`);
+      navigate(`${`${path}`}${`${queryPath}&`}${searchQuery}`);
     } else {
-      history.push(`${`${path}?`}${searchQuery}`);
+      navigate(`${`${path}?`}${searchQuery}`);
     }
     fetchPager(num);
   };
 
   const prevNum = () => {
-    let prevNum = page - 1;
+    const prevNum = page - 1;
     if (!(prevNum > 0)) {
       return '';
     } else {
@@ -47,7 +47,7 @@ const Pager: FC<props> = (props) => {
   };
 
   const nextNum = () => {
-    let nextNum = page + 1;
+    const nextNum = page + 1;
     if (nextNum > Math.ceil(dataNum / dataNumPerPage)) {
       return '';
     } else {

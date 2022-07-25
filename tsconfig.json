@@ -7,7 +7,7 @@
     "checkJs": true, // js簡易型チェック
     "sourceMap": true,
     "inlineSources": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     // "noImplicitAny": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,

@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { GlobalProvider } from '../assets/hooks/context/Global';
 import '../assets/stylesheets/main.scss';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import {
   PrivateRoute,
   GuestRoute,
@@ -33,8 +34,8 @@ const NotificationPage = lazy(() => import('../components/notifications'));
 const SummaryPage = lazy(() => import('../components/summary'));
 
 // コンポーネント読み込み
-
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <div>
     <GlobalProvider>
       <Router>
@@ -44,18 +45,24 @@ ReactDOM.render(
           <div className="main-contents">
             <div className="lg-container">
               <Alert />
-              <Switch>
-                <Route exact path="/">
-                  <Suspense fallback={<div />}>
-                    <HomePage />
-                  </Suspense>
-                </Route>
-                <PrivateRoute exact path="/summary/create">
-                  <Suspense fallback={<div />}>
-                    <SummaryCreatePage />
-                  </Suspense>
-                </PrivateRoute>
-                <PrivateRoute exact path="/summary/:id/edit">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <Suspense fallback={<div />}>
+                      <HomePage />
+                    </Suspense>
+                  }
+                />
+                <PrivateRoute
+                  path="/summary/create"
+                  element={
+                    <Suspense fallback={<div />}>
+                      <SummaryCreatePage />
+                    </Suspense>
+                  }
+                ></PrivateRoute>
+                {/* <PrivateRoute exact path="/summary/:id/edit">
                   <Suspense fallback={<div />}>
                     <SummaryEditPage />
                   </Suspense>
@@ -114,8 +121,8 @@ ReactDOM.render(
                   <Suspense fallback={<div />}>
                     <SignInPage />
                   </Suspense>
-                </GuestRoute>
-              </Switch>
+                </GuestRoute> */}
+              </Routes>
             </div>
           </div>
         </div>
@@ -125,5 +132,4 @@ ReactDOM.render(
       </Router>
     </GlobalProvider>
   </div>,
-  document.getElementById('root'),
 );
