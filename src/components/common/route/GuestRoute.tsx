@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Route, Navigate, RouteProps } from 'react-router-dom';
+import { Route, Navigate, Outlet } from 'react-router-dom';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
 
-const GuestRoute = (props: RouteProps) => {
+const GuestRoute = () => {
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [isAuth, setIsAuth] = useState(!!currentUser);
 
-  return isAuth ? <Navigate to="/" replace /> : <Route {...props} />;
+  return isAuth ? <Navigate to="/" replace /> : <Outlet />;
 };
 
 export default GuestRoute;
