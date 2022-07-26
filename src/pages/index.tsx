@@ -1,5 +1,4 @@
 import React, { Suspense, lazy } from 'react';
-import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { GlobalProvider } from '../assets/hooks/context/Global';
 import '../assets/stylesheets/main.scss';
