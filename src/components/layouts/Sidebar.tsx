@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ResSummaryBook, ResultResponseList } from '../../types';
 import clsx from 'clsx';
 import { getRankingSummaries } from '../../firebase/functions';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [allRankingSummaries, setAllRankingSummaries] = useState<
@@ -15,20 +15,20 @@ const Sidebar = () => {
   const [rankingThisMonthSummaries, setRankingThisMonthSummaries] = useState<
     ResSummaryBook[]
   >([]);
-  const { history } = useReactRouter();
+  const history = useNavigate();
 
   const changeUrl = (_data: any) => {
-    history.push(`/summary/${_data.id}`);
+    history(`/summary/${_data.id}`);
   };
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
+        const resSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
           await getRankingSummaries(3, 'public', 'all');
-        let resWeekSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
+        const resWeekSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
           await getRankingSummaries(3, 'public', 'week');
-        let resMonthSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
+        const resMonthSummariesRankingDataList: ResultResponseList<ResSummaryBook> =
           await getRankingSummaries(3, 'public', 'month');
         if (
           resSummariesRankingDataList &&

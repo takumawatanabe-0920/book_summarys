@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar, RegisterForm } from '../..';
 import { GlobalContext } from './../../../assets/hooks/context/Global';
 
 const MypageEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { history } = useReactRouter();
+  const history = useNavigate();
   const { id } = useParams<'id'>();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
@@ -14,7 +14,7 @@ const MypageEdit = () => {
     const loadData = async () => {
       setLoading(true);
       if (id !== (currentUser && currentUser.id)) {
-        history.push(`/mypage/${id}/home`);
+        history(`/mypage/${id}/home`);
       }
     };
 

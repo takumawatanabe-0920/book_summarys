@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import clsx from 'clsx';
 // import Hammer from 'react-hammerjs';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import { ResSummaryBook, ResultResponse } from '../../types';
 import { getImage } from '../../firebase/functions';
@@ -38,7 +38,7 @@ const MediaCard: FC<Props> = (props) => {
   } = data;
   //const { isHiddenContent } = setting
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
-  const { history } = useReactRouter();
+  const history = useNavigate();
 
   const formatTag = () => {
     const now = new Date();
@@ -52,7 +52,7 @@ const MediaCard: FC<Props> = (props) => {
   };
 
   const onTapAndMove = () => {
-    history.push(`/summary/${id}`);
+    history(`/summary/${id}`);
   };
 
   useEffect(() => {

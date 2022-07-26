@@ -53,14 +53,14 @@ root.render(
                     </Suspense>
                   }
                 />
-                <PrivateRoute
+                {/* <PrivateRoute
                   path="/summary/create"
                   element={
                     <Suspense fallback={<div />}>
                       <SummaryCreatePage />
                     </Suspense>
                   }
-                ></PrivateRoute>
+                ></PrivateRoute> */}
                 {/* <PrivateRoute exact path="/summary/:id/edit">
                   <Suspense fallback={<div />}>
                     <SummaryEditPage />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 import { ResUser, ResultResponse, Login } from '../../../../types';
@@ -15,7 +15,7 @@ type Props = {
 const MypageSidebar: FC<Props> = (props) => {
   const { id } = useParams<'id'>();
   const { user } = props;
-  const { history } = useReactRouter();
+  const history = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [isMyAccount, setIsMyAccount] = useState<boolean>(() => {
@@ -31,7 +31,7 @@ const MypageSidebar: FC<Props> = (props) => {
       if (resLogout && resLogout.status === 200) {
         setCurrentUser(null);
         await throwAlert('success', 'ログアウトしました。');
-        history.replace(`/`);
+        history(`/`, { replace: true });
       } else {
         await throwAlert('danger', 'ログアウトが失敗しました。');
       }
