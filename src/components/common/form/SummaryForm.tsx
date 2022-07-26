@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../../../components';
 import {
   SummaryBook,
@@ -47,7 +47,7 @@ const SummaryForm: FC<Props> = (props) => {
     useAlertState(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
-  const { history } = useReactRouter();
+  const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -133,8 +133,8 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   const validationCheck = async (): Promise<boolean> => {
-    let isError: boolean = false;
-    let errorText: SummaryBook = {};
+    let isError = false;
+    const errorText: SummaryBook = {};
     const {
       title,
       content,
@@ -231,9 +231,9 @@ const SummaryForm: FC<Props> = (props) => {
           isEdit ? '記事が編集されました。' : '記事が作成されました。',
         );
         setValues({});
-        history.push(`/summary/${resSummary.data.id}`);
+        history(`/summary/${resSummary.data.id}`);
       } else {
-        history.push('/');
+        history('/');
       }
     }
   };

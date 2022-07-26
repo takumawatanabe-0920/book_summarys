@@ -18,7 +18,7 @@ const MypageFavorites = () => {
   const [user, setUser] = useState<ResUser>({});
   const [favorites, setFavorites] = useState<ResFavorite[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const slug: { id: string } = useParams();
+  const { id } = useParams<'id'>();
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
   const [myFavoritesNum, setMyFavoritesNum] = useState(0);
   const [dataNumPerPage, setDataNumPerPager] = useState(8);
@@ -31,12 +31,12 @@ const MypageFavorites = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id);
+        const resUser: ResultResponse<ResUser> = await getIdUser(id);
         const resMyFavoritesDataList: ResultResponseList<ResFavorite> =
-          await getMyFavorites(dataNumPerPage, page, slug.id);
+          await getMyFavorites(dataNumPerPage, page, id);
         const resMyFavoritesCount: number = await getfavoriteNum([
           'user_id',
-          slug.id,
+          id,
         ]);
         setMyFavoritesNum(resMyFavoritesCount);
         if (resUser && resUser.status === 200) {
@@ -49,7 +49,7 @@ const MypageFavorites = () => {
     };
 
     loadData();
-  }, [page, slug]);
+  }, [page, id]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { Textarea } from './../../components';
 import {
   SummaryComment,
@@ -35,7 +35,7 @@ const SummaryCommentForm: FC<Props> = (props) => {
   const [errorTexts, setErrorTexts] = useState<SummaryComment>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { history } = useReactRouter();
+  const history = useNavigate();
 
   const handleTextareaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -87,7 +87,7 @@ const SummaryCommentForm: FC<Props> = (props) => {
           type: 'summary_comment',
         });
         await throwAlert('success', 'コメントに成功しました。');
-        history.replace(`/`);
+        history(`/`, { replace: true });
       } else {
         await throwAlert('danger', 'コメントに失敗しました。');
       }

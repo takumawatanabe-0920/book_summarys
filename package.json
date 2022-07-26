@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "webpack-dev-server --hot --inline --config webpack.dev.cjs",
+    "client": "webpack-dev-server --hot --config webpack.dev.cjs",
     "dev": "NODE_ENV=development concurrently \"npm run client\"",
     "build": "webpack --config webpack.prod.cjs",
     "build-prod": "webpack --mode=production",
@@ -48,7 +48,7 @@
     "@types/react-hammerjs": "^1.0.1",
     "@types/react-lazy-load-image-component": "^1.5.1",
     "@types/react-router": "^5.1.8",
-    "@types/react-router-dom": "^5.1.6",
+    "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.4",
     "@types/supertest": "^2.0.11",
     "@types/uglifyjs-webpack-plugin": "^1.1.0",
@@ -80,12 +80,12 @@
     "node-sass": "6.0.0",
     "prettier": "^2.3.2",
     "query-string": "^6.13.7",
-    "react": "17.0.0",
-    "react-dom": "17.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hammerjs": "^1.0.1",
     "react-lazy-load-image-component": "^1.5.1",
-    "react-router-dom": "^5.2.0",
-    "react-slick": "^0.27.13",
+    "react-router-dom": "6",
+    "react-slick": "^0.29.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -98,7 +98,6 @@
     "typescript": "^4.3.5",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.1",
-    "use-react-router": "^1.0.7",
     "webpack-merge": "^5.7.2"
   },
   "devDependencies": {
@@ -109,8 +108,8 @@
     "@babel/preset-typescript": "^7.12.1",
     "@types/commander": "^2.12.2",
     "@types/node": "^14.14.6",
-    "@types/react": "^16.9.51",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "concurrently": "^5.3.0",
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.1",
@@ -121,11 +120,11 @@
     "ts-loader": "^8.0.4",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5",
-    "webpack": "^5.6.0",
-    "webpack-bundle-analyzer": "^4.1.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-middleware": "^4.0.0",
-    "webpack-dev-server": "^3.11.0",
+    "webpack": "^5.73.0",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-middleware": "^5.3.3",
+    "webpack-dev-server": "^4.9.3",
     "webpack-hot-middleware": "^2.25.0"
   },
   "jest": {
@@ -146,6 +145,7 @@
     "testEnvironment": "node"
   },
   "resolutions": {
-    "@types/react": "^16.14.0"
+    "@types/react": "17.0.30",
+    "@types/react-dom": "17.0.30"
   }
 }

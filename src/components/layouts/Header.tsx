@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import useReactRouter from 'use-react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { ResultResponse, Login } from '../../types';
 import {
   getMyNotReadNotificationsCount,
@@ -18,7 +17,7 @@ import { GlobalContext } from './../../assets/hooks/context/Global';
 
 const Header = () => {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
-  const { history } = useReactRouter();
+  const history = useNavigate();
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const {
@@ -48,7 +47,7 @@ const Header = () => {
       if (resLogout && resLogout.status === 200) {
         setCurrentUser(null);
         await throwAlert('success', 'ログアウトしました。');
-        history.replace(`/`);
+        history(`/`, { replace: true });
       } else {
         await throwAlert('danger', 'ログアウトが失敗しました。');
       }

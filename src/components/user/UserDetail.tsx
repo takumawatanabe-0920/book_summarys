@@ -1,11 +1,6 @@
-import React, { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { GlobalContext } from './../../assets/hooks/context/Global';
+import React from 'react';
 
 const UserDetailPage = () => {
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
-  const url: { id: string } = useParams();
-
   return (
     <>
       <div className="c-register">

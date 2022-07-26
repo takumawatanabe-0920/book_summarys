@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Input } from '../../../components';
 import {
@@ -27,7 +27,7 @@ const RegisterForm: FC<Props> = (props) => {
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { setCurrentUser } = useContext(GlobalContext);
-  const { history } = useReactRouter();
+  const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -129,7 +129,7 @@ const RegisterForm: FC<Props> = (props) => {
           const user: CurrentUser = getCurrentUser();
           setCurrentUser(user);
           await throwAlert('success', '会員情報を更新しました。');
-          history.replace(`/`);
+          history(`/`, { replace: true });
         } else if (resCreateOrUpdate.status === 400) {
           await throwAlert('danger', '会員情報の更新に失敗しました。');
         }
@@ -138,7 +138,7 @@ const RegisterForm: FC<Props> = (props) => {
           const user: CurrentUser = getCurrentUser();
           setCurrentUser(user);
           await throwAlert('success', '会員情報に成功しました。');
-          history.replace(`/`);
+          history(`/`, { replace: true });
         } else if (
           resCreateOrUpdate.status === 400 &&
           resCreateOrUpdate.error === 'user is exist'

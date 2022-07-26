@@ -4,7 +4,7 @@ import { Input } from '../../../components';
 import { Login, ResultResponse, ResUser as CurrentUser } from '../../../types';
 import { login, getCurrentUser } from '../../../firebase/functions';
 import useAlertState from '../../../assets/hooks/useAlertState';
-import useReactRouter from 'use-react-router';
+import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
 
 const LoginForm = () => {
@@ -12,7 +12,7 @@ const LoginForm = () => {
   const [errorTexts, setErrorTexts] = useState<Login>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { history } = useReactRouter();
+  const history = useNavigate();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +24,8 @@ const LoginForm = () => {
   };
 
   const validationCheck = async (): Promise<boolean> => {
-    let isError: boolean = false;
-    let errorText: Login = {};
+    let isError = false;
+    const errorText: Login = {};
     const { email, password } = loginValues;
     if (!email || !email.match(/\S/g)) {
       isError = true;
@@ -70,10 +70,10 @@ const LoginForm = () => {
         const user: CurrentUser = getCurrentUser();
         setCurrentUser(user);
         await throwAlert('success', 'ログインしました。');
-        history.replace(`/`);
+        history(`/`, { replace: true });
       } else {
         await throwAlert('danger', 'ログインに失敗しました。');
-        history.replace(`/`);
+        history(`/`, { replace: true });
       }
     }
   };

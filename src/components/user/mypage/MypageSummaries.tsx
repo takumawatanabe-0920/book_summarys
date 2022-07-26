@@ -21,7 +21,7 @@ const MypageSummaries = () => {
   const [user, setUser] = useState<ResUser>({});
   const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const slug: { id: string } = useParams();
+  const { id } = useParams<'id'>();
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
   const [summariesNum, setSummariesNum] = useState(0);
@@ -34,30 +34,27 @@ const MypageSummaries = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(slug.id);
+        const resUser: ResultResponse<ResUser> = await getIdUser(id);
         let resMySummariesDataList: ResultResponseList<ResSummaryBook>;
         let resSummariesNum = 0;
-        if ((currentUser && currentUser.id) === slug.id) {
+        if ((currentUser && currentUser.id) === id) {
           resMySummariesDataList =
             await getOneConditionsDescPaginationSummaries(
               dataNumPerPage,
               page,
-              ['user_id', slug.id],
+              ['user_id', id],
             );
-          resSummariesNum = await getOneConditionsSummaryCount([
-            'user_id',
-            slug.id,
-          ]);
+          resSummariesNum = await getOneConditionsSummaryCount(['user_id', id]);
         } else {
           resMySummariesDataList =
             await getTwoConditionsDescPaginationSummaries(
               dataNumPerPage,
               page,
-              ['user_id', slug.id, 'publishing_status', 'public'],
+              ['user_id', id, 'publishing_status', 'public'],
             );
           resSummariesNum = await getTwoConditionsSummaryCount([
             'user_id',
-            slug.id,
+            id,
             'publishing_status',
             'public',
           ]);
@@ -73,7 +70,7 @@ const MypageSummaries = () => {
     };
     loadData();
     setLoading(true);
-  }, [page, slug]);
+  }, [page, id]);
 
   return (
     <>

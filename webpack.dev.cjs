@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/src/pages/index.tsx'),
@@ -11,10 +13,19 @@ module.exports = {
   module: {
     rules: [
       {
-        // ts-loaderの設定
-        test: /\.(js|ts|tsx)?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['@babel/preset-env', '@babel/react'] },
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(__dirname, 'tsconfig.json'),
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -43,23 +54,21 @@ module.exports = {
       { test: /\.(gif|png|jpg|svg|)$/, use: 'url-loader' },
     ],
   },
-  //plugins: [new BundleAnalyzerPlugin()],
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+  ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {},
   },
   externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    firebase: 'firebase',
     '@material-ui/core': 'MaterialUI',
   },
-  //plugins: [new BundleAnalyzerPlugin()],
   devServer: {
     historyApiFallback: true,
-    contentBase: path.join(__dirname, '/public'),
     host: '0.0.0.0',
-    port: 3016,
     // hot: true,
     // inline: true,
     // stats: 'errors-only',
@@ -69,6 +78,10 @@ module.exports = {
     //     changeOrigin: true,
     //   },
     // },
+    static: {
+      directory: path.join(__dirname, '/public'),
+    },
+    port: 3016,
   },
   devtool: 'source-map',
 };

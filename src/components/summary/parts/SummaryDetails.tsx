@@ -1,5 +1,4 @@
-import React, { FC, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { FC } from 'react';
 import { ResSummaryBook, ResUser as CurrentUser } from '../../../types';
 import { formatUpdateDate } from '../../../utils/function';
 import { FavoriteButton, UserIcon } from '../../../components';
@@ -23,7 +22,6 @@ const SummaryDetails: FC<Props> = (props) => {
     book_name,
     update_date,
   } = summaryBook;
-  const url: { id: string } = useParams();
 
   return (
     <>
