@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 // components
 import { SummaryList, Sidebar, TopSummaryList, Loading } from './../components';
 import { ResSummaryBook, ResultResponseList } from './../types';
@@ -19,14 +20,15 @@ const HomePage = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resRecommendSummariesDataList: ResultResponseList<ResSummaryBook> =
+        const test = await axios.get(`http://localhost:3010/api/v1/categories`);
+        const resRecommendSummariesDataList: ResultResponseList<ResSummaryBook> =
           await getOneConditionsSummaries(
             6,
             1,
             ['favorite_count', 'desc'],
             ['publishing_status', 'public'],
           );
-        let resNewSummariesDataList: ResultResponseList<ResSummaryBook> =
+        const resNewSummariesDataList: ResultResponseList<ResSummaryBook> =
           await getOneConditionsSummaries(
             4,
             1,
