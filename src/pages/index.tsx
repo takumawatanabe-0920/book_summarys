@@ -53,18 +53,26 @@ root.render(
                     </Suspense>
                   }
                 />
-                <Route path="/summary/create" element={<PrivateRoute />}>
-                  <Route
-                    path="/summary/create"
-                    element={<SummaryCreatePage />}
-                  />
-                </Route>
-                <Route path="/summary/:id/edit" element={<PrivateRoute />}>
-                  <Route
-                    path="/summary/:id/edit"
-                    element={<SummaryEditPage />}
-                  />
-                </Route>
+                <Route
+                  path="/summary/create"
+                  element={
+                    <PrivateRoute>
+                      <Suspense fallback={<div />}>
+                        <SummaryCreatePage />
+                      </Suspense>
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/summary/:id/edit"
+                  element={
+                    <PrivateRoute>
+                      <Suspense fallback={<div />}>
+                        <SummaryEditPage />
+                      </Suspense>
+                    </PrivateRoute>
+                  }
+                />
                 <Route
                   path="/mypage/:id/home"
                   element={
@@ -73,9 +81,24 @@ root.render(
                     </Suspense>
                   }
                 />
-                <Route path="/mypage/:id/edit" element={<PrivateRoute />}>
-                  <Route path="/mypage/:id/edit" element={<MypageEdit />} />
-                </Route>
+                <Route
+                  path="/mypage/:id/edit"
+                  element={
+                    <PrivateRoute>
+                      <Suspense fallback={<div />}>
+                        <MypageEdit />
+                      </Suspense>
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/mypage/:id/favorites"
+                  element={
+                    <Suspense fallback={<div />}>
+                      <MypageFavorites />
+                    </Suspense>
+                  }
+                />
                 <Route
                   path="/mypage/:id/favorites"
                   element={
@@ -124,15 +147,36 @@ root.render(
                     </Suspense>
                   }
                 />
-                <Route path="/notification" element={<PrivateRoute />}>
-                  <Route path="/notification" element={<NotificationPage />} />
-                </Route>
-                <Route path="/sign_up" element={<GuestRoute />}>
-                  <Route path="/sign_up" element={<SignUpPage />} />
-                </Route>
-                <Route path="/sign_in" element={<SignInPage />}>
-                  <Route path="/sign_in" element={<SignInPage />} />
-                </Route>
+                <Route
+                  path="/notification"
+                  element={
+                    <PrivateRoute>
+                      <Suspense fallback={<div />}>
+                        <NotificationPage />
+                      </Suspense>
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/sign_up"
+                  element={
+                    <GuestRoute>
+                      <Suspense fallback={<div />}>
+                        <SignUpPage />
+                      </Suspense>
+                    </GuestRoute>
+                  }
+                />
+                <Route
+                  path="/sign_in"
+                  element={
+                    <GuestRoute>
+                      <Suspense fallback={<div />}>
+                        <SignInPage />
+                      </Suspense>
+                    </GuestRoute>
+                  }
+                />
               </Routes>
             </div>
           </div>
