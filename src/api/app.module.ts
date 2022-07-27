@@ -9,6 +9,7 @@ import { UserModule } from './users/user.module';
 import { SummaryCommentModule } from './summaryComments/summaryComment.module';
 import { NotificationModule } from './notifications/notification.module';
 import { FavoriteModule } from './favorites/favorite.module';
+import { AuthModule } from './auth/auth.module';
 
 import * as config from 'config';
 @Module({
@@ -24,6 +25,7 @@ import * as config from 'config';
     UserModule,
     SummaryCommentModule,
     NotificationModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
