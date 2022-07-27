@@ -3,12 +3,8 @@ import { PassportStrategy, AbstractStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthApplication } from './auth.application';
 
-const PassportJwtStrategy = PassportStrategy(Strategy) as new (
-  ...args
-) => AbstractStrategy & Strategy;
-
 @Injectable()
-export class LocalStrategy extends PassportJwtStrategy {
+export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authApplication: AuthApplication) {
     super();
   }
