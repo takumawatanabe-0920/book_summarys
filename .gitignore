@@ -71,3 +71,5 @@ package-lock.json
 .sass-cache
 
 dist
+
+src/api/auth/constants.ts
