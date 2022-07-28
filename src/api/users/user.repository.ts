@@ -19,6 +19,10 @@ export class UserRepository {
     return this.userModel.findById(id).lean();
   }
 
+  async getOne(conditions: Partial<User>): Promise<User> {
+    return this.userModel.findOne(conditions).lean();
+  }
+
   async create(user: UserDTO): Promise<User> {
     const createdUser = new this.userModel(user);
     return createdUser.save();

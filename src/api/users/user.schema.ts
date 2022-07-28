@@ -11,9 +11,9 @@ export class User {
   photoURL: string;
 
   @Prop({ type: String, required: true })
-  login_id: string;
+  token: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, unique: true })
   email: string;
 
   @Prop({ type: String, required: true })

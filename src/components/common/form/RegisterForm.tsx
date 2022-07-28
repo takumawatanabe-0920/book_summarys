@@ -112,7 +112,7 @@ const RegisterForm: FC<Props> = (props) => {
       if (isEdit) {
         resCreateOrUpdate = await updateUser(
           userData.id,
-          userData.login_id,
+          userData.token,
           displayName,
           values.photoURL,
         );

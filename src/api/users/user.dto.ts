@@ -8,7 +8,7 @@ export class UserDTO {
   photoURL: string;
 
   @IsString()
-  login_id: string;
+  token: string;
 
   @IsString()
   email: string;
