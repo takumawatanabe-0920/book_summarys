@@ -10,6 +10,7 @@ const AuthBasePath = `${config.get('webOrigin')}${config.get(
 
 export interface User {
   _id?: string;
+  id?: string;
   email: string;
   password: string;
   token?: string;

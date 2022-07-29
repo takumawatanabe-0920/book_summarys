@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
-import { GlobalProvider } from '../assets/hooks/context/Global';
+import { GlobalProvider } from '../frontend/hooks/context/Global';
 import '../assets/stylesheets/main.scss';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import {
@@ -10,27 +10,41 @@ import {
   Footer,
   TopHeader,
   Alert,
-} from '../components';
-const HomePage = lazy(() => import('../components/App'));
-const SummaryCreatePage = lazy(() => import('../components/summary/Create'));
-const SummaryEditPage = lazy(() => import('../components/summary/Edit'));
-const SummaryShowPage = lazy(() => import('../components/summary/Show'));
-const SignUpPage = lazy(() => import('../components/sign_up'));
-const SignInPage = lazy(() => import('../components/sign_in'));
+} from '../frontend/components';
+const HomePage = lazy(() => import('../frontend/components/App'));
+const SummaryCreatePage = lazy(
+  () => import('../frontend/components/summary/Create'),
+);
+const SummaryEditPage = lazy(
+  () => import('../frontend/components/summary/Edit'),
+);
+const SummaryShowPage = lazy(
+  () => import('../frontend/components/summary/Show'),
+);
+const SignUpPage = lazy(() => import('../frontend/components/sign_up'));
+const SignInPage = lazy(() => import('../frontend/components/sign_in'));
 const MypageFavorites = lazy(
-  () => import('../components/user/mypage/MypageFavorites'),
+  () => import('../frontend/components/user/mypage/MypageFavorites'),
 );
 const MypageSummaries = lazy(
-  () => import('../components/user/mypage/MypageSummaries'),
+  () => import('../frontend/components/user/mypage/MypageSummaries'),
 );
 const MypageComments = lazy(
-  () => import('../components/user/mypage/MypageComments'),
+  () => import('../frontend/components/user/mypage/MypageComments'),
 );
-const MypageHome = lazy(() => import('../components/user/mypage/MypageHome'));
-const MypageEdit = lazy(() => import('../components/user/mypage/MypageEdit'));
-const UserDetailPage = lazy(() => import('../components/user/UserDetail'));
-const NotificationPage = lazy(() => import('../components/notifications'));
-const SummaryPage = lazy(() => import('../components/summary'));
+const MypageHome = lazy(
+  () => import('../frontend/components/user/mypage/MypageHome'),
+);
+const MypageEdit = lazy(
+  () => import('../frontend/components/user/mypage/MypageEdit'),
+);
+const UserDetailPage = lazy(
+  () => import('../frontend/components/user/UserDetail'),
+);
+const NotificationPage = lazy(
+  () => import('../frontend/components/notifications'),
+);
+const SummaryPage = lazy(() => import('../frontend/components/summary'));
 
 // コンポーネント読み込み
 const root = createRoot(document.getElementById('root'));
