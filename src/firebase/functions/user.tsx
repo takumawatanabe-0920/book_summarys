@@ -37,7 +37,7 @@ export const register = async (
         .add({
           displayName,
           photoURL,
-          login_id: result.user.uid,
+          token: result.user.uid,
           email: result.user.email,
           create_date: firebase.firestore.Timestamp.now(),
           update_date: firebase.firestore.Timestamp.now(),
@@ -142,7 +142,7 @@ export const getIdUser = (id: string): Promise<ResultResponse<ResUser>> => {
 const getUidUser = (uid: string): Promise<ResultResponse<ResUser[]>> => {
   const response = db
     .collection('user')
-    .where('login_id', '==', uid)
+    .where('token', '==', uid)
     .get()
     .then(async (res) => {
       const resData: ResUser[] = await Promise.all(
@@ -217,7 +217,7 @@ const setUser = async (
         id,
         displayName,
         photoURL,
-        login_id: uid,
+        token: uid,
         update_date,
         create_date,
         email,

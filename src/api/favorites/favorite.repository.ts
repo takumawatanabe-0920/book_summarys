@@ -13,15 +13,15 @@ export class FavoriteRepository {
   ) {}
 
   async list(): Promise<Favorite[]> {
-    return this.favoriteModel.find().lean();
+    return await this.favoriteModel.find().lean();
   }
 
   async getById(id: string): Promise<Favorite> {
-    return this.favoriteModel.findById(id).lean();
+    return await this.favoriteModel.findById(id).lean();
   }
 
   async get(args: Partial<FavoriteDTO>): Promise<Favorite[]> {
-    return this.favoriteModel.find(args).lean();
+    return await this.favoriteModel.find(args).lean();
   }
 
   async create(
@@ -33,17 +33,17 @@ export class FavoriteRepository {
   }
 
   async update(id: string, favorite: FavoriteDTO): Promise<Favorite> {
-    return this.favoriteModel.findByIdAndUpdate(id, favorite);
+    return await this.favoriteModel.findByIdAndUpdate(id, favorite);
   }
 
   async count(): Promise<number> {
-    return this.favoriteModel.countDocuments();
+    return await this.favoriteModel.countDocuments();
   }
 
   async delete(
     id: string,
     option?: repositories.BaseOptions,
   ): Promise<Favorite> {
-    return this.favoriteModel.findByIdAndRemove(id, option);
+    return await this.favoriteModel.findByIdAndRemove(id, option);
   }
 }

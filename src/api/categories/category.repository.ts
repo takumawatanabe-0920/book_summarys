@@ -18,7 +18,7 @@ export class CategoryRepository {
   }
 
   async getById(id: string): Promise<Category> {
-    return this.categoryModel.findById(id).lean();
+    return await this.categoryModel.findById(id).lean();
   }
 
   async create(category: CategoryDTO): Promise<Category> {
@@ -27,10 +27,10 @@ export class CategoryRepository {
   }
 
   async update(id: string, category: CategoryDTO): Promise<Category> {
-    return this.categoryModel.findByIdAndUpdate(id, category);
+    return await this.categoryModel.findByIdAndUpdate(id, category);
   }
 
   async delete(id: string): Promise<Category> {
-    return this.categoryModel.findByIdAndRemove(id);
+    return await this.categoryModel.findByIdAndRemove(id);
   }
 }

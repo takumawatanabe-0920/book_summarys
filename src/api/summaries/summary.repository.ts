@@ -29,7 +29,7 @@ export class SummaryRepository {
   }
 
   async count(conditions: Partial<SummaryDTO> = {}): Promise<number> {
-    return this.summaryModel.countDocuments(conditions);
+    return await this.summaryModel.countDocuments(conditions);
   }
 
   async getById(
@@ -53,13 +53,13 @@ export class SummaryRepository {
     summary: UpdateBody<any> | SummaryDTO,
     option?: repositories.BaseOptions,
   ): Promise<Summary> {
-    return this.summaryModel.findByIdAndUpdate(id, summary, option);
+    return await this.summaryModel.findByIdAndUpdate(id, summary, option);
   }
 
   async delete(
     id: string,
     option?: repositories.BaseOptions,
   ): Promise<Summary> {
-    return this.summaryModel.findByIdAndRemove(id, option);
+    return await this.summaryModel.findByIdAndRemove(id, option);
   }
 }
