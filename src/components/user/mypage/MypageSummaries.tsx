@@ -1,21 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  ResultResponseList,
-  ResultResponse,
-  ResSummaryBook,
-  ResUser,
-} from '../../../types';
+import { ResultResponseList, ResSummaryBook, ResUser } from '../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import {
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
   getOneConditionsSummaryCount,
   getTwoConditionsSummaryCount,
-  getIdUser,
   readQuery,
 } from '../../../firebase/functions';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
+import { load as loadUser } from 'src/frontend/module/user';
 
 const MypageSummaries = () => {
   const [user, setUser] = useState<ResUser>({});
@@ -34,7 +29,8 @@ const MypageSummaries = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(id);
+        const user = await loadUser(id);
+        setUser(user);
         let resMySummariesDataList: ResultResponseList<ResSummaryBook>;
         let resSummariesNum = 0;
         if ((currentUser && currentUser.id) === id) {
@@ -60,9 +56,6 @@ const MypageSummaries = () => {
           ]);
         }
         setSummariesNum(resSummariesNum);
-        if (resUser && resUser.status === 200) {
-          setUser(resUser.data);
-        }
         if (resMySummariesDataList && resMySummariesDataList.status === 200) {
           setSummaries(resMySummariesDataList.data);
         }

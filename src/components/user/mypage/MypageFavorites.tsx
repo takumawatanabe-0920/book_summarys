@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  ResultResponseList,
-  ResFavorite,
-  ResultResponse,
-  ResUser,
-} from '../../../types';
+import { ResultResponseList, ResFavorite, ResUser } from '../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import {
   getMyFavorites,
   getfavoriteNum,
-  getIdUser,
   readQuery,
 } from '../../../firebase/functions';
+import { load as loadUser } from 'src/frontend/module/user';
 
 const MypageFavorites = () => {
   const [user, setUser] = useState<ResUser>({});
@@ -31,7 +26,8 @@ const MypageFavorites = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(id);
+        const user = await loadUser(id);
+        setUser(user);
         const resMyFavoritesDataList: ResultResponseList<ResFavorite> =
           await getMyFavorites(dataNumPerPage, page, id);
         const resMyFavoritesCount: number = await getfavoriteNum([
@@ -39,9 +35,6 @@ const MypageFavorites = () => {
           id,
         ]);
         setMyFavoritesNum(resMyFavoritesCount);
-        if (resUser && resUser.status === 200) {
-          setUser(resUser.data);
-        }
         if (resMyFavoritesDataList && resMyFavoritesDataList.status === 200) {
           setFavorites(resMyFavoritesDataList.data);
         }

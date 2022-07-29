@@ -20,7 +20,6 @@ import {
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
 } from './summary';
-import { register, login, logout, getIdUser, updateUser } from './user';
 import {
   getFavorite,
   getFavorites,
@@ -70,11 +69,6 @@ export {
   getTwoConditionsSummaries,
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
-  getIdUser,
-  updateUser,
-  register,
-  login,
-  logout,
   getDonefavorite,
   getFavorites,
   createFavorite,

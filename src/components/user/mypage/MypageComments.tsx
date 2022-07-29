@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  ResUser,
-  ResSummaryComment,
-  ResultResponseList,
-  ResultResponse,
-} from '../../../types';
+import { ResUser, ResSummaryComment, ResultResponseList } from '../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import {
-  getIdUser,
   getMyComments,
   readQuery,
   getMyCommentCount,
 } from '../../../firebase/functions';
-
+import { load as loadUser } from 'src/frontend/module/user';
 const MypageComments = () => {
   const [user, setUser] = useState<ResUser>({});
   const [summaryComments, setSummaryComments] = useState<ResSummaryComment[]>(
@@ -33,14 +27,12 @@ const MypageComments = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(id);
+        const user = await loadUser(id);
         const resMySummaryCommentsDataList: ResultResponseList<ResSummaryComment> =
           await getMyComments(dataNumPerPage, page, id);
         const count: number = await getMyCommentCount(id);
         setMyCommentsNum(count);
-        if (resUser && resUser.status === 200) {
-          setUser(resUser.data);
-        }
+        setUser(user);
         if (
           resMySummaryCommentsDataList &&
           resMySummaryCommentsDataList.status === 200

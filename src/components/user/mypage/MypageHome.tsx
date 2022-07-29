@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ResultResponse, ResUser } from '../../../types';
+import { ResUser } from '../../../types';
 import { MypageSidebar, MypageProfile } from '../..';
-import { getIdUser } from '../../../firebase/functions';
+import { load as loadUser } from 'src/frontend/module/user';
 
 const MypageEdit = () => {
   const [user, setUser] = useState<ResUser>({});
@@ -12,10 +12,8 @@ const MypageEdit = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resUser: ResultResponse<ResUser> = await getIdUser(id);
-        if (resUser && resUser.status === 200) {
-          setUser(resUser.data);
-        }
+        const user = await loadUser(id);
+        setUser(user);
         setLoading(true);
       } catch (e) {}
     };

@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ResultResponse, Login } from '../../types';
-import {
-  getMyNotReadNotificationsCount,
-  logout,
-} from '../../firebase/functions';
+import { getMyNotReadNotificationsCount } from '../../firebase/functions';
+import { logout } from 'src/frontend/module/user';
 import {
   logoIcon,
   editIcon,
@@ -43,12 +40,13 @@ const Header = () => {
 
   const handleLogout = async () => {
     if (window.confirm('ログアウトしますか？')) {
-      const resLogout: ResultResponse<Login> = await logout();
-      if (resLogout && resLogout.status === 200) {
-        setCurrentUser(null);
+      try {
+        await logout();
         await throwAlert('success', 'ログアウトしました。');
+        setCurrentUser(null);
         history(`/`, { replace: true });
-      } else {
+      } catch (error) {
+        throwAlert('danger', error.message);
         await throwAlert('danger', 'ログアウトが失敗しました。');
       }
     }

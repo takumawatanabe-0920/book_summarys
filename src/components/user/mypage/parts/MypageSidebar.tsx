@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
-import { ResUser, ResultResponse, Login } from '../../../../types';
-import { logout } from '../../../../firebase/functions';
+import { ResUser } from '../../../../types';
+import { logout } from 'src/frontend/module/user';
 import useAlertState from '../../../../assets/hooks/useAlertState';
 import { GlobalContext } from '../../../../assets/hooks/context/Global';
 
@@ -26,15 +26,15 @@ const MypageSidebar: FC<Props> = (props) => {
   const location = useLocation();
 
   const handleLogout = async () => {
-    if (window.confirm('ログアウトしますか？')) {
-      const resLogout: ResultResponse<Login> = await logout();
-      if (resLogout && resLogout.status === 200) {
+    try {
+      if (window.confirm('ログアウトしますか？')) {
+        await logout();
         setCurrentUser(null);
         await throwAlert('success', 'ログアウトしました。');
         history(`/`, { replace: true });
-      } else {
-        await throwAlert('danger', 'ログアウトが失敗しました。');
       }
+    } catch (error) {
+      await throwAlert('danger', 'ログアウトが失敗しました。');
     }
   };
 
