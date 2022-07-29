@@ -19,7 +19,7 @@ export class SubCategoryRepository {
   }
 
   async getById(id: string): Promise<SubCategory> {
-    return this.subCategoryModel.findById(id).lean();
+    return await this.subCategoryModel.findById(id).lean();
   }
 
   async create(subCategory: SubCategoryDTO): Promise<SubCategory> {
@@ -28,10 +28,10 @@ export class SubCategoryRepository {
   }
 
   async update(id: string, subCategory: SubCategoryDTO): Promise<SubCategory> {
-    return this.subCategoryModel.findByIdAndUpdate(id, subCategory);
+    return await this.subCategoryModel.findByIdAndUpdate(id, subCategory);
   }
 
   async delete(id: string): Promise<SubCategory> {
-    return this.subCategoryModel.findByIdAndRemove(id);
+    return await this.subCategoryModel.findByIdAndRemove(id);
   }
 }

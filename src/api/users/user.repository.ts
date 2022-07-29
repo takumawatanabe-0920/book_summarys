@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './user.schema';
-import { UserDTO } from './user.dto';
+import { CreateUserDTO } from './user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -12,27 +12,27 @@ export class UserRepository {
   ) {}
 
   async list(): Promise<User[]> {
-    return this.userModel.find().lean();
+    return await this.userModel.find().lean();
   }
 
-  async getById(id: string): Promise<User> {
-    return this.userModel.findById(id).lean();
+  async getById(id: string): Promise<User & { _id: string }> {
+    return await this.userModel.findById(id).lean();
   }
 
-  async getOne(conditions: Partial<User>): Promise<User> {
-    return this.userModel.findOne(conditions).lean();
+  async getOne(conditions: Partial<User>): Promise<User & { _id: string }> {
+    return await this.userModel.findOne(conditions).lean();
   }
 
-  async create(user: UserDTO): Promise<User> {
+  async create(user: CreateUserDTO): Promise<User> {
     const createdUser = new this.userModel(user);
-    return createdUser.save();
+    return await createdUser.save();
   }
 
-  async update(id: string, user: UserDTO): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, user);
+  async update(id: string, user: Partial<CreateUserDTO>): Promise<User> {
+    return await this.userModel.findByIdAndUpdate(id, user);
   }
 
   async delete(id: string): Promise<User> {
-    return this.userModel.findByIdAndRemove(id);
+    return await this.userModel.findByIdAndRemove(id);
   }
 }

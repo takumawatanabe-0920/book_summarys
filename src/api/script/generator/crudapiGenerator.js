@@ -226,11 +226,11 @@ export class ${upperCaseName}Repository {
   ) {}
 
   async list(): Promise<${upperCaseName}[]> {
-    return this.${lowerCaseName}Model.find().lean();
+    return await this.${lowerCaseName}Model.find().lean();
   }
 
   async getById(id: string): Promise<${upperCaseName}> {
-    return this.${lowerCaseName}Model.getById(id).lean();
+    return await this.${lowerCaseName}Model.getById(id).lean();
   }
 
   async create(${lowerCaseName}: ${upperCaseName}DTO): Promise<${upperCaseName}> {
@@ -239,11 +239,11 @@ export class ${upperCaseName}Repository {
   }
 
   async update(id: string, ${lowerCaseName}: ${upperCaseName}DTO): Promise<${upperCaseName}> {
-    return this.${lowerCaseName}Model.findByIdAndUpdate(id, ${lowerCaseName});
+    return await this.${lowerCaseName}Model.findByIdAndUpdate(id, ${lowerCaseName});
   }
 
   async delete(id: string): Promise<${upperCaseName}> {
-    return this.${lowerCaseName}Model.findByIdAndRemove(id);
+    return await this.${lowerCaseName}Model.findByIdAndRemove(id);
   }
 }
 `;

@@ -39,10 +39,10 @@ export class SummaryCommentRepository {
     id: string,
     summaryComment: SummaryCommentDTO,
   ): Promise<SummaryComment> {
-    return this.summaryCommentModel.findByIdAndUpdate(id, summaryComment);
+    return await this.summaryCommentModel.findByIdAndUpdate(id, summaryComment);
   }
 
   async delete(id: string): Promise<SummaryComment> {
-    return this.summaryCommentModel.findByIdAndRemove(id);
+    return await this.summaryCommentModel.findByIdAndRemove(id);
   }
 }

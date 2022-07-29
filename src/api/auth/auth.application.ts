@@ -11,6 +11,20 @@ export class AuthApplication {
     private jwtService: JwtService,
   ) {}
 
+  async signup(body: UserDTO) {
+    const { email, password } = body;
+    const user = await this.userApplication.getOne({ email });
+    if (user) {
+      throw new Error('user already exists');
+    }
+    const hash = await bcrypt.hash(password, 10);
+    const newUser = await this.userApplication.create({
+      ...body,
+      password: hash,
+    });
+    const { access_token } = await this.generateAccessToken(newUser);
+  }
+
   async validateUser(
     email: string,
     password: string,
@@ -26,7 +40,7 @@ export class AuthApplication {
     return null;
   }
 
-  async login(user: any) {
+  async generateAccessToken(user: Pick<UserDTO, 'email'>) {
     const payload = { email: user.email, sub: getId(user) };
     return {
       access_token: this.jwtService.sign(payload),

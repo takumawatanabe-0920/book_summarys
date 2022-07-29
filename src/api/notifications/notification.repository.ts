@@ -25,11 +25,11 @@ export class NotificationRepository {
   }
 
   async count(conditions: Partial<NotificationDTO> = {}): Promise<number> {
-    return this.notificationModel.countDocuments(conditions);
+    return await this.notificationModel.countDocuments(conditions);
   }
 
   async getById(id: string): Promise<Notification> {
-    return this.notificationModel.findById(id).lean();
+    return await this.notificationModel.findById(id).lean();
   }
 
   async create(notification: NotificationDTO): Promise<Notification> {
@@ -41,11 +41,11 @@ export class NotificationRepository {
     id: string,
     notification: NotificationDTO,
   ): Promise<Notification> {
-    return this.notificationModel.findByIdAndUpdate(id, notification);
+    return await this.notificationModel.findByIdAndUpdate(id, notification);
   }
 
   async delete(id: string): Promise<Notification> {
-    return this.notificationModel.findByIdAndRemove(id);
+    return await this.notificationModel.findByIdAndRemove(id);
   }
 
   async markAsRead(conditions: Partial<NotificationDTO> = {}): Promise<void> {

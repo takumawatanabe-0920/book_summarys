@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { UserDTO } from './user.dto';
+import { UserDTO, CreateUserDTO } from './user.dto';
 
 export type User = any;
 @Injectable()
@@ -39,7 +39,9 @@ export class UserApplication {
     }
   }
 
-  async create(body: UserDTO): Promise<ReturnType<UserRepository['create']>> {
+  async create(
+    body: CreateUserDTO,
+  ): Promise<ReturnType<UserRepository['create']>> {
     try {
       return await this.userRepository.create(body);
     } catch (error) {
@@ -50,7 +52,7 @@ export class UserApplication {
 
   async update(
     id: string,
-    body: UserDTO,
+    body: Partial<CreateUserDTO>,
   ): Promise<ReturnType<UserRepository['update']>> {
     try {
       return await this.userRepository.update(id, body);
