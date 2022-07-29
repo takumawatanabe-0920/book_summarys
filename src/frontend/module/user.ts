@@ -8,11 +8,13 @@ const AuthBasePath = `${config.get('webOrigin')}${config.get(
   'port',
 )}/api/v1/auth`;
 
-interface User {
-  _id: string;
+export interface User {
+  _id?: string;
   email: string;
   password: string;
-  token: string;
+  token?: string;
+  displayName: string;
+  photoURL?: string;
 }
 
 type SignupArgs = User;
@@ -46,6 +48,15 @@ const login = async (args: LoginArgs): Promise<User> => {
       throw new Error('token is required');
     }
     localStorage.setItem('token', response.data.token);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const showMe = async (): Promise<User> => {
+  try {
+    const response = await client.get(`${UserBasePath}/@me`);
     return response.data;
   } catch (error) {
     throw error;
@@ -96,4 +107,4 @@ const deactivate = async (id: string): Promise<User> => {
   }
 };
 
-export { signup, login, logout, loadAll, load, update, deactivate };
+export { signup, login, logout, loadAll, load, update, deactivate, showMe };

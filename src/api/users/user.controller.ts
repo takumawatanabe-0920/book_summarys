@@ -10,10 +10,13 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UserDTO } from './user.dto';
 import { UserApplication } from './user.application';
 
+import { LocalAuthGuard } from '../auth/local-auth.guard';
 @Controller('users')
 export class UserController {
   constructor(
@@ -50,6 +53,17 @@ export class UserController {
     }
   }
 
+  @UseGuards(LocalAuthGuard)
+  @Get('@me')
+  async me(@Request() req): Promise<UserDTO> {
+    try {
+      const { user } = req;
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
   @Post()
   async create(
     @Body(new ValidationPipe()) body: UserDTO,

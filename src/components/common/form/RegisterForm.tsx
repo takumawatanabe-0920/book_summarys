@@ -2,22 +2,15 @@ import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Input } from '../../../components';
-import {
-  RegisterUser,
-  ResultResponse,
-  ResUser as CurrentUser,
-} from '../../../types';
+import { RegisterUser } from '../../../types';
 import useAlertState from '../../../assets/hooks/useAlertState';
-import {
-  register,
-  updateUser,
-  getCurrentUser,
-} from '../../../firebase/functions';
+import { update as updateUser, signup, User } from 'src/frontend/module/user';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   isEdit?: boolean;
-  userData?: CurrentUser;
+  userData?: User;
 };
 
 const RegisterForm: FC<Props> = (props) => {
@@ -26,7 +19,7 @@ const RegisterForm: FC<Props> = (props) => {
   const [errorTexts, setErrorTexts] = useState<RegisterUser>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { setCurrentUser } = useContext(GlobalContext);
+  const { setCurrentUser, currentUser } = useContext(GlobalContext);
   const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,47 +101,34 @@ const RegisterForm: FC<Props> = (props) => {
     if (
       window.confirm(isEdit ? '会員情報を編集しますか？' : '会員登録しますか？')
     ) {
-      let resCreateOrUpdate: ResultResponse<RegisterUser>;
       if (isEdit) {
-        resCreateOrUpdate = await updateUser(
-          userData.id,
-          userData.token,
-          displayName,
-          values.photoURL,
-        );
-      } else {
-        resCreateOrUpdate = await register(
-          email,
-          password,
-          displayName,
-          values.photoURL,
-        );
-      }
-      if (isEdit) {
-        if (resCreateOrUpdate && resCreateOrUpdate.status === 200) {
-          const user: CurrentUser = getCurrentUser();
+        try {
+          const user = await updateUser(getId(currentUser), {
+            email,
+            password,
+            displayName,
+          });
           setCurrentUser(user);
           await throwAlert('success', '会員情報を更新しました。');
           history(`/`, { replace: true });
-        } else if (resCreateOrUpdate.status === 400) {
-          await throwAlert('danger', '会員情報の更新に失敗しました。');
+        } catch (error) {
+          throwAlert('danger', '会員情報の更新に失敗しました。');
+          return;
         }
       } else {
-        if (resCreateOrUpdate && resCreateOrUpdate.status === 200) {
-          const user: CurrentUser = getCurrentUser();
+        try {
+          const user = await signup({
+            email,
+            password,
+            displayName,
+            // photoURL: values.photoURL,
+          });
           setCurrentUser(user);
           await throwAlert('success', '会員情報に成功しました。');
           history(`/`, { replace: true });
-        } else if (
-          resCreateOrUpdate.status === 400 &&
-          resCreateOrUpdate.error === 'user is exist'
-        ) {
-          await throwAlert(
-            'danger',
-            'メールアドレスがすでに登録されています。',
-          );
-        } else {
-          await throwAlert('danger', '会員登録に失敗しました。');
+        } catch (error) {
+          throwAlert('danger', 'エラーが発生しました。');
+          return;
         }
       }
     }

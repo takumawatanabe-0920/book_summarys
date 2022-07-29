@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '../../../components';
-import { Login, ResultResponse, ResUser as CurrentUser } from '../../../types';
-import { login, getCurrentUser } from '../../../firebase/functions';
+import { Login } from '../../../types';
+import { login } from 'src/frontend/module/user';
 import useAlertState from '../../../assets/hooks/useAlertState';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../assets/hooks/context/Global';
@@ -64,17 +64,21 @@ const LoginForm = () => {
     event.preventDefault();
     const { email, password } = loginValues;
     if (await validationCheck()) return;
-    if (window.confirm('ログインしますか？')) {
-      const resLogin: ResultResponse<Login> = await login(email, password);
-      if (resLogin && resLogin.status === 200) {
-        const user: CurrentUser = getCurrentUser();
-        setCurrentUser(user);
-        await throwAlert('success', 'ログインしました。');
-        history(`/`, { replace: true });
-      } else {
-        await throwAlert('danger', 'ログインに失敗しました。');
-        history(`/`, { replace: true });
+    try {
+      if (window.confirm('ログインしますか？')) {
+        const user = await login({ email, password });
+        if (user) {
+          setCurrentUser(user);
+          await throwAlert('success', 'ログインしました。');
+        } else {
+          throw new Error('ログインに失敗しました。');
+        }
       }
+    } catch (error) {
+      console.log(error);
+      await throwAlert('danger', error.message);
+    } finally {
+      history(`/`, { replace: true });
     }
   };
 

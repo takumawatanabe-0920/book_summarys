@@ -10,14 +10,6 @@ import {
 import { firebase } from '../config';
 import { responseUploadImage } from './';
 
-export const getCurrentUser = (): CurrentUser => {
-  const currentUserData = localStorage.getItem('user');
-  const currentUser: CurrentUser = currentUserData
-    ? JSON.parse(currentUserData)
-    : '';
-  return currentUser;
-};
-
 export const register = async (
   email: string,
   password: string,
