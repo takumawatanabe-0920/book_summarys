@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getMyNotReadNotificationsCount } from '../../../firebase/functions';
 import { logout } from 'src/frontend/module/user';
 import {
   logoIcon,
   editIcon,
   userCircleIcon,
-  bellIcon,
   caretDownIcon,
 } from '../../../utils/icons';
 import useAlertState from '../../hooks/useAlertState';
@@ -17,12 +15,7 @@ const Header = () => {
   const history = useNavigate();
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const {
-    currentUser,
-    setCurrentUser,
-    notificationCount,
-    setNotificationCount,
-  } = useContext(GlobalContext);
+  const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
   const enterPulldown = () => {
     setMouseOver(true);
@@ -52,18 +45,6 @@ const Header = () => {
     }
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const resNotificationCount: number =
-          await getMyNotReadNotificationsCount(currentUser.id);
-        setNotificationCount(resNotificationCount);
-      } catch (e) {}
-    };
-
-    loadData();
-  }, [currentUser, notificationCount]);
-
   return (
     <header className="l-header__container">
       <div className="l-header__top">
@@ -74,14 +55,6 @@ const Header = () => {
           {currentUser && (
             <Link to="/summary/create" className="l-header__sub-logo">
               <img src={editIcon} alt="ロゴ" />
-            </Link>
-          )}
-          {currentUser && (
-            <Link to="/notification" className="l-header__sub-logo">
-              {notificationCount !== 0 && (
-                <span className="notification_count">{notificationCount}</span>
-              )}
-              <img src={bellIcon} alt="ロゴ" />
             </Link>
           )}
           {currentUser && (

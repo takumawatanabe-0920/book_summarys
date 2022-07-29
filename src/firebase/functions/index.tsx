@@ -43,12 +43,6 @@ import {
   getMyCommentCount,
   getIdComment,
 } from './comment';
-import {
-  createNotification,
-  getMyNotifications,
-  getMyNotReadNotificationsCount,
-  updateReadNotifications,
-} from './notification';
 
 export {
   getCategories,
@@ -83,10 +77,6 @@ export {
   getSummaryComments,
   getSummaryBookPopulate,
   getIdComment,
-  createNotification,
-  getMyNotifications,
-  getMyNotReadNotificationsCount,
-  updateReadNotifications,
   uploadImage,
   getImage,
   responseUploadImage,

@@ -7,10 +7,7 @@ import {
   ResSummaryBook,
   ResultResponse,
 } from '../../../types';
-import {
-  createSummaryComment,
-  createNotification,
-} from '../../../firebase/functions';
+import { createSummaryComment } from '../../../firebase/functions';
 import useAlertState from '../../hooks/useAlertState';
 import { GlobalContext } from '../../hooks/context/Global';
 
@@ -78,14 +75,6 @@ const SummaryCommentForm: FC<Props> = (props) => {
       const resCommnet: ResultResponse<ResSummaryComment> =
         await createSummaryComment(comments);
       if (resCommnet && resCommnet.status === 200) {
-        createNotification({
-          user_id,
-          target_user_id: summary_book.user_id.id,
-          user_name: currentUser.displayName ? currentUser.displayName : '',
-          // item
-          target_id: resCommnet.data.id,
-          type: 'summary_comment',
-        });
         await throwAlert('success', 'コメントに成功しました。');
         history(`/`, { replace: true });
       } else {
@@ -93,8 +82,6 @@ const SummaryCommentForm: FC<Props> = (props) => {
       }
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>

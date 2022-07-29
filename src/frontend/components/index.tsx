@@ -32,8 +32,6 @@ import SummaryCommentForm from './coment/SummaryCommentForm';
 import CommentList from './coment/CommentList';
 import CommentItem from './coment/CommentItem';
 import Navbar from './common/parts/Navbar';
-import NotificationList from './notifications/NotificationList';
-import NotificationItem from './notifications/NotificationItem';
 import Alert from './common/parts/Alert';
 import Loading from './common/parts/Loading';
 
@@ -71,8 +69,6 @@ export {
   CommentList,
   CommentItem,
   SummaryCommentForm,
-  NotificationList,
-  NotificationItem,
   Alert,
   Navbar,
   Loading,

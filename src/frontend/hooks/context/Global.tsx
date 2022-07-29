@@ -4,8 +4,6 @@ import { showMe, User } from 'src/frontend/module/user';
 type ContextState = {
   currentUser: User;
   setCurrentUser: React.Dispatch<React.SetStateAction<Partial<User>>>;
-  notificationCount: number;
-  setNotificationCount: React.Dispatch<React.SetStateAction<number>>;
   alertState: boolean;
   setAlertState: React.Dispatch<React.SetStateAction<boolean>>;
   alertStatus: string;
@@ -18,7 +16,6 @@ export const GlobalContext = React.createContext({} as ContextState);
 
 export const GlobalProvider: FC<any> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User>(null);
-  const [notificationCount, setNotificationCount] = useState<number>(0);
   const [alertState, setAlertState] = useState<boolean>(false);
   const [alertStatus, setAlertStatus] = useState<string>('');
   const [alertText, setAlertText] = useState<string>('');
@@ -43,8 +40,6 @@ export const GlobalProvider: FC<any> = ({ children }) => {
       value={{
         currentUser,
         setCurrentUser,
-        notificationCount,
-        setNotificationCount,
         alertState,
         setAlertState,
         alertStatus,

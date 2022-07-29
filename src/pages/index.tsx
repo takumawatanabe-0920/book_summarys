@@ -41,9 +41,6 @@ const MypageEdit = lazy(
 const UserDetailPage = lazy(
   () => import('../frontend/components/user/UserDetail'),
 );
-const NotificationPage = lazy(
-  () => import('../frontend/components/notifications'),
-);
 const SummaryPage = lazy(() => import('../frontend/components/summary'));
 
 // コンポーネント読み込み
@@ -159,16 +156,6 @@ root.render(
                     <Suspense fallback={<div />}>
                       <SummaryPage />
                     </Suspense>
-                  }
-                />
-                <Route
-                  path="/notification"
-                  element={
-                    <PrivateRoute>
-                      <Suspense fallback={<div />}>
-                        <NotificationPage />
-                      </Suspense>
-                    </PrivateRoute>
                   }
                 />
                 <Route

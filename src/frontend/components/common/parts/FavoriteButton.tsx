@@ -10,7 +10,6 @@ import {
   createFavorite,
   deleteFavorite,
   updateFavoriteSummaries,
-  createNotification,
 } from '../../../../firebase/functions';
 import useAlertState from '../../../hooks/useAlertState';
 import { FavoriteIcon } from '../../../../utils/material';
@@ -65,13 +64,6 @@ const FavoliteButton: FC<Props> = (props) => {
         updateFavoriteSummaries(resFavorite.data.id, summary_book.id);
         setCurrentUserFavorites({ id: resFavorite.data.id, ...props });
         setFavoritesNum(favoritesNum + 1);
-        createNotification({
-          user_id,
-          target_user_id: summary_book.user_id.id,
-          user_name: currentUser.displayName ? currentUser.displayName : '',
-          target_id: summary_book.id,
-          type: 'favorite',
-        });
         await throwAlert('success', 'いいねしました。');
       } else {
         await throwAlert('danger', 'いいねに失敗しました。');
