@@ -4,10 +4,10 @@ import {
   ResultResponseList,
   ResultResponse,
   ResCategory,
-  ResUser,
 } from '../../types';
 import { firebase } from '../config';
-import { getCategory, getSubCategory, getIdUser } from './';
+import { getCategory, getSubCategory } from './';
+import { load as loadUser } from 'src/frontend/module/user';
 const db = firebase.firestore();
 
 // done
@@ -179,19 +179,13 @@ export const getOneConditionsSummaries = async (
           let category: ResCategory;
           const resSubCategory: ResultResponse<ResCategory> =
             await getSubCategory(doc.data().sub_category);
-          const resUser: ResultResponse<ResUser> = await getIdUser(
-            doc.data().user_id,
-          );
+          const user = await loadUser(doc.data().user_id);
           let sub_category: ResCategory;
           if (resCategory && resCategory.status === 200) {
             category = resCategory.data;
           }
           if (resSubCategory && resSubCategory.status === 200) {
             sub_category = resSubCategory.data;
-          }
-          let user: ResUser = {};
-          if (resUser && resUser.status === 200) {
-            user = resUser.data;
           }
 
           return {
@@ -238,19 +232,13 @@ export const getTwoConditionsSummaries = async (
           let category: ResCategory;
           const resSubCategory: ResultResponse<ResCategory> =
             await getSubCategory(doc.data().sub_category);
-          const resUser: ResultResponse<ResUser> = await getIdUser(
-            doc.data().user_id,
-          );
+          const user = await loadUser(doc.data().user_id);
           let sub_category: ResCategory;
           if (resCategory && resCategory.status === 200) {
             category = resCategory.data;
           }
           if (resSubCategory && resSubCategory.status === 200) {
             sub_category = resSubCategory.data;
-          }
-          let user: ResUser = {};
-          if (resUser && resUser.status === 200) {
-            user = resUser.data;
           }
 
           return {
@@ -551,9 +539,7 @@ export const getSummaryBookPopulate = (
     .get()
     .then(async (doc) => {
       if (doc.exists) {
-        const resUser: ResultResponse<ResUser> = await getIdUser(
-          doc.data().user_id,
-        );
+        const user = await loadUser(doc.data().user_id);
         const resCategory: ResultResponse<ResCategory> = await getCategory(
           doc.data().category,
         );
@@ -561,10 +547,6 @@ export const getSummaryBookPopulate = (
           await getSubCategory(doc.data().sub_category);
         let category: ResCategory;
         let sub_category: ResCategory;
-        let user: ResUser;
-        if (resUser && resUser.status === 200) {
-          user = resUser.data;
-        }
         if (resCategory && resCategory.status === 200) {
           category = resCategory.data;
         }

@@ -21,14 +21,6 @@ import {
   getTwoConditionsDescPaginationSummaries,
 } from './summary';
 import {
-  register,
-  login,
-  logout,
-  getCurrentUser,
-  getIdUser,
-  updateUser,
-} from './user';
-import {
   getFavorite,
   getFavorites,
   createFavorite,
@@ -51,12 +43,6 @@ import {
   getMyCommentCount,
   getIdComment,
 } from './comment';
-import {
-  createNotification,
-  getMyNotifications,
-  getMyNotReadNotificationsCount,
-  updateReadNotifications,
-} from './notification';
 
 export {
   getCategories,
@@ -77,12 +63,6 @@ export {
   getTwoConditionsSummaries,
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
-  getIdUser,
-  updateUser,
-  getCurrentUser,
-  register,
-  login,
-  logout,
   getDonefavorite,
   getFavorites,
   createFavorite,
@@ -97,10 +77,6 @@ export {
   getSummaryComments,
   getSummaryBookPopulate,
   getIdComment,
-  createNotification,
-  getMyNotifications,
-  getMyNotReadNotificationsCount,
-  updateReadNotifications,
   uploadImage,
   getImage,
   responseUploadImage,

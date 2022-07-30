@@ -1,4 +1,3 @@
-import React from 'react';
 // import dayjs from "dayjs"
 import {
   SummaryComment,
@@ -6,10 +5,11 @@ import {
   ResultResponse,
   ResultResponseList,
   ResSummaryBook,
-  ResUser,
 } from '../../types';
 import { firebase } from '../config';
-import { getSummaryBook, getIdUser } from './';
+import { getSummaryBook } from './';
+import { load as loadUser } from 'src/frontend/module/user';
+
 const db = firebase.firestore();
 
 // done
@@ -47,13 +47,7 @@ export const getSummaryComments = (
     .then(async (res) => {
       const resData: ResSummaryComment[] = await Promise.all(
         res.docs.map(async (doc) => {
-          const resUser: ResultResponse<ResUser> = await getIdUser(
-            doc.data().user_id,
-          );
-          let user: ResUser;
-          if (resUser && resUser.status === 200) {
-            user = resUser.data;
-          }
+          const user = await loadUser(doc.data().user_id);
           return { id: doc.id, ...doc.data(), user_id: user };
         }),
       );

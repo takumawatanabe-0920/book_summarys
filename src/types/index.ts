@@ -9,7 +9,6 @@ import {
 } from './summary';
 import { User, Login, ResLogin, ResUser, RegisterUser } from './user';
 import { SummaryComment, ResSummaryComment } from './comment';
-import { Notification, ResNotification } from './notification';
 import { ResultResponse, ResultResponseList } from './default';
 
 export {
@@ -26,8 +25,6 @@ export {
   ResLogin,
   SummaryComment,
   ResSummaryComment,
-  Notification,
-  ResNotification,
   ResultResponse,
   ResultResponseList,
   ResUser,
