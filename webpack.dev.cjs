@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-
+const config = require('config');
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/src/pages/index.tsx'),
@@ -58,10 +58,18 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        WEB_ORIGIN: JSON.stringify(config.get('webOrigin')),
+        PORT: JSON.stringify(config.get('port')),
+      },
+    }),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
-    alias: {},
+    alias: {
+      src: path.resolve(__dirname, '/src'),
+    },
   },
   externals: {
     '@material-ui/core': 'MaterialUI',
@@ -81,7 +89,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, '/public'),
     },
-    port: 3018,
+    port: 3015,
   },
   devtool: 'source-map',
 };
