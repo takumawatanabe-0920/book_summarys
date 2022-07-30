@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const config = require('config');
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/src/pages/index.tsx'),

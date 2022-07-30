@@ -49,7 +49,7 @@ const login = async (args: LoginArgs): Promise<User> => {
 
 const showMe = async (): Promise<User> => {
   try {
-    const response = await client.get(`${UserBasePath}/@me`);
+    const response = await client.get(`${AuthBasePath}/@me`);
     return response.data;
   } catch (error) {
     throw error;

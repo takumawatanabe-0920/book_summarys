@@ -6,6 +6,8 @@ import {
   ValidationPipe,
   BadRequestException,
   UseGuards,
+  Request,
+  Get,
 } from '@nestjs/common';
 import { AuthApplication } from './auth.application';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -16,6 +18,18 @@ export class AuthController {
     @Inject(AuthApplication)
     private readonly authApplication: AuthApplication,
   ) {}
+
+  @UseGuards(LocalAuthGuard)
+  @Get('@me')
+  async me(@Request() req): Promise<UserDTO> {
+    try {
+      const { user } = req;
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
   @Post('signup')
   async signup(@Body(new ValidationPipe()) body: UserDTO) {
