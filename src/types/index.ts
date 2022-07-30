@@ -8,7 +8,6 @@ import {
   ResSubCategory,
 } from './summary';
 import { User, Login, ResLogin, ResUser, RegisterUser } from './user';
-import { SummaryComment, ResSummaryComment } from './comment';
 import { ResultResponse, ResultResponseList } from './default';
 
 export {
@@ -23,8 +22,6 @@ export {
   User,
   Login,
   ResLogin,
-  SummaryComment,
-  ResSummaryComment,
   ResultResponse,
   ResultResponseList,
   ResUser,

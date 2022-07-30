@@ -82,12 +82,6 @@ const MypageSidebar: FC<Props> = (props) => {
             >
               いいね
             </Link>
-            <Link
-              to={`/mypage/${user.id ? user.id : id}/comments`}
-              className={clsx('_side-item', isActive('comments'))}
-            >
-              コメント
-            </Link>
             {isMyAccount ? (
               <div
                 className={clsx('_side-item', isActive('logout'))}

@@ -2,21 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   ResSummaryBook,
-  ResSummaryComment,
   ResultResponseList,
   ResultResponse,
 } from '../../../types';
-import {
-  SummaryDetails,
-  SummaryComment,
-  SummaryCommentForm,
-  SummaryList,
-  Sidebar,
-  Loading,
-} from '..';
+import { SummaryDetails, SummaryList, Sidebar, Loading } from '..';
 import {
   getSummaryBookPopulate,
-  getSummaryComments,
   getTwoConditionsSummaries,
 } from '../../../firebase/functions';
 import { GlobalContext } from '../../hooks/context/Global';
@@ -26,9 +17,6 @@ const SummaryShowPage = () => {
   const [involvedSummaries, setInvolvedSummaries] = useState<ResSummaryBook[]>(
     [],
   );
-  const [summaryCommentList, setSummaryCommentList] = useState<
-    ResSummaryComment[]
-  >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
 
@@ -39,16 +27,6 @@ const SummaryShowPage = () => {
       return (
         <div className="main-block article-block">
           <SummaryDetails summaryBook={summarybook} currentUser={currentUser} />
-          <SummaryComment<ResSummaryComment> dataList={summaryCommentList} />
-          {currentUser && currentUser.id ? (
-            <SummaryCommentForm
-              slug={{ id }}
-              user_id={currentUser.id}
-              summary_book={summarybook}
-            />
-          ) : (
-            <p>ログインをしてからコメントをしよう</p>
-          )}
           <div className="article-block mt4">
             <h2 className="main-title blue-main-title blue-back">関連記事</h2>
             <SummaryList dataList={involvedSummaries} articleType="stack" />
@@ -64,16 +42,6 @@ const SummaryShowPage = () => {
               summaryBook={summarybook}
               currentUser={currentUser}
             />
-            <SummaryComment<ResSummaryComment> dataList={summaryCommentList} />
-            {currentUser && currentUser.id ? (
-              <SummaryCommentForm
-                slug={{ id }}
-                user_id={currentUser.id}
-                summary_book={summarybook}
-              />
-            ) : (
-              <p>ログインをしてからコメントができるよ</p>
-            )}
           </div>
         </div>
       );
@@ -84,12 +52,6 @@ const SummaryShowPage = () => {
     const loadData = async () => {
       window.scrollTo(0, 0);
       try {
-        const resSummaryCommentList: ResultResponseList<ResSummaryComment> =
-          await getSummaryComments(id);
-        if (resSummaryCommentList && resSummaryCommentList.status === 200) {
-          setSummaryCommentList(resSummaryCommentList.data);
-        }
-
         const resSummaryBook: ResultResponse<ResSummaryBook> =
           await getSummaryBookPopulate(id);
         if (resSummaryBook && resSummaryBook.status === 200) {

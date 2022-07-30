@@ -81,7 +81,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, '/public'),
     },
-    port: 3016,
+    port: 3018,
   },
   devtool: 'source-map',
 };
