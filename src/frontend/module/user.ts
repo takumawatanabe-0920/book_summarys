@@ -1,13 +1,6 @@
 import client from 'src/frontend/apiClient';
-import * as config from 'config';
-
-const UserBasePath = `${config.get('webOrigin')}${config.get(
-  'port',
-)}/api/v1/users`;
-const AuthBasePath = `${config.get('webOrigin')}${config.get(
-  'port',
-)}/api/v1/auth`;
-
+const UserBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users`;
+const AuthBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/auth`;
 export interface User {
   _id?: string;
   id?: string;
@@ -17,7 +10,6 @@ export interface User {
   displayName: string;
   photoURL?: string;
 }
-
 type SignupArgs = User;
 
 const signup = async (args: SignupArgs): Promise<User> => {

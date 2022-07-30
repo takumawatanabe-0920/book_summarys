@@ -4521,6 +4521,11 @@ concurrently@^5.3.0:
     tree-kill "^1.2.2"
     yargs "^13.3.0"
 
+config-webpack@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/config-webpack/-/config-webpack-1.0.5.tgz#bccb13ab87ca9d1ab300b128fc0092f1294b39a8"
+  integrity sha512-ytSIkCQSUPARZh3SpKYLAhE0+2+i2+Gz9t9K/jooGzbVQeDGAZzAAphPpqyvXAcrXHndu5nUnY0ZduK07TvXmA==
+
 config@^3.3.7:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/config/-/config-3.3.7.tgz#4310410dc2bf4e0effdca21a12a4035860a24ee4"
