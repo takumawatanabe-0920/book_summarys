@@ -27,10 +27,6 @@ import SummaryCategories from './summary/SummaryCategories';
 import MypagePage from './user/mypage';
 import MypageSidebar from './user/mypage/parts/MypageSidebar';
 import MypageProfile from './user/mypage/parts/MypageProfile';
-import SummaryComment from './coment/SummaryComment';
-import SummaryCommentForm from './coment/SummaryCommentForm';
-import CommentList from './coment/CommentList';
-import CommentItem from './coment/CommentItem';
 import Navbar from './common/parts/Navbar';
 import Alert from './common/parts/Alert';
 import Loading from './common/parts/Loading';
@@ -65,10 +61,6 @@ export {
   MypageSidebar,
   MypageProfile,
   UserIcon,
-  SummaryComment,
-  CommentList,
-  CommentItem,
-  SummaryCommentForm,
   Alert,
   Navbar,
   Loading,

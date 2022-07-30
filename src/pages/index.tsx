@@ -29,9 +29,6 @@ const MypageFavorites = lazy(
 const MypageSummaries = lazy(
   () => import('../frontend/components/user/mypage/MypageSummaries'),
 );
-const MypageComments = lazy(
-  () => import('../frontend/components/user/mypage/MypageComments'),
-);
 const MypageHome = lazy(
   () => import('../frontend/components/user/mypage/MypageHome'),
 );
@@ -115,14 +112,6 @@ root.render(
                   element={
                     <Suspense fallback={<div />}>
                       <MypageFavorites />
-                    </Suspense>
-                  }
-                />
-                <Route
-                  path="/mypage/:id/comments"
-                  element={
-                    <Suspense fallback={<div />}>
-                      <MypageComments />
                     </Suspense>
                   }
                 />

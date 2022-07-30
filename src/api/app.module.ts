@@ -6,7 +6,6 @@ import { CategoryModule } from './categories/category.module';
 import { SubCategoryModule } from './subCategories/subCategory.module';
 import { SummaryModule } from './summaries/summary.module';
 import { UserModule } from './users/user.module';
-import { SummaryCommentModule } from './summaryComments/summaryComment.module';
 import { FavoriteModule } from './favorites/favorite.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -22,7 +21,6 @@ import * as config from 'config';
     SubCategoryModule,
     SummaryModule,
     UserModule,
-    SummaryCommentModule,
     AuthModule,
   ],
   controllers: [AppController],

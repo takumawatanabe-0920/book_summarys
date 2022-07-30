@@ -36,13 +36,6 @@ import {
   getImage,
   responseUploadImage,
 } from './defalt';
-import {
-  createSummaryComment,
-  getMyComments,
-  getSummaryComments,
-  getMyCommentCount,
-  getIdComment,
-} from './comment';
 
 export {
   getCategories,
@@ -71,12 +64,7 @@ export {
   getfavoriteNum,
   readQuery,
   formatDateHour,
-  getMyComments,
-  getMyCommentCount,
-  createSummaryComment,
-  getSummaryComments,
   getSummaryBookPopulate,
-  getIdComment,
   uploadImage,
   getImage,
   responseUploadImage,

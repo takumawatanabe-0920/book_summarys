@@ -101,13 +101,6 @@ const Header = () => {
                   >
                     いいね一覧
                   </Link>
-                  <Link
-                    onClick={() => closePulldown()}
-                    to={`/mypage/${currentUser.id}/comments`}
-                    className="_item"
-                  >
-                    コメント一覧
-                  </Link>
                   <div className="hr"></div>
                   <div
                     className="_item"
