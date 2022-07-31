@@ -21,10 +21,11 @@ export class AuthController {
     private readonly authApplication: AuthApplication,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('@me')
   async me(@Request() req): Promise<UserDTO> {
     try {
+      console.log({ req });
       const { user } = req;
       return user;
     } catch (error) {
@@ -33,7 +34,6 @@ export class AuthController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('signup')
   async signup(@Body(new ValidationPipe()) body: CreateUserDTO) {
     try {
