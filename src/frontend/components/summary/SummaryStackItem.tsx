@@ -15,7 +15,7 @@ const SummaryStackItem: FC<Props> = (props) => {
     <>
       <Link to={`/summary/${data.id}`} className="summaries-stack">
         <div className="_stack-header">
-          <UserIcon user_id={data.user_id} size="min" />
+          {/* <UserIcon user={data.user_id} size="min" /> */}
           <p className="_date">
             が{formatUpdateDate(data.update_date)}に投稿しました。
           </p>

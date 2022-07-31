@@ -39,6 +39,15 @@ export class CreateUserDTO {
   password: string;
 }
 
+export class UpdateDto {
+  @IsString()
+  displayName: string;
+
+  @IsOptional()
+  @IsString()
+  photoURL: string;
+}
+
 export class LoginDTO {
   @IsString()
   email: string;

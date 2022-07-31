@@ -33,7 +33,9 @@ export class FavoriteRepository {
   }
 
   async update(id: string, favorite: FavoriteDTO): Promise<Favorite> {
-    return await this.favoriteModel.findByIdAndUpdate(id, favorite);
+    return await this.favoriteModel.findByIdAndUpdate(id, favorite, {
+      new: true,
+    });
   }
 
   async count(): Promise<number> {

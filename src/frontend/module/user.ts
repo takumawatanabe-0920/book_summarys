@@ -20,7 +20,6 @@ const signup = async (args: SignupArgs): Promise<User> => {
       password,
       displayName,
     });
-    console.log({ response });
     if (!response.data?.token) {
       throw new Error('token is required');
     }
@@ -40,7 +39,6 @@ const login = async (args: LoginArgs): Promise<User> => {
       email,
       password,
     });
-    console.log({ response });
     if (!response.data?.token) {
       throw new Error('token is required');
     }

@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar, RegisterForm } from '../..';
 import { GlobalContext } from '../../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 const MypageEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const history = useNavigate();
   const { id } = useParams<'id'>();
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
-
+  const { currentUser } = useContext(GlobalContext);
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      if (id !== (currentUser && currentUser.id)) {
+      if (id !== getId(currentUser)) {
         history(`/mypage/${id}/home`);
       }
     };
 
     loadData();
-  }, []);
+  }, [currentUser]);
 
   return (
     <>
@@ -33,7 +33,7 @@ const MypageEdit = () => {
                   <MypageSidebar user={currentUser} />
                   <div className="_mypage">
                     <h2 className="sub-ttl">会員情報編集</h2>
-                    <RegisterForm userData={currentUser} isEdit={true} />
+                    <RegisterForm isEdit={true} />
                   </div>
                 </div>
               </div>

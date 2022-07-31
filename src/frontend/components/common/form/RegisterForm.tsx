@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Input } from '../..';
 import { RegisterUser } from '../../../../types';
@@ -10,17 +9,15 @@ import { getId } from '../../../../config/objectId';
 
 type Props = {
   isEdit?: boolean;
-  userData?: User;
 };
 
 const RegisterForm: FC<Props> = (props) => {
-  const { isEdit, userData } = props;
+  const { isEdit } = props;
   const [values, setValues] = useState<RegisterUser>({});
   const [errorTexts, setErrorTexts] = useState<RegisterUser>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { setCurrentUser, currentUser } = useContext(GlobalContext);
-  const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -110,14 +107,12 @@ const RegisterForm: FC<Props> = (props) => {
           });
           setCurrentUser(user);
           await throwAlert('success', '会員情報を更新しました。');
-          history(`/`, { replace: true });
         } catch (error) {
           throwAlert('danger', '会員情報の更新に失敗しました。');
           return;
         }
       } else {
         try {
-          console.log({ displayName, email, password });
           const user = await signup({
             email,
             password,
@@ -126,7 +121,6 @@ const RegisterForm: FC<Props> = (props) => {
           });
           setCurrentUser(user);
           await throwAlert('success', '会員情報に成功しました。');
-          history(`/`, { replace: true });
         } catch (error) {
           if (error.message === 'user already exists') {
             throwAlert('danger', 'すでに登録されているメールアドレスです。');
@@ -143,14 +137,13 @@ const RegisterForm: FC<Props> = (props) => {
     const loadData = async () => {
       try {
         if (isEdit) {
-          const { displayName, photoURL } = userData;
+          const { displayName, photoURL } = currentUser || {};
           setValues({ displayName, photoURL });
         }
       } catch (e) {}
     };
-
     loadData();
-  }, []);
+  }, [currentUser]);
 
   return (
     <>

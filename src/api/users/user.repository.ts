@@ -29,7 +29,7 @@ export class UserRepository {
   }
 
   async update(id: string, user: Partial<CreateUserDTO>): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, user);
+    return await this.userModel.findByIdAndUpdate(id, user, { new: true });
   }
 
   async delete(id: string): Promise<User> {

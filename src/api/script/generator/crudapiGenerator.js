@@ -239,7 +239,7 @@ export class ${upperCaseName}Repository {
   }
 
   async update(id: string, ${lowerCaseName}: ${upperCaseName}DTO): Promise<${upperCaseName}> {
-    return await this.${lowerCaseName}Model.findByIdAndUpdate(id, ${lowerCaseName});
+    return await this.${lowerCaseName}Model.findByIdAndUpdate(id, ${lowerCaseName}, { new: true });
   }
 
   async delete(id: string): Promise<${upperCaseName}> {

@@ -27,7 +27,9 @@ export class CategoryRepository {
   }
 
   async update(id: string, category: CategoryDTO): Promise<Category> {
-    return await this.categoryModel.findByIdAndUpdate(id, category);
+    return await this.categoryModel.findByIdAndUpdate(id, category, {
+      new: true,
+    });
   }
 
   async delete(id: string): Promise<Category> {

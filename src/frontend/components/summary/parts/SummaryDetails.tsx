@@ -5,6 +5,7 @@ import { formatUpdateDate } from '../../../../utils/function';
 import { FavoriteButton, UserIcon } from '../..';
 import { ReadOnlyEditor } from '../../../../utils/richtext';
 import { FavoriteIcon } from '../../../../utils/material';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   summaryBook: ResSummaryBook;
@@ -27,7 +28,7 @@ const SummaryDetails: FC<Props> = (props) => {
   return (
     <>
       <div className="prof-area">
-        <UserIcon user_id={user_id} />
+        {/* <UserIcon user_id={user_id} /> */}
         <div className="_update-date">
           <p>{formatUpdateDate(update_date)}に更新</p>
         </div>
@@ -60,7 +61,7 @@ const SummaryDetails: FC<Props> = (props) => {
           <ReadOnlyEditor editorState={content} />
           <div className="_favorite-area">
             <FavoriteButton
-              user_id={currentUser && currentUser.id}
+              user_id={getId(currentUser)}
               summary_book={summaryBook}
             />
           </div>

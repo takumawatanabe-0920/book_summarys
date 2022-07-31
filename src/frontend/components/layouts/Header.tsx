@@ -9,6 +9,7 @@ import {
 } from '../../../utils/icons';
 import useAlertState from '../../hooks/useAlertState';
 import { GlobalContext } from '../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 const Header = () => {
   const [mouseOver, setMouseOver] = useState<boolean>(false);
@@ -16,7 +17,6 @@ const Header = () => {
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
-
   const enterPulldown = () => {
     setMouseOver(true);
   };
@@ -76,12 +76,15 @@ const Header = () => {
                   onMouseEnter={() => enterPulldown()}
                   onMouseLeave={() => leavePulldown()}
                 >
-                  <Link to={`/mypage/${currentUser.id}/home`} className="_item">
+                  <Link
+                    to={`/mypage/${getId(currentUser)}/home`}
+                    className="_item"
+                  >
                     ユーザー情報
                   </Link>
                   <Link
                     onClick={() => closePulldown()}
-                    to={`/mypage/${currentUser.id}/edit`}
+                    to={`/mypage/${getId(currentUser)}/edit`}
                     className="_item"
                   >
                     会員情報を編集
@@ -89,14 +92,14 @@ const Header = () => {
                   <div className="hr"></div>
                   <Link
                     onClick={() => closePulldown()}
-                    to={`/mypage/${currentUser.id}/summaries`}
+                    to={`/mypage/${getId(currentUser)}/summaries`}
                     className="_item"
                   >
                     投稿記事一覧
                   </Link>
                   <Link
                     onClick={() => closePulldown()}
-                    to={`/mypage/${currentUser.id}/favorites`}
+                    to={`/mypage/${getId(currentUser)}/favorites`}
                     className="_item"
                   >
                     いいね一覧

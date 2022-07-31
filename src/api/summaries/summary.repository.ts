@@ -51,9 +51,12 @@ export class SummaryRepository {
   async update(
     id: string,
     summary: UpdateBody<any> | SummaryDTO,
-    option?: repositories.BaseOptions,
+    option: repositories.BaseOptions = {},
   ): Promise<Summary> {
-    return await this.summaryModel.findByIdAndUpdate(id, summary, option);
+    return await this.summaryModel.findByIdAndUpdate(id, summary, {
+      ...option,
+      new: true,
+    });
   }
 
   async delete(
