@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { SummaryRepository } from './summary.repository';
-import { SummaryDTO } from './summary.dto';
+import { SummaryDTO, CreateSummaryDTO, UpdateSummaryDTO } from './summary.dto';
 import { PaginationOptions } from '../../config/mongoOption';
 @Injectable()
 export class SummaryApplication {
@@ -40,7 +40,7 @@ export class SummaryApplication {
   }
 
   async create(
-    body: SummaryDTO,
+    body: CreateSummaryDTO,
   ): Promise<ReturnType<SummaryRepository['create']>> {
     try {
       return await this.summaryRepository.create(body);
@@ -52,7 +52,7 @@ export class SummaryApplication {
 
   async update(
     id: string,
-    body: SummaryDTO,
+    body: UpdateSummaryDTO,
   ): Promise<ReturnType<SummaryRepository['update']>> {
     try {
       return await this.summaryRepository.update(id, body);

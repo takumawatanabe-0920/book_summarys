@@ -9,7 +9,7 @@ const defaultOptions = {
 };
 type PaginationOptions = {
   page?: number;
-  perPage?: number;
+  limit?: number;
   sort?: string;
   direction?: 'asc' | 'desc';
 };

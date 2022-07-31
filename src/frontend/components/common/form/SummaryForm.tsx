@@ -2,22 +2,23 @@ import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../..';
 import {
-  SummaryBook,
   ResCategory,
   ResSubCategory,
-  ResultResponse,
   ResultResponseList,
   ResFavorite,
-  ResSummaryBook,
 } from '../../../../types';
 import {
   getCategories,
   categoryLinkingSubCategory,
-  createSummary,
-  updateSummary,
-  uploadImage,
-  responseUploadImage,
+  // uploadImage,
+  // responseUploadImage,
 } from '../../../../firebase/functions';
+import {
+  update as updateSummary,
+  create as createSummary,
+  Summary,
+  publishingSettings,
+} from 'src/frontend/module/summary';
 import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
@@ -25,28 +26,24 @@ import { getId } from 'src/config/objectId';
 
 type Props = {
   isEdit?: boolean;
-  editData?: ResSummaryBook;
+  summary?: Summary;
 };
 
 const SummaryForm: FC<Props> = (props) => {
-  const { isEdit, editData } = props;
-  const [values, setValues] = useState<SummaryBook>({});
+  const { isEdit, summary } = props;
+  const [values, setValues] = useState<Partial<Summary>>({});
   const [categories, setCategories] = useState<ResCategory[]>([]);
-  const [publishingSettings, setPublishingSettings] = useState([
-    { id: 'public', name: '公開' },
-    { id: 'private', name: '非公開' },
-  ]);
   const [subCategories, setSubCategories] = useState<ResSubCategory[]>([]);
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
-  const [image, setImage] = useState<File>();
-  const [imageUrl, setImageUrl] = useState<string | void>('');
-  const [errorTexts, setErrorTexts] = useState<SummaryBook>({});
-  const [thumnail, setThumnail] = useState<string>('');
+  // const [image, setImage] = useState<File>();
+  // const [imageUrl, setImageUrl] = useState<string | void>('');
+  const [errorTexts, setErrorTexts] = useState<Partial<Summary>>({});
+  // const [thumnail, setThumnail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
 
   const history = useNavigate();
 
@@ -100,32 +97,32 @@ const SummaryForm: FC<Props> = (props) => {
     }
   };
 
-  const handleChangeThumbnail = (_fileImg: File): string | void => {
-    if (validateImageUploads(_fileImg)) return;
-    if (_fileImg.type.startsWith('image/')) {
-      const imgUrl = window.URL.createObjectURL(_fileImg);
-      return imgUrl;
-    }
-  };
+  // const handleChangeThumbnail = (_fileImg: File): string | void => {
+  //   if (validateImageUploads(_fileImg)) return;
+  //   if (_fileImg.type.startsWith('image/')) {
+  //     const imgUrl = window.URL.createObjectURL(_fileImg);
+  //     return imgUrl;
+  //   }
+  // };
 
-  const validateImageUploads = (_file: File): string | void => {
-    if (!_file) return;
-    if (_file.size > 1000000) {
-      setImageUrl(null);
-      setImage(undefined);
-      throwAlert('danger', 'ファイルサイズが1MBを超えています');
-      return 'err';
-    }
-  };
+  // const validateImageUploads = (_file: File): string | void => {
+  //   if (!_file) return;
+  //   if (_file.size > 1000000) {
+  //     setImageUrl(null);
+  //     setImage(undefined);
+  //     throwAlert('danger', 'ファイルサイズが1MBを超えています');
+  //     return 'err';
+  //   }
+  // };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.persist();
-    const target = event.target;
-    const imgFile = target.files[0];
-    const resImgUrl = handleChangeThumbnail(imgFile);
-    setImageUrl(resImgUrl);
-    setImage(imgFile);
-  };
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   event.persist();
+  //   const target = event.target;
+  //   const imgFile = target.files[0];
+  //   const resImgUrl = handleChangeThumbnail(imgFile);
+  //   setImageUrl(resImgUrl);
+  //   setImage(imgFile);
+  // };
 
   const onTogglePreview = (event: React.MouseEvent) => {
     event.persist();
@@ -135,24 +132,24 @@ const SummaryForm: FC<Props> = (props) => {
 
   const validationCheck = async (): Promise<boolean> => {
     let isError = false;
-    const errorText: SummaryBook = {};
+    const errorText: Partial<Summary> = {};
     const {
       title,
       content,
       category,
-      thumbnail,
+      // thumbnail,
       discription,
-      book_name,
-      publishing_status,
+      bookName,
+      publishingStatus,
     } = values;
     if (!title || !title.match(/\S/g)) {
       isError = true;
       errorText.title = '記事のタイトルを入力してください。';
     }
 
-    if (!book_name || !book_name.match(/\S/g)) {
+    if (!bookName || !bookName.match(/\S/g)) {
       isError = true;
-      errorText.book_name = '本のタイトルを入力してください。';
+      errorText.bookName = '本のタイトルを入力してください。';
     }
 
     if (!discription || !discription.match(/\S/g)) {
@@ -175,17 +172,17 @@ const SummaryForm: FC<Props> = (props) => {
         errorText.content = '50文字以上で入力してください。';
       }
     }
-    if (!thumbnail && (!image || !imageUrl)) {
-      isError = true;
-      errorText.thumbnail = 'サムネイル画像を設定してください。';
-    }
+    // if (!thumbnail && (!image || !imageUrl)) {
+    //   isError = true;
+    //   errorText.thumbnail = 'サムネイル画像を設定してください。';
+    // }
     if (!category || !category.match(/\S/g)) {
       isError = true;
       errorText.category = '本のカテゴリーを設定してください。';
     }
-    if (!publishing_status || !category.match(/\S/g)) {
+    if (!publishingStatus || !category.match(/\S/g)) {
       isError = true;
-      errorText.publishing_status = 'この記事の公開設定をしてください。';
+      errorText.publishingStatus = 'この記事の公開設定をしてください。';
     }
     setErrorTexts(errorText);
 
@@ -201,40 +198,40 @@ const SummaryForm: FC<Props> = (props) => {
   const onSubmit = async (event: React.MouseEvent) => {
     event.persist();
     event.preventDefault();
-    values.favorite_id = [];
     if (await validationCheck()) return;
     if (
       window.confirm(isEdit ? '修正分を反映しますか？' : '記事を作成しますか？')
     ) {
-      if (imageUrl) {
-        const resUpload: ResultResponse<any> = await uploadImage(
-          image,
-          'summary',
-        );
-        if (resUpload.status === 200) {
-          values.thumbnail = resUpload.data;
+      try {
+        // if (imageUrl) {
+        //   const resUpload: ResultResponse<any> = await uploadImage(
+        //     image,
+        //     'summary',
+        //   );
+        //   if (resUpload.status === 200) {
+        //     values.thumbnail = resUpload.data;
+        //   } else {
+        //     return await throwAlert(
+        //       'danger',
+        //       '画像のアップロードに失敗しました。',
+        //     );
+        //   }
+        // }
+        if (isEdit) {
+          await updateSummary(getId(summary), values);
+          history(`/summary/${getId(summary)}`);
         } else {
-          return await throwAlert(
-            'danger',
-            '画像のアップロードに失敗しました。',
-          );
+          const createdSummary = await createSummary(values);
+          history(`/summary/${getId(createdSummary)}`);
         }
-      }
-      let resSummary: ResultResponse<ResSummaryBook>;
-      if (isEdit) {
-        resSummary = await updateSummary(values);
-      } else {
-        resSummary = await createSummary(values);
-      }
-      if (resSummary && resSummary.status === 200) {
         await throwAlert(
           'success',
           isEdit ? '記事が編集されました。' : '記事が作成されました。',
         );
+      } catch (error) {
+        await throwAlert('danger', error.message);
+      } finally {
         setValues({});
-        history(`/summary/${resSummary.data.id}`);
-      } else {
-        history('/');
       }
     }
   };
@@ -254,22 +251,22 @@ const SummaryForm: FC<Props> = (props) => {
         />
         <Input
           title="本のタイトル"
-          name="book_name"
-          value={values && values.book_name ? values.book_name : ''}
+          name="bookName"
+          value={values && values.bookName ? values.bookName : ''}
           placeholder="人を動かす"
           required={true}
           onChange={handleInputChange}
-          errorMessage={errorTexts.book_name ? errorTexts.book_name : ''}
+          errorMessage={errorTexts.bookName ? errorTexts.bookName : ''}
         />
-        <Input
+        {/* <Input
           title="サムネイル"
           name="thumbnail"
           required={true}
           type="file"
           onChange={handleImageChange}
           errorMessage={errorTexts.thumbnail ? errorTexts.thumbnail : ''}
-        />
-        <div className="_thumnail-area">
+        /> */}
+        {/* <div className="_thumnail-area">
           {thumnail && (
             <dl>
               <dt>登録サムネイル</dt>
@@ -286,7 +283,7 @@ const SummaryForm: FC<Props> = (props) => {
               </dd>
             </dl>
           )}
-        </div>
+        </div> */}
         <Textarea
           title="リード文"
           name="discription"
@@ -315,23 +312,23 @@ const SummaryForm: FC<Props> = (props) => {
         {isSelectCategory && (
           <Select
             title="本のサブカテゴリー"
-            name="sub_category"
-            value={values && values.sub_category ? values.sub_category : ''}
+            name="subCategory"
+            value={values && values.subCategory ? values.subCategory : ''}
             onChange={handleSelectChange}
             dataList={subCategories}
           />
         )}
         <Select
           title="公開設定"
-          name="publishing_status"
+          name="publishingStatus"
           value={
-            values && values.publishing_status ? values.publishing_status : ''
+            values && values.publishingStatus ? values.publishingStatus : ''
           }
           required={true}
           dataList={publishingSettings}
           onChange={handleSelectChange}
           errorMessage={
-            errorTexts.publishing_status ? errorTexts.publishing_status : ''
+            errorTexts.publishingStatus ? errorTexts.publishingStatus : ''
           }
         />
       </>
@@ -355,27 +352,21 @@ const SummaryForm: FC<Props> = (props) => {
         if (resCategoryList && resCategoryList.status === 200) {
           setCategories(resCategoryList.data);
         }
-        if (isEdit && Object.keys(editData).length > 0) {
-          const resThumnail: string = await responseUploadImage(
-            editData.thumbnail,
-          );
-          subCategorySelect(editData.category);
+        if (isEdit && Object.keys(summary).length > 0) {
+          // const resThumnail: string = await responseUploadImage(
+          //   summary.thumbnail,
+          // );
+          subCategorySelect(summary.category);
           setIsSelectCategory(true);
-          setThumnail(resThumnail);
+          // setThumnail(resThumnail);
           setValues({
-            ...editData,
-            ['user_id']: getId(currentUser),
-            ['user_name']: currentUser.displayName
-              ? currentUser.displayName
-              : '',
+            ...summary,
+            user: getId(currentUser),
           });
         } else {
           setValues({
             ...values,
-            ['user_id']: getId(currentUser),
-            ['user_name']: currentUser.displayName
-              ? currentUser.displayName
-              : '',
+            user: getId(currentUser),
           });
         }
         setLoading(true);
@@ -383,7 +374,7 @@ const SummaryForm: FC<Props> = (props) => {
     };
 
     loadData();
-  }, [image]);
+  }, []);
 
   return (
     <>

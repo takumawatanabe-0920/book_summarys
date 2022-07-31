@@ -65,7 +65,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
     <>
       {time && (
         <div className="_update-date">
-          あなたが{formatUpdateDate(time)}
+          あなたが{formatUpdateDate(time as any)}
           に閲覧しました。
         </div>
       )}
@@ -101,7 +101,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
             <dt>投稿日時</dt>
             <dd>
               <p className="_description">
-                {formatUpdateDate(data.update_date)}
+                {formatUpdateDate(data.update_date as any)}
               </p>
             </dd>
           </dl>

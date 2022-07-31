@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { SummaryForm } from '..';
-import { getSummaryBook } from '../../../firebase/functions';
-import { ResultResponse, ResSummaryBook } from '../../../types';
-
+import { load as loadSummary, Summary } from 'src/frontend/module/summary';
 const SummaryEditPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [summarybook, setSummaryBook] = useState<ResSummaryBook>({});
+  const [summary, setSummary] = useState<Partial<Summary>>({});
   const { id } = useParams<'id'>();
 
   useEffect(() => {
-    const loadData = async () => {
-      const resSummary: ResultResponse<ResSummaryBook> = await getSummaryBook(
-        id,
-      );
-      if (resSummary && resSummary.status === 200) {
-        setSummaryBook(resSummary.data);
-      }
-      setLoading(true);
-    };
+    try {
+      const loadData = async () => {
+        const _summary = await loadSummary(id);
+        setSummary(_summary);
+        setLoading(true);
+      };
 
-    loadData();
-  }, []);
+      loadData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
   return (
     <>
       {loading && (
         <div className="summary_main">
           <div className="md-container">
             <div className="main-block _block-center">
-              <SummaryForm isEdit={true} editData={summarybook} />
+              <SummaryForm isEdit={true} summary={summary as Summary} />
             </div>
           </div>
         </div>

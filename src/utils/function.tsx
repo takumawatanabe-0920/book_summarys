@@ -1,8 +1,7 @@
-import React from 'react';
 import dayjs from 'dayjs';
 
-export const formatUpdateDate = (_datetime: firebase.firestore.Timestamp) => {
-  const dateTime = _datetime.seconds;
+export const formatUpdateDate = (date: Date & { seconds?: any }) => {
+  const dateTime = date.seconds;
   const messageTime = dateTime ? dayjs.unix(dateTime).format('MM/DD') : '';
   const now = new Date();
   const nowTime = Math.floor(now.getTime() / 1000);
@@ -14,7 +13,6 @@ export const formatUpdateDate = (_datetime: firebase.firestore.Timestamp) => {
   diffTime -= diffHours * 3600;
   const diffMinutes = Math.floor(diffTime / 60) % 60;
   diffTime -= diffMinutes * 60;
-  const diffSeconds = diffTime % 60;
 
   if (diffDays >= 7) {
     return messageTime;
