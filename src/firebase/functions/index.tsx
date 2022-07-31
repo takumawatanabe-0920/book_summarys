@@ -8,8 +8,6 @@ import {
 } from './category';
 import {
   getOneConditionsSummaries,
-  getTwoConditionsSummaries,
-  getSummaryBookPopulate,
   getOneConditionsSummaryCount,
   getTwoConditionsSummaryCount,
   updateFavoriteSummaries,
@@ -47,7 +45,6 @@ export {
   getRankingSummaries,
   getOneConditionsSummaryCount,
   getTwoConditionsSummaryCount,
-  getTwoConditionsSummaries,
   getOneConditionsDescPaginationSummaries,
   getTwoConditionsDescPaginationSummaries,
   getDonefavorite,
@@ -58,7 +55,6 @@ export {
   getfavoriteNum,
   readQuery,
   formatDateHour,
-  getSummaryBookPopulate,
   uploadImage,
   getImage,
   responseUploadImage,

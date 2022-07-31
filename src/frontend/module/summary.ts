@@ -1,5 +1,5 @@
 import client from 'src/frontend/apiClient';
-
+import { QueryOptions } from 'src/types/common';
 const SummaryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/summaries`;
 
 export interface Summary {
@@ -12,21 +12,19 @@ export interface Summary {
   thumbnail: string;
   publishingStatus: string;
   image: string;
-  category: string;
-  subCategory: string;
+  category: any;
+  subCategory: any;
   user: string;
+  updatedAt: Date;
+  createdAt: Date;
 }
 
 type LoadAllArgs = {
   params: {
-    sortBy: string;
-    order: string;
-    userId: string;
-    categoryId: string;
-    publishingStatus: string;
-    startDate: string;
-    endDate: string;
-  };
+    userId?: string;
+    categoryId?: string;
+    publishingStatus?: string;
+  } & QueryOptions;
 };
 
 const publishingSettings = [

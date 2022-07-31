@@ -159,59 +159,6 @@ export const getOneConditionsSummaries = async (
 };
 
 // done
-export const getTwoConditionsSummaries = async (
-  limit?: number,
-  page?: number,
-  sort?: [string, firebase.firestore.OrderByDirection],
-  queryList?: string[],
-): Promise<ResultResponseList<ResSummaryBook>> => {
-  const [fieldPath1, query1, fieldPath2, query2] = queryList;
-  const [orderFieldPath, directionStr] = sort;
-
-  const response = await db
-    .collection('summary')
-    .where(fieldPath1, '==', query1)
-    .where(fieldPath2, '==', query2)
-    .orderBy(orderFieldPath, directionStr)
-    .limit(limit)
-    .get()
-    .then(async (res) => {
-      const resData: ResSummaryBook[] = await Promise.all(
-        res.docs.map(async (doc) => {
-          const resCategory: ResultResponse<ResCategory> = await getCategory(
-            doc.data().category,
-          );
-          let category: ResCategory;
-          const resSubCategory: ResultResponse<ResCategory> =
-            await getSubCategory(doc.data().sub_category);
-          const user = await loadUser(doc.data().user_id);
-          let sub_category: ResCategory;
-          if (resCategory && resCategory.status === 200) {
-            category = resCategory.data;
-          }
-          if (resSubCategory && resSubCategory.status === 200) {
-            sub_category = resSubCategory.data;
-          }
-
-          return {
-            id: doc.id,
-            ...doc.data(),
-            category,
-            sub_category,
-            user_id: user ? user : doc.data().user_id,
-          };
-        }),
-      );
-      return { status: 200, data: resData };
-    })
-    .catch(function (error) {
-      console.log(error);
-      return { status: 400, error };
-    });
-  return response;
-};
-
-// done
 export const getOneConditionsDescPaginationSummaries = async (
   limit?: number,
   page?: number,
@@ -458,45 +405,4 @@ export const getTwoConditionsSummaryCount = async (
     });
 
   return docNum;
-};
-
-// done
-export const getSummaryBookPopulate = (
-  id: string,
-): Promise<ResultResponse<ResSummaryBook>> => {
-  const response = db
-    .collection('summary')
-    .doc(id)
-    .get()
-    .then(async (doc) => {
-      if (doc.exists) {
-        const user = await loadUser(doc.data().user_id);
-        const resCategory: ResultResponse<ResCategory> = await getCategory(
-          doc.data().category,
-        );
-        const resSubCategory: ResultResponse<ResCategory> =
-          await getSubCategory(doc.data().sub_category);
-        let category: ResCategory;
-        let sub_category: ResCategory;
-        if (resCategory && resCategory.status === 200) {
-          category = resCategory.data;
-        }
-        if (resSubCategory && resSubCategory.status === 200) {
-          sub_category = resSubCategory.data;
-        }
-        const data = {
-          id: doc.id,
-          ...doc.data(),
-          user_id: user ? user : doc.data().user_id,
-          category,
-          sub_category,
-        };
-        return { status: 200, data };
-      }
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-
-  return response;
 };

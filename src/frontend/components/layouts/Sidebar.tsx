@@ -4,6 +4,7 @@ import { ResSummaryBook, ResultResponseList } from '../../../types';
 import clsx from 'clsx';
 import { getRankingSummaries } from '../../../firebase/functions';
 import { useNavigate } from 'react-router-dom';
+import { getId } from 'src/config/objectId';
 
 const Sidebar = () => {
   const [allRankingSummaries, setAllRankingSummaries] = useState<
@@ -70,9 +71,9 @@ const Sidebar = () => {
                   </dt>
                   <dd>
                     <Link
-                      to={`/summary/${summary.id}`}
+                      to={`/summary/${getId(summary)}`}
                       className="article-item"
-                      key={summary.id}
+                      key={getId(summary)}
                     >
                       {summary.title}
                     </Link>
@@ -98,7 +99,7 @@ const Sidebar = () => {
                     <div
                       onClick={() => changeUrl(summary)}
                       className="article-item"
-                      key={summary.id}
+                      key={getId(summary)}
                     >
                       {summary.title}
                     </div>
@@ -121,9 +122,9 @@ const Sidebar = () => {
                 </dt>
                 <dd>
                   <Link
-                    to={`/summary/${summary.id}`}
+                    to={`/summary/${getId(summary)}`}
                     className="article-item"
-                    key={summary.id}
+                    key={getId(summary)}
                   >
                     {summary.title}
                   </Link>

@@ -17,7 +17,7 @@ const SummaryStackItem: FC<Props> = (props) => {
         <div className="_stack-header">
           {/* <UserIcon user={data.user_id} size="min" /> */}
           <p className="_date">
-            が{formatUpdateDate(data.update_date)}に投稿しました。
+            が{formatUpdateDate(data.update_date as any)}に投稿しました。
           </p>
         </div>
         <div className="_txt-box">

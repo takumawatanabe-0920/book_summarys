@@ -3,7 +3,6 @@ import {
   ResFavorite,
   ResultResponseList,
   ResultResponse,
-  ResSummaryBook,
 } from '../../../../types';
 import {
   getFavorite,
@@ -14,29 +13,31 @@ import {
 import useAlertState from '../../../hooks/useAlertState';
 import { FavoriteIcon } from '../../../../utils/material';
 import { GlobalContext } from '../../../hooks/context/Global';
+import { Summary } from 'src/frontend/module/summary';
+import { getId } from 'src/config/objectId';
 
 type Props = {
-  summary_book: ResSummaryBook;
-  user_id: string;
+  summary: Summary;
+  userId: string;
 };
 
 const FavoliteButton: FC<Props> = (props) => {
-  const { user_id, summary_book } = props;
+  const { userId, summary } = props;
   const [currentUserfavorites, setCurrentUserFavorites] = useState<ResFavorite>(
     {},
   );
   const [favoritesNum, setFavoritesNum] = useState(0);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
 
   const handleFavorite = async (event: React.MouseEvent<HTMLElement>) => {
     event.persist();
     event.preventDefault();
-    if (!user_id) {
+    if (!userId) {
       return await throwAlert('danger', 'ログインしてください。');
     }
-    if (Object.keys(summary_book).length <= 0 && !summary_book.id) {
+    if (Object.keys(summary).length <= 0 && !getId(summary)) {
       return await throwAlert('danger', '記事が存在しません。');
     }
     //レンダリングさせる必要がある
@@ -44,7 +45,7 @@ const FavoliteButton: FC<Props> = (props) => {
       const resDeleteFavorite: ResultResponse<ResFavorite> =
         await deleteFavorite(currentUserfavorites.id);
       if (resDeleteFavorite && resDeleteFavorite.status === 200) {
-        updateFavoriteSummaries(currentUserfavorites.id, summary_book.id);
+        updateFavoriteSummaries(currentUserfavorites.id, getId(summary));
         setCurrentUserFavorites({});
         setFavoritesNum(favoritesNum - 1);
         await throwAlert('danger', 'いいねを解除しました。');
@@ -54,14 +55,14 @@ const FavoliteButton: FC<Props> = (props) => {
     } else {
       const newProps = {
         user_name: currentUser.displayName ? currentUser.displayName : '',
-        user_id,
-        summary_id: summary_book.id,
+        userId,
+        summary_id: getId(summary),
       };
       const resFavorite: ResultResponse<ResFavorite> = await createFavorite(
         newProps,
       );
       if (resFavorite && resFavorite.status === 200) {
-        updateFavoriteSummaries(resFavorite.data.id, summary_book.id);
+        updateFavoriteSummaries(resFavorite.data.id, getId(summary));
         setCurrentUserFavorites({ id: resFavorite.data.id, ...props });
         setFavoritesNum(favoritesNum + 1);
         await throwAlert('success', 'いいねしました。');
@@ -75,8 +76,8 @@ const FavoliteButton: FC<Props> = (props) => {
     const loadData = async () => {
       try {
         let resfavoriteList: ResultResponseList<ResFavorite>;
-        if (user_id && summary_book.id) {
-          resfavoriteList = await getFavorite(user_id, summary_book.id);
+        if (userId && getId(summary)) {
+          resfavoriteList = await getFavorite(userId, getId(summary));
         }
         if (
           resfavoriteList &&

@@ -1,36 +1,27 @@
 import React, { FC } from 'react';
-import { ResSummaryBook } from '../../../../types';
 import { User } from 'src/frontend/module/user';
 import { formatUpdateDate } from '../../../../utils/function';
 import { FavoriteButton, UserIcon } from '../..';
 import { ReadOnlyEditor } from '../../../../utils/richtext';
 import { FavoriteIcon } from '../../../../utils/material';
 import { getId } from 'src/config/objectId';
-
+import { Summary } from 'src/frontend/module/summary';
 type Props = {
-  summaryBook: ResSummaryBook;
+  summary: Summary;
   currentUser: User;
 };
 
 const SummaryDetails: FC<Props> = (props) => {
-  const { summaryBook, currentUser } = props;
-  const {
-    title,
-    content,
-    favorite_count,
-    user_id,
-    category,
-    sub_category,
-    book_name,
-    update_date,
-  } = summaryBook;
+  const { summary, currentUser } = props;
+  const { title, content, category, subCategory, bookName, updatedAt } =
+    summary;
 
   return (
     <>
       <div className="prof-area">
-        {/* <UserIcon user_id={user_id} /> */}
+        {/* <UserIcon user={user} /> */}
         <div className="_update-date">
-          <p>{formatUpdateDate(update_date)}に更新</p>
+          <p>{formatUpdateDate(updatedAt)}に更新</p>
         </div>
       </div>
       <div className="summary-show">
@@ -38,21 +29,18 @@ const SummaryDetails: FC<Props> = (props) => {
           <h1 className="main-title blue-main-title">{title}</h1>
           <dl className="_show-book-name">
             <dt>参考本:</dt>
-            <dd>{book_name}</dd>
+            <dd>{bookName}</dd>
           </dl>
           <div className="tags">
             {/* TODO リンク：カテゴリー記事に飛ばす */}
             <span className="tag">{category.name}</span>
-            {sub_category.name && (
-              <span className="tag">{sub_category.name}</span>
+            {subCategory.name && (
+              <span className="tag">{subCategory.name}</span>
             )}
           </div>
           <div className="_icons">
             <div className="favorite-area">
               <FavoriteIcon className="favorite-button isClick" />
-              <p className="favoriteNum">
-                {favorite_count ? favorite_count : 0}
-              </p>
             </div>
             {/* TODO: snsボタンを設置 */}
           </div>
@@ -60,10 +48,7 @@ const SummaryDetails: FC<Props> = (props) => {
         <div className="_body">
           <ReadOnlyEditor editorState={content} />
           <div className="_favorite-area">
-            <FavoriteButton
-              user_id={getId(currentUser)}
-              summary_book={summaryBook}
-            />
+            <FavoriteButton userId={getId(currentUser)} summary={summary} />
           </div>
         </div>
       </div>

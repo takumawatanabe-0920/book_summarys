@@ -33,6 +33,8 @@ export class SummaryController {
     @Query('publishingStatus') publishingStatus,
     @Query('startDate') startDate,
     @Query('endDate') endDate,
+    @Query('page') page,
+    @Query('limit') limit,
   ): Promise<ReturnType<SummaryApplication['list']>> {
     try {
       const conditions = {};
@@ -44,6 +46,12 @@ export class SummaryController {
       }
       if (publishingStatus) {
         conditions['publishingStatus'] = publishingStatus;
+      }
+      if (limit) {
+        conditions['limit'] = limit;
+      }
+      if (page) {
+        conditions['page'] = page;
       }
       if (startDate || endDate) {
         conditions['createdAt'] = {};

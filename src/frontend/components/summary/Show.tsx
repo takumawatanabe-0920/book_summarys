@@ -1,25 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  ResSummaryBook,
-  ResultResponseList,
-  ResultResponse,
-} from '../../../types';
 import { SummaryDetails, SummaryList, Sidebar, Loading } from '..';
-import {
-  getSummaryBookPopulate,
-  getTwoConditionsSummaries,
-} from '../../../firebase/functions';
 import { GlobalContext } from '../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
+import {
+  load as loadSummary,
+  loadAll as loadAllSummary,
+  Summary,
+} from 'src/frontend/module/summary';
 
 const SummaryShowPage = () => {
-  const [summarybook, setSummaryBook] = useState<ResSummaryBook>({});
-  const [involvedSummaries, setInvolvedSummaries] = useState<ResSummaryBook[]>(
-    [],
-  );
+  const [summary, setSummary] = useState<Partial<Summary>>({});
+  const [summaries, setSummaries] = useState<Partial<Summary[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
 
   const { id } = useParams<'id'>();
 
@@ -27,10 +21,13 @@ const SummaryShowPage = () => {
     if (_type === 'public' || getId(currentUser) === user_id) {
       return (
         <div className="main-block article-block">
-          <SummaryDetails summaryBook={summarybook} currentUser={currentUser} />
+          <SummaryDetails
+            summary={summary as Summary}
+            currentUser={currentUser}
+          />
           <div className="article-block mt4">
             <h2 className="main-title blue-main-title blue-back">関連記事</h2>
-            <SummaryList dataList={involvedSummaries} articleType="stack" />
+            <SummaryList dataList={summaries} articleType="stack" />
           </div>
         </div>
       );
@@ -40,7 +37,7 @@ const SummaryShowPage = () => {
           <p className="publishing-text">この記事は非公開です。</p>
           <div className="mosaic">
             <SummaryDetails
-              summaryBook={summarybook}
+              summary={summary as Summary}
               currentUser={currentUser}
             />
           </div>
@@ -53,35 +50,26 @@ const SummaryShowPage = () => {
     const loadData = async () => {
       window.scrollTo(0, 0);
       try {
-        const resSummaryBook: ResultResponse<ResSummaryBook> =
-          await getSummaryBookPopulate(id);
-        if (resSummaryBook && resSummaryBook.status === 200) {
-          setSummaryBook(resSummaryBook.data);
-        }
+        const _summary = await loadSummary(id);
+        setSummary(_summary);
 
-        const resInvolvedSummaryBookList: ResultResponseList<ResSummaryBook> =
-          await getTwoConditionsSummaries(
-            3,
-            1,
-            ['update_date', 'desc'],
-            [
-              'publishing_status',
-              'public',
-              'category',
-              resSummaryBook &&
-                resSummaryBook.data &&
-                resSummaryBook.data.category.id,
-            ],
-          );
-        if (
-          resInvolvedSummaryBookList &&
-          resInvolvedSummaryBookList.status === 200
-        ) {
-          setInvolvedSummaries(resInvolvedSummaryBookList.data);
-        }
+        const _summaries = await loadAllSummary({
+          params: {
+            categoryId: getId(_summary.category),
+            publishingStatus: 'public',
+            sortBy: 'updatedAt',
+            order: 'desc',
+            limit: 3,
+            page: 1,
+          },
+        });
+
+        setSummaries(_summaries);
 
         setLoading(true);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     loadData();
@@ -91,7 +79,7 @@ const SummaryShowPage = () => {
     <>
       {loading ? (
         <div className="summary_main">
-          {publicSummary(summarybook.publishing_status, summarybook.user_id.id)}
+          {publicSummary(summary.publishingStatus, getId(summary.user))}
           <Sidebar />
         </div>
       ) : (
