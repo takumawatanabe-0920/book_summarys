@@ -6,11 +6,7 @@ import {
   getSubCategory,
   categoryLinkingSubCategory,
 } from './category';
-import {
-  getOneConditionsSummaries,
-  updateFavoriteSummaries,
-  getRankingSummaries,
-} from './summary';
+import { updateFavoriteSummaries, getRankingSummaries } from './summary';
 import {
   getFavorite,
   getFavorites,
@@ -34,7 +30,6 @@ export {
   getSubCategories,
   getSubCategory,
   categoryLinkingSubCategory,
-  getOneConditionsSummaries,
   getCategoriesPopulateImage,
   updateFavoriteSummaries,
   getMyFavorites,

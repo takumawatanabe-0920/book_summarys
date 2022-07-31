@@ -1,49 +1,41 @@
 import React, { useState, useEffect } from 'react';
 // components
 import { SummaryList, Sidebar, TopSummaryList, Loading } from '.';
-import { ResSummaryBook, ResultResponseList } from '../../types';
-import { getOneConditionsSummaries } from '../../firebase/functions';
+import {
+  loadAll as loadAllSummary,
+  Summary,
+} from 'src/frontend/module/summary';
 import { Link } from 'react-router-dom';
 const HomePage = () => {
-  const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
-  const [newSummaries, setNewSummaries] = useState<ResSummaryBook[]>([]);
+  const [summaries, setSummaries] = useState<Partial<Summary[]>>([]);
+  const [newSummaries, setNewSummaries] = useState<Partial<Summary[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
-  let getSummaryNum = 0;
-  if (window.innerWidth < 768) {
-    getSummaryNum = 4;
-  } else {
-    getSummaryNum = 6;
-  }
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resRecommendSummariesDataList: ResultResponseList<ResSummaryBook> =
-          await getOneConditionsSummaries(
-            6,
-            1,
-            ['favorite_count', 'desc'],
-            ['publishing_status', 'public'],
-          );
-        const resNewSummariesDataList: ResultResponseList<ResSummaryBook> =
-          await getOneConditionsSummaries(
-            4,
-            1,
-            ['update_date', 'desc'],
-            ['publishing_status', 'public'],
-          );
-        if (
-          resRecommendSummariesDataList &&
-          resRecommendSummariesDataList.status === 200
-        ) {
-          setSummaries(resRecommendSummariesDataList.data);
-        }
-        if (resNewSummariesDataList && resNewSummariesDataList.status === 200) {
-          setNewSummaries(resNewSummariesDataList.data);
-        }
+        const _summaries = await loadAllSummary({
+          params: {
+            limit: 6,
+            page: 1,
+            publishingStatus: 'public',
+          },
+        });
+        const _newSummaries = await loadAllSummary({
+          params: {
+            limit: 4,
+            page: 1,
+            sortBy: 'updatedAt',
+            order: 'desc',
+            publishingStatus: 'public',
+          },
+        });
+        setSummaries(_summaries);
+        setNewSummaries(_newSummaries);
         setLoading(true);
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     loadData();
