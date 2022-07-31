@@ -8,7 +8,6 @@ import {
   getFavorite,
   createFavorite,
   deleteFavorite,
-  updateFavoriteSummaries,
 } from '../../../../firebase/functions';
 import useAlertState from '../../../hooks/useAlertState';
 import { FavoriteIcon } from '../../../../utils/material';
@@ -45,7 +44,6 @@ const FavoliteButton: FC<Props> = (props) => {
       const resDeleteFavorite: ResultResponse<ResFavorite> =
         await deleteFavorite(currentUserfavorites.id);
       if (resDeleteFavorite && resDeleteFavorite.status === 200) {
-        updateFavoriteSummaries(currentUserfavorites.id, getId(summary));
         setCurrentUserFavorites({});
         setFavoritesNum(favoritesNum - 1);
         await throwAlert('danger', 'いいねを解除しました。');
@@ -62,7 +60,6 @@ const FavoliteButton: FC<Props> = (props) => {
         newProps,
       );
       if (resFavorite && resFavorite.status === 200) {
-        updateFavoriteSummaries(resFavorite.data.id, getId(summary));
         setCurrentUserFavorites({ id: resFavorite.data.id, ...props });
         setFavoritesNum(favoritesNum + 1);
         await throwAlert('success', 'いいねしました。');

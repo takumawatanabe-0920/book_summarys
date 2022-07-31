@@ -25,6 +25,7 @@ type LoadAllArgs = {
     categoryId?: string;
     publishingStatus?: string;
   } & QueryOptions;
+  dataRange?: 'all' | 'month' | 'week';
 };
 
 const publishingSettings = [
@@ -38,12 +39,35 @@ type CountArgs = {
     categoryId?: string;
     publishingStatus?: string;
   };
+  dataRange?: 'all' | 'month' | 'week';
 };
 
 const loadAll = async (args: LoadAllArgs): Promise<Summary[]> => {
-  const { params = {} } = args;
+  const { params = {}, dataRange = 'all' } = args;
+  let startDate: Date;
+  let endDate: Date;
+  if (dataRange === 'month') {
+    const date = new Date();
+    startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  } else if (dataRange === 'week') {
+    const today = new Date();
+    const this_year = today.getFullYear();
+    const this_month = today.getMonth();
+    const date = today.getDate();
+    const day_num = today.getDay();
+    const this_monday = date - day_num + 1;
+    const this_sunday = this_monday + 6;
+    startDate = new Date(this_year, this_month, this_monday);
+    endDate = new Date(this_year, this_month, this_sunday);
+  } else if (dataRange === 'all') {
+    startDate = new Date(2020, 11);
+    endDate = new Date();
+  }
   try {
-    const response = await client.get(`${SummaryBasePath}`, { params });
+    const response = await client.get(`${SummaryBasePath}`, {
+      params: { ...params, startDate, endDate },
+    });
     return response.data;
   } catch (error) {
     throw error;

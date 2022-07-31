@@ -54,7 +54,6 @@ export class SummaryController {
         conditions['page'] = page;
       }
       if (startDate || endDate) {
-        conditions['createdAt'] = {};
         const startAt = dayjs(startDate);
         if (startDate && startAt.isValid()) {
           conditions['createdAt.$gte'] = startAt.startOf('date').toDate();
