@@ -1,18 +1,9 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../..';
-import {
-  ResCategory,
-  ResSubCategory,
-  ResultResponseList,
-  ResFavorite,
-} from '../../../../types';
-import {
-  getCategories,
-  categoryLinkingSubCategory,
-  // uploadImage,
-  // responseUploadImage,
-} from '../../../../firebase/functions';
+import // uploadImage,
+// responseUploadImage,
+'../../../../firebase/functions';
 import {
   update as updateSummary,
   create as createSummary,
@@ -23,6 +14,14 @@ import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
+import {
+  loadAll as loadAllCategory,
+  Category,
+} from 'src/frontend/module/category';
+import {
+  loadAll as loadAllSubCategory,
+  SubCategory,
+} from 'src/frontend/module/subCategory';
 
 type Props = {
   isEdit?: boolean;
@@ -32,8 +31,10 @@ type Props = {
 const SummaryForm: FC<Props> = (props) => {
   const { isEdit, summary } = props;
   const [values, setValues] = useState<Partial<Summary>>({});
-  const [categories, setCategories] = useState<ResCategory[]>([]);
-  const [subCategories, setSubCategories] = useState<ResSubCategory[]>([]);
+  const [categories, setCategories] = useState<Partial<Category[]>>([]);
+  const [subCategories, setSubCategories] = useState<Partial<SubCategory[]>>(
+    [],
+  );
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
   // const [image, setImage] = useState<File>();
@@ -88,11 +89,15 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   const subCategorySelect = async (categoryId?: string) => {
-    const resSubCategoryList: ResultResponseList<ResFavorite> =
-      await categoryLinkingSubCategory(categoryId);
-    if (resSubCategoryList && resSubCategoryList.status === 200) {
-      setSubCategories(resSubCategoryList.data);
-    } else {
+    try {
+      const _subCategories = await loadAllSubCategory({
+        params: {
+          categoryId,
+        },
+      });
+      setSubCategories(_subCategories);
+    } catch (e) {
+      console.error({ e });
       await throwAlert('danger', 'エラーが発生しました。');
     }
   };
@@ -347,11 +352,12 @@ const SummaryForm: FC<Props> = (props) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resCategoryList: ResultResponseList<ResCategory> =
-          await getCategories();
-        if (resCategoryList && resCategoryList.status === 200) {
-          setCategories(resCategoryList.data);
-        }
+        const _categories = await loadAllCategory({
+          params: {
+            sortKey: 'displayOrder',
+          },
+        });
+        setCategories(_categories);
         if (isEdit && Object.keys(summary).length > 0) {
           // const resThumnail: string = await responseUploadImage(
           //   summary.thumbnail,
@@ -370,11 +376,13 @@ const SummaryForm: FC<Props> = (props) => {
           });
         }
         setLoading(true);
-      } catch (e) {}
+      } catch (e) {
+        console.error({ e });
+      }
     };
 
     loadData();
-  }, []);
+  }, [isEdit, summary]);
 
   return (
     <>
@@ -393,9 +401,6 @@ const SummaryForm: FC<Props> = (props) => {
                   >
                     {isEdit ? '編集する' : '作成する'}
                   </button>
-                  {/* <button className="_btn _sm-btn _sub-btn" type="button">
-                    保存する(下書き)
-                  </button> */}
                 </>
               )}
               <button

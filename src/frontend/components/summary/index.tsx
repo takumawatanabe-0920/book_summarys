@@ -44,7 +44,7 @@ const SummaryIndexPage = () => {
             limit: 6,
             page: 1,
             publishingStatus: 'public',
-            sortBy: 'updatedAt',
+            sortKey: 'updatedAt',
             order: 'desc',
           },
         });

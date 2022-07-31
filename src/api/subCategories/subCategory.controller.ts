@@ -26,6 +26,7 @@ export class SubCategoryController {
   async list(
     @Query('sortKey') sortKey,
     @Query('order') order,
+    @Query('categoryId') categoryId,
   ): Promise<ReturnType<SubCategoryApplication['list']>> {
     try {
       let option: PaginationOptions = {};
@@ -35,7 +36,11 @@ export class SubCategoryController {
           direction: order ? 'desc' : 'asc',
         };
       }
-      return await this.subCategoryApplication.list(option);
+      const condition = {};
+      if (categoryId) {
+        condition['category'] = categoryId;
+      }
+      return await this.subCategoryApplication.list(condition, option);
     } catch (error) {
       console.error(error);
       throw error;

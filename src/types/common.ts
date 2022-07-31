@@ -7,6 +7,6 @@ export type QueryOptions = {
   limit?: number;
   skip?: number;
   page?: number;
-  sortBy?: string;
+  sortKey?: string;
   order?: string;
 };

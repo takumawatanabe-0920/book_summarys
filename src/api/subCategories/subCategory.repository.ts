@@ -13,8 +13,14 @@ export class SubCategoryRepository {
     private readonly subCategoryModel: Model<SubCategoryDocument>,
   ) {}
 
-  async list(option: PaginationOptions): Promise<SubCategory[]> {
-    const query = getPaginationQuery(this.subCategoryModel.find(), option);
+  async list(
+    condition: Partial<SubCategoryDTO> = {},
+    option: PaginationOptions,
+  ): Promise<SubCategory[]> {
+    const query = getPaginationQuery(
+      this.subCategoryModel.find(condition),
+      option,
+    );
     return await query.exec();
   }
 

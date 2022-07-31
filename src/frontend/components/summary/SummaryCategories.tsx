@@ -1,21 +1,19 @@
 import React, { useState, useEffect, FC } from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 // components
-import { ResultResponseList, ResCategory } from '../../../types';
-import {
-  getCategoriesPopulateImage,
-  readQuery,
-} from '../../../firebase/functions';
 import { Link } from 'react-router-dom';
-import clsx from 'clsx';
-import { url } from 'inspector';
+import {
+  loadAll as loadAllCategory,
+  Category,
+} from 'src/frontend/module/category';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   fetchData: any;
 };
 
 const SummaryCategories: FC<Props> = (props) => {
-  const [categories, setCategories] = useState<ResCategory[]>([]);
+  const [categories, setCategories] = useState<Partial<Category[]>>([]);
   const { fetchData } = props;
 
   const updateData = (slug: string, name: string): void => {
@@ -25,12 +23,15 @@ const SummaryCategories: FC<Props> = (props) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resCategoryList: ResultResponseList<ResCategory> =
-          await getCategoriesPopulateImage();
-        if (resCategoryList && resCategoryList.status === 200) {
-          setCategories(resCategoryList.data);
-        }
-      } catch (e) {}
+        const _category = await loadAllCategory({
+          params: {
+            sortKey: 'displayOrder',
+          },
+        });
+        setCategories(_category);
+      } catch (e) {
+        console.error({ e });
+      }
     };
 
     loadData();
@@ -41,7 +42,7 @@ const SummaryCategories: FC<Props> = (props) => {
       <div className="summary-category">
         <h2 className="_ttl">カテゴリーで選ぶ</h2>
         <div className="_category-body">
-          {categories.map((data: ResCategory) => {
+          {categories.map((data) => {
             return (
               <LazyLoadComponent>
                 <Link
@@ -49,8 +50,8 @@ const SummaryCategories: FC<Props> = (props) => {
                     background: `url(${data.image}) no-repeat center center`,
                     backgroundSize: 'cover',
                   }}
-                  onClick={() => updateData(data.id, data.name)}
-                  to={`/summary?category=${data.id}`}
+                  onClick={() => updateData(getId(data), data.name)}
+                  to={`/summary?category=${getId(data)}`}
                   className="_data"
                 >
                   <p className="_data-tag">{data.name}</p>

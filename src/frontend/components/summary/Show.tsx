@@ -57,7 +57,7 @@ const SummaryShowPage = () => {
           params: {
             categoryId: getId(_summary.category),
             publishingStatus: 'public',
-            sortBy: 'updatedAt',
+            sortKey: 'updatedAt',
             order: 'desc',
             limit: 3,
             page: 1,
