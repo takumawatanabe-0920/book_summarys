@@ -9,8 +9,7 @@ import {
   ResultResponseList,
   ResSummaryBook,
 } from '../../types';
-import { getSummaryBook } from './';
-
+import { load as loadSummary } from 'src/frontend/module/summary';
 // done
 export const getFavorite = (
   userId?: string,
@@ -89,8 +88,7 @@ export const getMyFavorites = async (
       .then(async (res) => {
         const resdata = await Promise.all(
           res.docs.map(async (doc) => {
-            const resSummary: ResultResponse<ResSummaryBook> =
-              await getSummaryBook(doc.data().summary_id);
+            const resSummary: any = await loadSummary(doc.data().summary_id);
             let summary: ResSummaryBook;
             if (resSummary && resSummary.status === 200) {
               summary = resSummary.data;
@@ -115,8 +113,7 @@ export const getMyFavorites = async (
       .then(async (res) => {
         const resdata = await Promise.all(
           res.docs.map(async (doc) => {
-            const resSummary: ResultResponse<ResSummaryBook> =
-              await getSummaryBook(doc.data().summary_id);
+            const resSummary: any = await loadSummary(doc.data().summary_id);
             let summary: ResSummaryBook;
             if (resSummary && resSummary.status === 200) {
               summary = resSummary.data;

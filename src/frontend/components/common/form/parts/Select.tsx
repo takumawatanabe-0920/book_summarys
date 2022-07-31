@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
-import { number } from 'prop-types';
 
 type Props = {
   title: string;
   value?: string;
   required?: boolean;
   name: string;
-  dataList: { id?: string; name?: string; slug?: string }[];
+  dataList: Readonly<{ id?: string; name?: string; slug?: string }[]>;
   errorMessage?: string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };

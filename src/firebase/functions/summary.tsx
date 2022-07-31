@@ -1,5 +1,4 @@
 import {
-  SummaryBook,
   ResSummaryBook,
   ResultResponseList,
   ResultResponse,
@@ -9,53 +8,6 @@ import { firebase } from '../config';
 import { getCategory, getSubCategory } from './';
 import { load as loadUser } from 'src/frontend/module/user';
 const db = firebase.firestore();
-
-// done
-export const createSummary = (
-  values: SummaryBook,
-): Promise<ResultResponse<ResSummaryBook>> => {
-  const { title, content, category, user_id } = values;
-  if (!title || !content || !category || !user_id) {
-    return;
-  }
-  values.create_date = firebase.firestore.Timestamp.now();
-  values.update_date = firebase.firestore.Timestamp.now();
-  const response = db
-    .collection('summary')
-    .add({
-      ...values,
-    })
-    .then((res) => {
-      const data = { id: res.id };
-      return { status: 200, data };
-    })
-    .catch((error) => {
-      return { status: 400, data: error };
-    });
-
-  return response;
-};
-
-// done
-export const updateSummary = async (
-  values: ResSummaryBook,
-): Promise<ResultResponse<ResSummaryBook>> => {
-  const response = db
-    .collection('summary')
-    .doc(values.id)
-    .update({
-      ...values,
-    })
-    .then((res) => {
-      const data = { id: values.id };
-      return { status: 200, data };
-    })
-    .catch((error) => {
-      console.log(error);
-      return { status: 400 };
-    });
-  return response;
-};
 
 // done
 export const updateFavoriteSummaries = async (
@@ -506,27 +458,6 @@ export const getTwoConditionsSummaryCount = async (
     });
 
   return docNum;
-};
-
-// done
-export const getSummaryBook = (
-  id: string,
-): Promise<ResultResponse<ResSummaryBook>> => {
-  const response = db
-    .collection('summary')
-    .doc(id)
-    .get()
-    .then(async (doc) => {
-      if (doc.exists) {
-        const data = { id: doc.id, ...doc.data() };
-        return { status: 200, data };
-      }
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-
-  return response;
 };
 
 // done
