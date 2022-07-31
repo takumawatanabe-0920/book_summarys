@@ -12,7 +12,7 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common';
-import { SummaryDTO } from './summary.dto';
+import { UpdateSummaryDTO, CreateSummaryDTO } from './summary.dto';
 import { SummaryApplication } from './summary.application';
 import { PaginationOptions } from '../../config/mongoOption';
 import dayjs from 'dayjs';
@@ -116,7 +116,7 @@ export class SummaryController {
 
   @Post()
   async create(
-    @Body(new ValidationPipe()) body: SummaryDTO,
+    @Body(new ValidationPipe()) body: CreateSummaryDTO,
   ): Promise<ReturnType<SummaryApplication['create']>> {
     try {
       return await this.summaryApplication.create(body);
@@ -129,7 +129,7 @@ export class SummaryController {
   @Put(':id')
   async update(
     @Param('id') id,
-    @Body(new ValidationPipe()) body: SummaryDTO,
+    @Body(new ValidationPipe()) body: UpdateSummaryDTO,
   ): Promise<ReturnType<SummaryApplication['update']>> {
     try {
       if (!id) {

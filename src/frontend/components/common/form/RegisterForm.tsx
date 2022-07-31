@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Input } from '../..';
 import { RegisterUser } from '../../../../types';
 import useAlertState from '../../../hooks/useAlertState';
-import { update as updateUser, signup, User } from 'src/frontend/module/user';
+import { update as updateUser, signup } from 'src/frontend/module/user';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from '../../../../config/objectId';
 

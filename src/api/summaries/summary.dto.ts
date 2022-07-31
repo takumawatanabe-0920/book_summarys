@@ -4,9 +4,13 @@ import {
   IsEnum,
   IsNotEmpty,
   IsArray,
+  IsOptional,
 } from 'class-validator';
 import { publishingStatuses } from './summary.schema';
 export class SummaryDTO {
+  @IsMongoId()
+  _id: string;
+
   @IsNotEmpty()
   @IsString()
   title: string;
@@ -38,6 +42,89 @@ export class SummaryDTO {
   @IsMongoId()
   user: string;
 
+  @IsMongoId()
+  @IsArray()
+  favorites: string[];
+}
+
+export class CreateSummaryDTO {
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsString()
+  bookName: string;
+
+  @IsString()
+  content: string;
+
+  @IsOptional()
+  @IsString()
+  discription: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnail: string;
+
+  @IsEnum(publishingStatuses)
+  publishingStatus: string;
+
+  @IsOptional()
+  @IsString()
+  image: string;
+
+  @IsMongoId()
+  category: string;
+
+  @IsMongoId()
+  subCategory: string;
+
+  @IsOptional()
+  @IsMongoId()
+  user: string;
+
+  @IsOptional()
+  @IsMongoId()
+  @IsArray()
+  favorites: string[];
+}
+
+export class UpdateSummaryDTO {
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsString()
+  bookName: string;
+
+  @IsString()
+  content: string;
+
+  @IsOptional()
+  @IsString()
+  discription: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnail: string;
+
+  @IsEnum(publishingStatuses)
+  publishingStatus: string;
+
+  @IsOptional()
+  @IsString()
+  image: string;
+
+  @IsMongoId()
+  category: string;
+
+  @IsMongoId()
+  subCategory: string;
+
+  @IsMongoId()
+  user: string;
+
+  @IsOptional()
   @IsMongoId()
   @IsArray()
   favorites: string[];

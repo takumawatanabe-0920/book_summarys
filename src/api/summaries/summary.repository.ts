@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Summary, SummaryDocument } from './summary.schema';
-import { SummaryDTO } from './summary.dto';
+import { SummaryDTO, CreateSummaryDTO, UpdateSummaryDTO } from './summary.dto';
 import { PaginationOptions, repositories } from '../../config/mongoOption';
 import { getPaginationQuery } from '../../config/lib/repositories';
 import { UpdateBody } from '../../types/mongoose';
@@ -43,14 +43,14 @@ export class SummaryRepository {
       .lean();
   }
 
-  async create(summary: SummaryDTO): Promise<Summary> {
+  async create(summary: CreateSummaryDTO): Promise<Summary> {
     const createdSummary = new this.summaryModel(summary);
     return createdSummary.save();
   }
 
   async update(
     id: string,
-    summary: UpdateBody<any> | SummaryDTO,
+    summary: UpdateBody<any> | UpdateSummaryDTO,
     option: repositories.BaseOptions = {},
   ): Promise<Summary> {
     return await this.summaryModel.findByIdAndUpdate(id, summary, {
