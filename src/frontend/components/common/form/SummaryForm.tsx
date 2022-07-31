@@ -401,9 +401,6 @@ const SummaryForm: FC<Props> = (props) => {
                   >
                     {isEdit ? '編集する' : '作成する'}
                   </button>
-                  {/* <button className="_btn _sm-btn _sub-btn" type="button">
-                    保存する(下書き)
-                  </button> */}
                 </>
               )}
               <button
