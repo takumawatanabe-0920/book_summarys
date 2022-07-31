@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserApplication } from 'src/api/users/user.application';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -42,7 +46,7 @@ export class AuthApplication {
     const { email } = body;
     const user = await this.userApplication.getOne({ email });
     if (!user) {
-      throw new Error('user not found');
+      throw new NotFoundException('user not found');
     }
     const { access_token } = await this.generateAccessToken({ email });
     return await this.userApplication.update(getId(user), {
@@ -63,6 +67,9 @@ export class AuthApplication {
     const user = await this.userApplication.getOne({
       email,
     });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
     const isMatch = await bcrypt.compare(password, user?.password);
     if (user && isMatch) {
       delete user.password;

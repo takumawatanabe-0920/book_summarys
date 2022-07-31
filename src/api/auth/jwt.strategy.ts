@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { jwtConstants } from './constants';
 import { UserApplication } from 'src/api/users/user.application';
 @Injectable()
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email,
     });
     if (!user) {
-      throw new Error('user not found');
+      throw new NotFoundException('user not found');
     }
     return user;
   }
