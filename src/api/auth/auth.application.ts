@@ -1,7 +1,7 @@
 import {
   Injectable,
   NotFoundException,
-  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserApplication } from 'src/api/users/user.application';
 import { JwtService } from '@nestjs/jwt';
@@ -20,7 +20,7 @@ export class AuthApplication {
     try {
       const user = await this.userApplication.getOne({ email });
       if (user) {
-        throw new Error('user already exists');
+        throw new BadRequestException('user already exists');
       }
       const hash = await bcrypt.hash(password, 10);
       const { access_token } = await this.generateAccessToken({ email });
@@ -44,14 +44,19 @@ export class AuthApplication {
 
   async login(body: Pick<UserDTO, 'email'>) {
     const { email } = body;
-    const user = await this.userApplication.getOne({ email });
-    if (!user) {
-      throw new NotFoundException('user not found');
+    try {
+      const user = await this.userApplication.getOne({ email });
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      const { access_token } = await this.generateAccessToken({ email });
+      return await this.userApplication.update(getId(user), {
+        token: access_token,
+      } as UserDTO);
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-    const { access_token } = await this.generateAccessToken({ email });
-    return await this.userApplication.update(getId(user), {
-      token: access_token,
-    } as UserDTO);
   }
 
   async logout(user: Pick<UserDTO, 'email'>) {

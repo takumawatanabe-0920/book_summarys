@@ -70,15 +70,23 @@ const LoginForm = () => {
         if (user) {
           setCurrentUser(user);
           await throwAlert('success', 'ログインしました。');
+          history(`/`, { replace: true });
         } else {
           throw new Error('ログインに失敗しました。');
         }
       }
     } catch (error) {
       console.log(error);
-      await throwAlert('danger', error.message);
-    } finally {
-      history(`/`, { replace: true });
+      if (error.status === 401) {
+        await throwAlert(
+          'danger',
+          'メールアドレスまたはパスワードが間違っています。',
+        );
+      } else if (error.status === 404) {
+        await throwAlert('danger', 'ユーザーが存在しません。');
+      } else {
+        await throwAlert('danger', 'エラーが発生しました。');
+      }
     }
   };
 
