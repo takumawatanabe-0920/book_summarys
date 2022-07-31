@@ -34,9 +34,9 @@ const publishingSettings = [
 
 type CountArgs = {
   params: {
-    userId: string;
-    categoryId: string;
-    publishingStatus: string;
+    userId?: string;
+    categoryId?: string;
+    publishingStatus?: string;
   };
 };
 
@@ -50,7 +50,7 @@ const loadAll = async (args: LoadAllArgs): Promise<Summary[]> => {
   }
 };
 
-const count = async (args: CountArgs): Promise<Summary[]> => {
+const count = async (args: CountArgs): Promise<number> => {
   const { params = {} } = args;
   try {
     const response = await client.get(`${SummaryBasePath}/count`, { params });

@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 // components
 import { SummaryList, SummaryCategories, Pager, Loading } from '..';
-import { ResSummaryBook, ResultResponseList } from '../../../types';
+import { readQuery } from '../../../firebase/functions';
 import {
-  getOneConditionsSummaries,
-  readQuery,
-  getTwoConditionsSummaryCount,
-  getTwoConditionsDescPaginationSummaries,
-} from '../../../firebase/functions';
-
+  loadAll as loadAllSummary,
+  count as countSummary,
+  Summary,
+} from 'src/frontend/module/summary';
 type UpdateData = {
   query: string;
   name: string;
 };
 
 const SummaryIndexPage = () => {
-  const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
-  const [selectSummaries, setSelectSummaries] = useState<ResSummaryBook[]>([]);
+  const [summaries, setSummaries] = useState<Partial<Summary[]>>([]);
+  const [selectSummaries, setSelectSummaries] = useState<Partial<Summary[]>>(
+    [],
+  );
   const [summariesNum, setSummariesNum] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
@@ -24,7 +24,7 @@ const SummaryIndexPage = () => {
     query: readQuery('category'),
     name: '',
   });
-  const [dataNumPerPage, setDataNumPerPager] = useState(6);
+  const dataNumPerPage = 6;
 
   const fetchData = (categoryId?: string, categoryName?: string) => {
     setUpdateData({ query: categoryId, name: categoryName });
@@ -39,41 +39,39 @@ const SummaryIndexPage = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resSummariesDataList: ResultResponseList<ResSummaryBook> =
-          await getOneConditionsSummaries(
-            6,
-            1,
-            ['update_date', 'desc'],
-            ['publishing_status', 'public'],
-          );
-        if (resSummariesDataList && resSummariesDataList.status === 200) {
-          setSummaries(resSummariesDataList.data);
-        }
-        const resSelectSummariesDataList: ResultResponseList<ResSummaryBook> =
-          await getTwoConditionsDescPaginationSummaries(dataNumPerPage, page, [
-            'category',
-            updateData.query,
-            'publishing_status',
-            'public',
-          ]);
+        const _summaries = await loadAllSummary({
+          params: {
+            limit: 6,
+            page: 1,
+            publishingStatus: 'public',
+            sortBy: 'updatedAt',
+            order: 'desc',
+          },
+        });
+        setSummaries(_summaries);
+        const _selectSummaries = await loadAllSummary({
+          params: {
+            limit: dataNumPerPage,
+            page,
+            categoryId: updateData.query,
+            publishingStatus: 'public',
+          },
+        });
         let count = 0;
-        if (updateData && updateData.query) {
-          count = await getTwoConditionsSummaryCount([
-            'category',
-            updateData.query,
-            'publishing_status',
-            'public',
-          ]);
+        if (updateData?.query) {
+          count = await countSummary({
+            params: {
+              categoryId: updateData.query,
+              publishingStatus: 'public',
+            },
+          });
         }
-        if (
-          resSelectSummariesDataList &&
-          resSelectSummariesDataList.status === 200
-        ) {
-          setSelectSummaries(resSelectSummariesDataList.data);
-        }
+        setSelectSummaries(_selectSummaries);
         setSummariesNum(count);
         setLoading(true);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     loadData();

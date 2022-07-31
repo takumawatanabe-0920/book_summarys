@@ -8,12 +8,8 @@ import {
 } from './category';
 import {
   getOneConditionsSummaries,
-  getOneConditionsSummaryCount,
-  getTwoConditionsSummaryCount,
   updateFavoriteSummaries,
   getRankingSummaries,
-  getOneConditionsDescPaginationSummaries,
-  getTwoConditionsDescPaginationSummaries,
 } from './summary';
 import {
   getFavorite,
@@ -43,10 +39,6 @@ export {
   updateFavoriteSummaries,
   getMyFavorites,
   getRankingSummaries,
-  getOneConditionsSummaryCount,
-  getTwoConditionsSummaryCount,
-  getOneConditionsDescPaginationSummaries,
-  getTwoConditionsDescPaginationSummaries,
   getDonefavorite,
   getFavorites,
   createFavorite,

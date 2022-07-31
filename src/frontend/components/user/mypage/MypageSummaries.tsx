@@ -1,27 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { ResultResponseList, ResSummaryBook, ResUser } from '../../../../types';
+import { ResSummaryBook, ResUser } from '../../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
-import {
-  getOneConditionsDescPaginationSummaries,
-  getTwoConditionsDescPaginationSummaries,
-  getOneConditionsSummaryCount,
-  getTwoConditionsSummaryCount,
-  readQuery,
-} from '../../../../firebase/functions';
+import { readQuery } from '../../../../firebase/functions';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { load as loadUser } from 'src/frontend/module/user';
 import { getId } from 'src/config/objectId';
-
+import {
+  loadAll as loadAllSummary,
+  count as countSummary,
+  Summary,
+} from 'src/frontend/module/summary';
 const MypageSummaries = () => {
   const [user, setUser] = useState<ResUser>({});
-  const [summaries, setSummaries] = useState<ResSummaryBook[]>([]);
+  const [summaries, setSummaries] = useState<Partial<Summary[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
   const [summariesNum, setSummariesNum] = useState(0);
-  const [dataNumPerPage, setDataNumPerPager] = useState(8);
+  const dataNumPerPage = 8;
 
   const fetchPager = (num: number) => {
     setPage(num);
@@ -32,35 +30,40 @@ const MypageSummaries = () => {
       try {
         const user = await loadUser(id);
         setUser(user);
-        let resMySummariesDataList: ResultResponseList<ResSummaryBook>;
-        let resSummariesNum = 0;
+        let _summaries = [];
+        let count = 0;
         if (getId(currentUser) === id) {
-          resMySummariesDataList =
-            await getOneConditionsDescPaginationSummaries(
-              dataNumPerPage,
+          _summaries = await loadAllSummary({
+            params: {
+              limit: dataNumPerPage,
               page,
-              ['user_id', id],
-            );
-          resSummariesNum = await getOneConditionsSummaryCount(['user_id', id]);
+              userId: id,
+            },
+          });
+          count = await countSummary({
+            params: {
+              userId: id,
+            },
+          });
         } else {
-          resMySummariesDataList =
-            await getTwoConditionsDescPaginationSummaries(
-              dataNumPerPage,
+          _summaries = await loadAllSummary({
+            params: {
+              limit: dataNumPerPage,
               page,
-              ['user_id', id, 'publishing_status', 'public'],
-            );
-          resSummariesNum = await getTwoConditionsSummaryCount([
-            'user_id',
-            id,
-            'publishing_status',
-            'public',
-          ]);
+              userId: id,
+            },
+          });
+          count = await countSummary({
+            params: {
+              userId: id,
+            },
+          });
         }
-        setSummariesNum(resSummariesNum);
-        if (resMySummariesDataList && resMySummariesDataList.status === 200) {
-          setSummaries(resMySummariesDataList.data);
-        }
-      } catch (e) {}
+        setSummariesNum(count);
+        setSummaries(_summaries);
+      } catch (e) {
+        console.error(e);
+      }
     };
     loadData();
     setLoading(true);
