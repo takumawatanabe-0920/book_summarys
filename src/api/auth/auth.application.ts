@@ -3,7 +3,7 @@ import { UserApplication } from 'src/api/users/user.application';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { getId } from 'src/config/objectId';
-import { UserDTO } from 'src/api/users/user.dto';
+import { UserDTO, CreateUserDTO } from 'src/api/users/user.dto';
 @Injectable()
 export class AuthApplication {
   constructor(
@@ -11,7 +11,7 @@ export class AuthApplication {
     private jwtService: JwtService,
   ) {}
 
-  async signup(body: UserDTO) {
+  async signup(body: CreateUserDTO) {
     const { email, password } = body;
     const user = await this.userApplication.getOne({ email });
     if (user) {

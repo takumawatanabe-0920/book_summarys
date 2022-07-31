@@ -14,11 +14,13 @@ type SignupArgs = User;
 
 const signup = async (args: SignupArgs): Promise<User> => {
   try {
-    const { email, password } = args;
+    const { email, password, displayName } = args;
     const response = await client.post(`${AuthBasePath}/signup`, {
       email,
       password,
+      displayName,
     });
+    console.log({ response });
     if (!response.data?.token) {
       throw new Error('token is required');
     }
@@ -33,10 +35,12 @@ type LoginArgs = Pick<User, 'email' | 'password'>;
 
 const login = async (args: LoginArgs): Promise<User> => {
   try {
-    const { email } = args;
+    const { email, password } = args;
     const response = await client.post(`${AuthBasePath}/login`, {
       email,
+      password,
     });
+    console.log({ response });
     if (!response.data?.token) {
       throw new Error('token is required');
     }

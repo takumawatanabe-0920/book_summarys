@@ -117,6 +117,7 @@ const RegisterForm: FC<Props> = (props) => {
         }
       } else {
         try {
+          console.log({ displayName, email, password });
           const user = await signup({
             email,
             password,

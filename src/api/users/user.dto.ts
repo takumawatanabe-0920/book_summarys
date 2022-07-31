@@ -1,4 +1,4 @@
-import { IsMongoId, IsString } from 'class-validator';
+import { IsMongoId, IsString, IsOptional } from 'class-validator';
 
 export class UserDTO {
   @IsMongoId()
@@ -24,12 +24,18 @@ export class CreateUserDTO {
   @IsString()
   displayName: string;
 
+  @IsOptional()
   @IsString()
   photoURL: string;
 
   @IsString()
-  token: string;
+  email: string;
 
+  @IsString()
+  password: string;
+}
+
+export class LoginDTO {
   @IsString()
   email: string;
 

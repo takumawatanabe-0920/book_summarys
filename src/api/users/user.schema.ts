@@ -7,10 +7,10 @@ export class User {
   @Prop({ type: String, required: true })
   displayName: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   photoURL: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   token: string;
 
   @Prop({ type: String, required: true, unique: true })
