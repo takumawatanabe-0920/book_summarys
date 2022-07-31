@@ -128,7 +128,11 @@ const RegisterForm: FC<Props> = (props) => {
           await throwAlert('success', '会員情報に成功しました。');
           history(`/`, { replace: true });
         } catch (error) {
-          throwAlert('danger', 'エラーが発生しました。');
+          if (error.message === 'user already exists') {
+            throwAlert('danger', 'すでに登録されているメールアドレスです。');
+          } else {
+            throwAlert('danger', 'エラーが発生しました。');
+          }
           return;
         }
       }

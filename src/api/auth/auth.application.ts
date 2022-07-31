@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserApplication } from 'src/api/users/user.application';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -13,31 +17,46 @@ export class AuthApplication {
 
   async signup(body: CreateUserDTO) {
     const { email, password } = body;
-    const user = await this.userApplication.getOne({ email });
-    if (user) {
-      throw new Error('user already exists');
+    try {
+      const user = await this.userApplication.getOne({ email });
+      if (user) {
+        throw new BadRequestException('user already exists');
+      }
+      const hash = await bcrypt.hash(password, 10);
+      const { access_token } = await this.generateAccessToken({ email });
+      if (!hash) {
+        throw new Error('hash error');
+      }
+      if (!access_token) {
+        throw new Error('access_token error');
+      }
+      const newUser = await this.userApplication.create({
+        ...body,
+        password: hash,
+        token: access_token,
+      });
+      return newUser;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-    const hash = await bcrypt.hash(password, 10);
-    const newUser = await this.userApplication.create({
-      ...body,
-      password: hash,
-    });
-    const { access_token } = await this.generateAccessToken(newUser);
-    return await this.userApplication.update(getId(newUser), {
-      token: access_token,
-    } as UserDTO);
   }
 
   async login(body: Pick<UserDTO, 'email'>) {
     const { email } = body;
-    const user = await this.userApplication.getOne({ email });
-    if (!user) {
-      throw new Error('user not found');
+    try {
+      const user = await this.userApplication.getOne({ email });
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      const { access_token } = await this.generateAccessToken({ email });
+      return await this.userApplication.update(getId(user), {
+        token: access_token,
+      } as UserDTO);
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-    const { access_token } = await this.generateAccessToken(user);
-    return await this.userApplication.update(getId(user), {
-      token: access_token,
-    } as UserDTO);
   }
 
   async logout(user: Pick<UserDTO, 'email'>) {
@@ -53,6 +72,9 @@ export class AuthApplication {
     const user = await this.userApplication.getOne({
       email,
     });
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
     const isMatch = await bcrypt.compare(password, user?.password);
     if (user && isMatch) {
       delete user.password;
@@ -62,7 +84,7 @@ export class AuthApplication {
   }
 
   private generateAccessToken(user: Pick<UserDTO, 'email'>) {
-    const payload = { email: user.email, sub: getId(user) };
+    const payload = { email: user.email };
     return {
       access_token: this.jwtService.sign(payload),
     };
