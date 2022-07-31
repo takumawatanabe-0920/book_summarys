@@ -25,7 +25,6 @@ export class AuthController {
   @Get('@me')
   async me(@Request() req): Promise<UserDTO> {
     try {
-      console.log({ req });
       const { user } = req;
       return user;
     } catch (error) {
