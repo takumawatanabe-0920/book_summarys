@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar, RegisterForm } from '../..';
 import { GlobalContext } from '../../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 const MypageEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -13,7 +14,7 @@ const MypageEdit = () => {
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      if (id !== (currentUser && currentUser.id)) {
+      if (id !== getId(currentUser)) {
         history(`/mypage/${id}/home`);
       }
     };

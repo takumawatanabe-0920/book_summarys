@@ -7,6 +7,7 @@ import { ResUser } from '../../../../../types';
 import { logout } from 'src/frontend/module/user';
 import useAlertState from '../../../../hooks/useAlertState';
 import { GlobalContext } from '../../../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   user: ResUser;
@@ -19,7 +20,7 @@ const MypageSidebar: FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
   const [isMyAccount, setIsMyAccount] = useState<boolean>(() => {
-    return id === (currentUser && currentUser.id);
+    return id === getId(currentUser);
   });
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
@@ -45,7 +46,7 @@ const MypageSidebar: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    setIsMyAccount(id === (currentUser && currentUser.id));
+    setIsMyAccount(id === getId(currentUser));
     setLoading(true);
   }, [id, isMyAccount]);
 
@@ -55,14 +56,14 @@ const MypageSidebar: FC<Props> = (props) => {
         <>
           <div className="_side-block">
             <Link
-              to={`/mypage/${user.id ? user.id : id}/home`}
+              to={`/mypage/${getId(user) || id}/home`}
               className={clsx('_side-item', isActive('home'))}
             >
               ユーザー情報
             </Link>
             {isMyAccount ? (
               <Link
-                to={`/mypage/${user.id ? user.id : id}/edit`}
+                to={`/mypage/${getId(user) || id}/edit`}
                 className={clsx('_side-item', isActive('edit'))}
               >
                 会員情報を編集
@@ -71,13 +72,13 @@ const MypageSidebar: FC<Props> = (props) => {
               ''
             )}
             <Link
-              to={`/mypage/${user.id ? user.id : id}/summaries`}
+              to={`/mypage/${getId(user) || id}/summaries`}
               className={clsx('_side-item', isActive('summaries'))}
             >
               投稿記事
             </Link>
             <Link
-              to={`/mypage/${user.id ? user.id : id}/favorites`}
+              to={`/mypage/${getId(user) || id}/favorites`}
               className={clsx('_side-item', isActive('favorites'))}
             >
               いいね

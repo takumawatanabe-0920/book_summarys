@@ -11,6 +11,7 @@ import {
   getTwoConditionsSummaries,
 } from '../../../firebase/functions';
 import { GlobalContext } from '../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 const SummaryShowPage = () => {
   const [summarybook, setSummaryBook] = useState<ResSummaryBook>({});
@@ -23,7 +24,7 @@ const SummaryShowPage = () => {
   const { id } = useParams<'id'>();
 
   const publicSummary = (_type: string, user_id: string) => {
-    if (_type === 'public' || (currentUser && currentUser.id === user_id)) {
+    if (_type === 'public' || getId(currentUser) === user_id) {
       return (
         <div className="main-block article-block">
           <SummaryDetails summaryBook={summarybook} currentUser={currentUser} />

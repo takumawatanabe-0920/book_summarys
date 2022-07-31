@@ -21,6 +21,7 @@ import {
 import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   isEdit?: boolean;
@@ -363,7 +364,7 @@ const SummaryForm: FC<Props> = (props) => {
           setThumnail(resThumnail);
           setValues({
             ...editData,
-            ['user_id']: currentUser && currentUser.id,
+            ['user_id']: getId(currentUser),
             ['user_name']: currentUser.displayName
               ? currentUser.displayName
               : '',
@@ -371,7 +372,7 @@ const SummaryForm: FC<Props> = (props) => {
         } else {
           setValues({
             ...values,
-            ['user_id']: currentUser && currentUser.id,
+            ['user_id']: getId(currentUser),
             ['user_name']: currentUser.displayName
               ? currentUser.displayName
               : '',

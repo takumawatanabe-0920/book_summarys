@@ -11,6 +11,7 @@ import {
 } from '../../../../firebase/functions';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { load as loadUser } from 'src/frontend/module/user';
+import { getId } from 'src/config/objectId';
 
 const MypageSummaries = () => {
   const [user, setUser] = useState<ResUser>({});
@@ -33,7 +34,7 @@ const MypageSummaries = () => {
         setUser(user);
         let resMySummariesDataList: ResultResponseList<ResSummaryBook>;
         let resSummariesNum = 0;
-        if ((currentUser && currentUser.id) === id) {
+        if (getId(currentUser) === id) {
           resMySummariesDataList =
             await getOneConditionsDescPaginationSummaries(
               dataNumPerPage,

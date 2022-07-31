@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { getImage } from '../../../../firebase/functions';
 import { formatUpdateDate } from '../../../../utils/function';
 import { GlobalContext } from '../../../hooks/context/Global';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   data: ResSummaryBook;
@@ -40,9 +41,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
   };
 
   const isShowElementOnlyCurrentUser = (): boolean => {
-    return (
-      (data.user_id || data.user_id.id) === (currentUser && currentUser.id)
-    );
+    return (data.user_id || data.user_id.id) === getId(currentUser);
   };
 
   useEffect(() => {
