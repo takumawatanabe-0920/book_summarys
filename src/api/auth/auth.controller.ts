@@ -36,7 +36,6 @@ export class AuthController {
   @Post('signup')
   async signup(@Body(new ValidationPipe()) body: CreateUserDTO) {
     try {
-      console.log({ body });
       const { email, password, displayName } = body;
       if (!email || !password || !displayName) {
         throw new BadRequestException(

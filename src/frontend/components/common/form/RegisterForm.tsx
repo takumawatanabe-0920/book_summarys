@@ -9,11 +9,10 @@ import { getId } from '../../../../config/objectId';
 
 type Props = {
   isEdit?: boolean;
-  userData?: User;
 };
 
 const RegisterForm: FC<Props> = (props) => {
-  const { isEdit, userData } = props;
+  const { isEdit } = props;
   const [values, setValues] = useState<RegisterUser>({});
   const [errorTexts, setErrorTexts] = useState<RegisterUser>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
@@ -108,7 +107,6 @@ const RegisterForm: FC<Props> = (props) => {
           });
           setCurrentUser(user);
           await throwAlert('success', '会員情報を更新しました。');
-          await loadData();
         } catch (error) {
           throwAlert('danger', '会員情報の更新に失敗しました。');
           return;
@@ -123,7 +121,6 @@ const RegisterForm: FC<Props> = (props) => {
           });
           setCurrentUser(user);
           await throwAlert('success', '会員情報に成功しました。');
-          await loadData();
         } catch (error) {
           if (error.message === 'user already exists') {
             throwAlert('danger', 'すでに登録されているメールアドレスです。');
@@ -136,18 +133,17 @@ const RegisterForm: FC<Props> = (props) => {
     }
   };
 
-  const loadData = async () => {
-    try {
-      if (isEdit) {
-        const { displayName, photoURL } = userData;
-        setValues({ displayName, photoURL });
-      }
-    } catch (e) {}
-  };
-
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        if (isEdit) {
+          const { displayName, photoURL } = currentUser || {};
+          setValues({ displayName, photoURL });
+        }
+      } catch (e) {}
+    };
     loadData();
-  }, []);
+  }, [currentUser]);
 
   return (
     <>

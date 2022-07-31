@@ -10,7 +10,6 @@ const MypageEdit = () => {
   const history = useNavigate();
   const { id } = useParams<'id'>();
   const { currentUser } = useContext(GlobalContext);
-
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -34,7 +33,7 @@ const MypageEdit = () => {
                   <MypageSidebar user={currentUser} />
                   <div className="_mypage">
                     <h2 className="sub-ttl">会員情報編集</h2>
-                    <RegisterForm userData={currentUser} isEdit={true} />
+                    <RegisterForm isEdit={true} />
                   </div>
                 </div>
               </div>
