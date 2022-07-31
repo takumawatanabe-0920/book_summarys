@@ -1,5 +1,4 @@
 import {
-  getCategories,
   getCategoriesPopulateImage,
   getCategory,
   getSubCategories,
@@ -24,7 +23,6 @@ import {
 } from './defalt';
 
 export {
-  getCategories,
   getCategory,
   getSubCategories,
   getSubCategory,

@@ -25,7 +25,7 @@ const HomePage = () => {
           params: {
             limit: 4,
             page: 1,
-            sortBy: 'updatedAt',
+            sortKey: 'updatedAt',
             order: 'desc',
             publishingStatus: 'public',
           },

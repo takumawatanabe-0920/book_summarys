@@ -3,25 +3,6 @@ import { responseUploadImage } from './';
 import { firebase } from '../config';
 const db = firebase.firestore();
 
-// done
-export const getCategories = (): Promise<ResultResponseList<ResCategory>> => {
-  const response = db
-    .collection('category')
-    .orderBy('displayOrder')
-    .get()
-    .then((res) => {
-      const resData: ResCategory[] = res.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
-      return { status: 200, data: resData };
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-
-  return response;
-};
-
 // done but image schdema
 export const getCategoriesPopulateImage = (): Promise<
   ResultResponseList<ResCategory>

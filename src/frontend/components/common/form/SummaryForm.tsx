@@ -2,13 +2,11 @@ import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../..';
 import {
-  ResCategory,
   ResSubCategory,
   ResultResponseList,
   ResFavorite,
 } from '../../../../types';
 import {
-  getCategories,
   categoryLinkingSubCategory,
   // uploadImage,
   // responseUploadImage,
@@ -23,7 +21,11 @@ import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
-
+import {
+  load as loadCategory,
+  loadAll as loadAllCategory,
+  Category,
+} from 'src/frontend/module/category';
 type Props = {
   isEdit?: boolean;
   summary?: Summary;
@@ -32,7 +34,7 @@ type Props = {
 const SummaryForm: FC<Props> = (props) => {
   const { isEdit, summary } = props;
   const [values, setValues] = useState<Partial<Summary>>({});
-  const [categories, setCategories] = useState<ResCategory[]>([]);
+  const [categories, setCategories] = useState<Partial<Category[]>>([]);
   const [subCategories, setSubCategories] = useState<ResSubCategory[]>([]);
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
@@ -347,11 +349,12 @@ const SummaryForm: FC<Props> = (props) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const resCategoryList: ResultResponseList<ResCategory> =
-          await getCategories();
-        if (resCategoryList && resCategoryList.status === 200) {
-          setCategories(resCategoryList.data);
-        }
+        const _categories = await loadAllCategory({
+          params: {
+            sortKey: 'displayOrder',
+          },
+        });
+        setCategories(_categories);
         if (isEdit && Object.keys(summary).length > 0) {
           // const resThumnail: string = await responseUploadImage(
           //   summary.thumbnail,
@@ -370,11 +373,13 @@ const SummaryForm: FC<Props> = (props) => {
           });
         }
         setLoading(true);
-      } catch (e) {}
+      } catch (e) {
+        console.error({ e });
+      }
     };
 
     loadData();
-  }, []);
+  }, [isEdit, summary]);
 
   return (
     <>
