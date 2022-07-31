@@ -17,7 +17,6 @@ const Header = () => {
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser, setCurrentUser } = useContext(GlobalContext);
-  console.log({ currentUser });
   const enterPulldown = () => {
     setMouseOver(true);
   };

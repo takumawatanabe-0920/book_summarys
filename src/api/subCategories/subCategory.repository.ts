@@ -28,7 +28,9 @@ export class SubCategoryRepository {
   }
 
   async update(id: string, subCategory: SubCategoryDTO): Promise<SubCategory> {
-    return await this.subCategoryModel.findByIdAndUpdate(id, subCategory);
+    return await this.subCategoryModel.findByIdAndUpdate(id, subCategory, {
+      new: true,
+    });
   }
 
   async delete(id: string): Promise<SubCategory> {

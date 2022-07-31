@@ -9,7 +9,7 @@ const MypageEdit = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const history = useNavigate();
   const { id } = useParams<'id'>();
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
 
   useEffect(() => {
     const loadData = async () => {
@@ -20,7 +20,7 @@ const MypageEdit = () => {
     };
 
     loadData();
-  }, []);
+  }, [currentUser]);
 
   return (
     <>

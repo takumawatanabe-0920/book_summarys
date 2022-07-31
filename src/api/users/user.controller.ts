@@ -11,7 +11,7 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { UserDTO } from './user.dto';
+import { UserDTO, UpdateDto } from './user.dto';
 import { UserApplication } from './user.application';
 @Controller('users')
 export class UserController {
@@ -64,7 +64,7 @@ export class UserController {
   @Put(':id')
   async update(
     @Param('id') id,
-    @Body(new ValidationPipe()) body: UserDTO,
+    @Body(new ValidationPipe()) body: UpdateDto,
   ): Promise<ReturnType<UserApplication['update']>> {
     try {
       if (!id) {
