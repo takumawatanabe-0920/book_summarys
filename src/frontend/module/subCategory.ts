@@ -1,8 +1,8 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
-const CategoryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/categories`;
+const SubCategoryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/subCategories`;
 
-export interface Category {
+export interface SubCategory {
   _id?: string;
   name: string;
   slug: string;
@@ -13,13 +13,13 @@ export interface Category {
 }
 
 type LoadAllArgs = {
-  params: QueryOptions;
+  params: { categoryId: string } & QueryOptions;
 };
 
-const loadAll = async (args: LoadAllArgs): Promise<Category[]> => {
+const loadAll = async (args: LoadAllArgs): Promise<SubCategory[]> => {
   const { params = {} } = args;
   try {
-    const response = await client.get(`${CategoryBasePath}`, {
+    const response = await client.get(`${SubCategoryBasePath}`, {
       params,
     });
     return response.data;

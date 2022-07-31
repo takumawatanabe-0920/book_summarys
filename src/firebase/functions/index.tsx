@@ -1,11 +1,4 @@
 import {
-  getCategoriesPopulateImage,
-  getCategory,
-  getSubCategories,
-  getSubCategory,
-  categoryLinkingSubCategory,
-} from './category';
-import {
   getFavorite,
   getFavorites,
   createFavorite,
@@ -23,11 +16,6 @@ import {
 } from './defalt';
 
 export {
-  getCategory,
-  getSubCategories,
-  getSubCategory,
-  categoryLinkingSubCategory,
-  getCategoriesPopulateImage,
   getMyFavorites,
   getDonefavorite,
   getFavorites,

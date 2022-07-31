@@ -10,10 +10,11 @@ export class SubCategoryApplication {
   ) {}
 
   async list(
+    condition: Partial<SubCategoryDTO>,
     option: PaginationOptions,
   ): Promise<ReturnType<SubCategoryRepository['list']>> {
     try {
-      return await this.subCategoryRepository.list(option);
+      return await this.subCategoryRepository.list(condition, option);
     } catch (error) {
       console.error(error);
       throw error;

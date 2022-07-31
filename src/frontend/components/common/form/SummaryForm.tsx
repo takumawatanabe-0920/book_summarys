@@ -1,16 +1,9 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../..';
-import {
-  ResSubCategory,
-  ResultResponseList,
-  ResFavorite,
-} from '../../../../types';
-import {
-  categoryLinkingSubCategory,
-  // uploadImage,
-  // responseUploadImage,
-} from '../../../../firebase/functions';
+import // uploadImage,
+// responseUploadImage,
+'../../../../firebase/functions';
 import {
   update as updateSummary,
   create as createSummary,
@@ -22,10 +15,14 @@ import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
 import {
-  load as loadCategory,
   loadAll as loadAllCategory,
   Category,
 } from 'src/frontend/module/category';
+import {
+  loadAll as loadAllSubCategory,
+  SubCategory,
+} from 'src/frontend/module/subCategory';
+
 type Props = {
   isEdit?: boolean;
   summary?: Summary;
@@ -35,7 +32,9 @@ const SummaryForm: FC<Props> = (props) => {
   const { isEdit, summary } = props;
   const [values, setValues] = useState<Partial<Summary>>({});
   const [categories, setCategories] = useState<Partial<Category[]>>([]);
-  const [subCategories, setSubCategories] = useState<ResSubCategory[]>([]);
+  const [subCategories, setSubCategories] = useState<Partial<SubCategory[]>>(
+    [],
+  );
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
   // const [image, setImage] = useState<File>();
@@ -90,11 +89,15 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   const subCategorySelect = async (categoryId?: string) => {
-    const resSubCategoryList: ResultResponseList<ResFavorite> =
-      await categoryLinkingSubCategory(categoryId);
-    if (resSubCategoryList && resSubCategoryList.status === 200) {
-      setSubCategories(resSubCategoryList.data);
-    } else {
+    try {
+      const _subCategories = await loadAllSubCategory({
+        params: {
+          categoryId,
+        },
+      });
+      setSubCategories(_subCategories);
+    } catch (e) {
+      console.error({ e });
       await throwAlert('danger', 'エラーが発生しました。');
     }
   };
