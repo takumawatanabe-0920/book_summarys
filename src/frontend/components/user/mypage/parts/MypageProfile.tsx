@@ -1,9 +1,9 @@
-import React, { useState, FC } from 'react';
-import { ResUser } from '../../../../../types';
+import React, { FC } from 'react';
 import { userCircleIcon } from '../../../../../utils/icons';
+import { User } from 'src/frontend/module/user';
 
 type Props = {
-  user: ResUser;
+  user: User;
 };
 
 const MypageSidebar: FC<Props> = (props) => {

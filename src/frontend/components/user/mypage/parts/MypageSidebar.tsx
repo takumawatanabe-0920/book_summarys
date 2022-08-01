@@ -3,14 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
-import { ResUser } from '../../../../../types';
-import { logout } from 'src/frontend/module/user';
+import { logout, User } from 'src/frontend/module/user';
 import useAlertState from '../../../../hooks/useAlertState';
 import { GlobalContext } from '../../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
 
 type Props = {
-  user: ResUser;
+  user: User;
 };
 
 const MypageSidebar: FC<Props> = (props) => {
