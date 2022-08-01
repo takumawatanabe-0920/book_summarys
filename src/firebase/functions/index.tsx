@@ -1,12 +1,4 @@
-import {
-  getFavorite,
-  getFavorites,
-  createFavorite,
-  deleteFavorite,
-  getDonefavorite,
-  getfavoriteNum,
-  getMyFavorites,
-} from './favorite';
+import { createFavorite, deleteFavorite } from './favorite';
 import {
   readQuery,
   formatDateHour,
@@ -16,13 +8,8 @@ import {
 } from './defalt';
 
 export {
-  getMyFavorites,
-  getDonefavorite,
-  getFavorites,
   createFavorite,
   deleteFavorite,
-  getFavorite,
-  getfavoriteNum,
   readQuery,
   formatDateHour,
   uploadImage,

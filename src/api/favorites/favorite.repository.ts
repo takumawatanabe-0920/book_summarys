@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Favorite, FavoriteDocument } from './favorite.schema';
 import { FavoriteDTO } from './favorite.dto';
 import { repositories } from '../../config/mongoOption';
+import { PaginationOptions } from '../../config/mongoOption';
+import { getPaginationQuery } from '../../config/lib/repositories';
 
 @Injectable()
 export class FavoriteRepository {
@@ -12,8 +14,17 @@ export class FavoriteRepository {
     private readonly favoriteModel: Model<FavoriteDocument>,
   ) {}
 
-  async list(): Promise<Favorite[]> {
-    return await this.favoriteModel.find().lean();
+  async list(
+    conditions: Partial<FavoriteDTO>,
+    option: PaginationOptions,
+  ): Promise<Favorite[]> {
+    const query = getPaginationQuery(
+      this.favoriteModel.find(conditions).populate({
+        path: 'summary',
+      }),
+      option,
+    );
+    return await query.exec();
   }
 
   async getById(id: string): Promise<Favorite> {

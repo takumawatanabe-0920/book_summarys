@@ -3,7 +3,7 @@ import clsx from 'clsx';
 // import Hammer from 'react-hammerjs';
 import { useNavigate } from 'react-router-dom';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { ResSummaryBook, ResultResponse } from '../../types';
+import { ResultResponse } from '../../types';
 import { getImage } from '../../firebase/functions';
 import {
   Card,
@@ -15,45 +15,37 @@ import {
   FavoriteIcon,
 } from '.';
 import { formatTagColor } from '../../utils/function';
+import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
-  data: ResSummaryBook;
+  data: Summary;
   setting?: any;
   elType?: string;
 };
 
 const MediaCard: FC<Props> = (props) => {
   const { data, setting, elType } = props;
-  const {
-    id,
-    title,
-    favorite_count,
-    category,
-    book_name,
-    // sub_category,
-    user_name,
-    discription,
-    thumbnail,
-    update_date,
-  } = data;
+  const { id, title, category, bookName, discription, thumbnail, updatedAt } =
+    data;
   //const { isHiddenContent } = setting
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
-  const history = useNavigate();
-
+  // const history = useNavigate();
+  const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
     const now = new Date();
     const nowTime = Math.floor(now.getTime() / 1000);
-    const diffTime = nowTime - update_date.seconds;
-    if (favorite_count > 0) {
+    const updatedTime = Math.floor(updatedAt.getTime() / 1000);
+    const diffTime = nowTime - updatedTime;
+    if (favoriteCount > 0) {
       return <span className="main-tag recommned-tag">人気！</span>;
     } else if (diffTime > 3600) {
       return <span className="main-tag new-tag">新着！</span>;
     }
   };
 
-  const onTapAndMove = () => {
-    history(`/summary/${id}`);
-  };
+  // const onTapAndMove = () => {
+  //   history(`/summary/${id}`);
+  // };
 
   useEffect(() => {
     const loadData = async () => {
@@ -107,7 +99,7 @@ const MediaCard: FC<Props> = (props) => {
                 setting && setting.topSlider ? '_book-name-top' : '_book-name',
               )}
             >
-              {book_name ? book_name : '題材なし'}
+              {bookName ? bookName : '題材なし'}
             </div>
             <CardContent>
               <div className="categories">
@@ -150,12 +142,10 @@ const MediaCard: FC<Props> = (props) => {
                   )}
             </CardContent>
             <CardActions className="summary-bottom">
-              <p className="user-name">@{user_name ? user_name : '名無し'}</p>
+              {/* <p className="user-name">@{user_name ? user_name : '名無し'}</p> */}
               <div className="favorite-area">
                 <FavoriteIcon className="favorite-button isClick" />
-                <p className="favoriteNum">
-                  {favorite_count ? favorite_count : 0}
-                </p>
+                <p className="favoriteNum">{favoriteCount || 0}</p>
               </div>
             </CardActions>
           </div>

@@ -1,19 +1,12 @@
 import React, { useEffect, useState, FC, useContext } from 'react';
-import {
-  ResFavorite,
-  ResultResponseList,
-  ResultResponse,
-} from '../../../../types';
-import {
-  getFavorite,
-  createFavorite,
-  deleteFavorite,
-} from '../../../../firebase/functions';
+import { ResFavorite, ResultResponse } from '../../../../types';
+import { createFavorite, deleteFavorite } from '../../../../firebase/functions';
 import useAlertState from '../../../hooks/useAlertState';
 import { FavoriteIcon } from '../../../../utils/material';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { Summary } from 'src/frontend/module/summary';
 import { getId } from 'src/config/objectId';
+import { loadSummaryFroUser, Favorite } from 'src/frontend/module/favorite';
 
 type Props = {
   summary: Summary;
@@ -22,9 +15,9 @@ type Props = {
 
 const FavoliteButton: FC<Props> = (props) => {
   const { userId, summary } = props;
-  const [currentUserfavorites, setCurrentUserFavorites] = useState<ResFavorite>(
-    {},
-  );
+  const [currentUserfavorites, setCurrentUserFavorites] = useState<
+    Partial<Favorite>
+  >({});
   const [favoritesNum, setFavoritesNum] = useState(0);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
@@ -52,7 +45,6 @@ const FavoliteButton: FC<Props> = (props) => {
       }
     } else {
       const newProps = {
-        user_name: currentUser.displayName ? currentUser.displayName : '',
         userId,
         summary_id: getId(summary),
       };
@@ -72,18 +64,16 @@ const FavoliteButton: FC<Props> = (props) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        let resfavoriteList: ResultResponseList<ResFavorite>;
         if (userId && getId(summary)) {
-          resfavoriteList = await getFavorite(userId, getId(summary));
+          const favorites = await loadSummaryFroUser({
+            userId,
+            summaryId: getId(summary),
+          });
+          setCurrentUserFavorites(favorites?.[0]);
         }
-        if (
-          resfavoriteList &&
-          resfavoriteList.status === 200 &&
-          resfavoriteList.data.length > 0
-        ) {
-          setCurrentUserFavorites(resfavoriteList.data[0]);
-        }
-      } catch (e) {}
+      } catch (e) {
+        console.error({ e });
+      }
     };
 
     loadData();

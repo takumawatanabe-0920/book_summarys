@@ -47,12 +47,6 @@ export class SummaryController {
       if (publishingStatus) {
         conditions['publishingStatus'] = publishingStatus;
       }
-      if (limit) {
-        conditions['limit'] = limit;
-      }
-      if (page) {
-        conditions['page'] = page;
-      }
       if (startDate || endDate) {
         const startAt = dayjs(startDate);
         if (startDate && startAt.isValid()) {
@@ -64,13 +58,18 @@ export class SummaryController {
         }
       }
 
-      let option: PaginationOptions = {};
+      const option: PaginationOptions = {};
       if (sortKey) {
-        option = {
-          sort: sortKey,
-          direction: order ? 'desc' : 'asc',
-        };
+        option.sort = sortKey;
+        option.direction = order ? order : 'asc';
       }
+      if (limit) {
+        option.limit = limit;
+      }
+      if (page) {
+        option.page = page;
+      }
+
       return await this.summaryApplication.list(conditions, option);
     } catch (error) {
       console.error(error);

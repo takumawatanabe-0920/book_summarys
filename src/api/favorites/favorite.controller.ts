@@ -8,7 +8,7 @@ import {
   Body,
   ValidationPipe,
   BadRequestException,
-  NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { FavoriteDTO } from './favorite.dto';
 import {
@@ -16,6 +16,7 @@ import {
   UserFavoriteApplication,
   SummaryFavoriteApplication,
 } from './favorite.application';
+import { PaginationOptions } from '../../config/mongoOption';
 import { getId } from '../../config/objectId';
 @Controller('favorites')
 export class FavoriteController {
@@ -25,9 +26,24 @@ export class FavoriteController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<FavoriteApplication['list']>> {
+  async list(
+    @Query('userId') userId,
+    @Query('page') page,
+    @Query('limit') limit,
+  ): Promise<ReturnType<FavoriteApplication['list']>> {
     try {
-      return await this.favoriteApplication.list();
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      const option: PaginationOptions = {};
+      if (limit) {
+        option.limit = limit;
+      }
+      if (page) {
+        option.page = page;
+      }
+      return await this.favoriteApplication.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;
@@ -52,18 +68,31 @@ export class UserFavoriteController {
     private readonly userFavoriteApplication: UserFavoriteApplication,
   ) {}
 
-  @Get(':id')
+  @Get()
   async get(
-    @Param('id') id: string,
-  ): Promise<ReturnType<UserFavoriteApplication['get']>> {
+    @Param('userId') userId: string,
+    @Query('page') page,
+    @Query('limit') limit,
+  ): Promise<ReturnType<UserFavoriteApplication['list']>> {
     try {
-      if (!id) {
+      if (!userId) {
         throw new BadRequestException('id is required');
       }
-      const favorite = await this.userFavoriteApplication.get(id);
-      if (!favorite) {
-        throw new NotFoundException('favorite not found');
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
       }
+      const option: PaginationOptions = {};
+      if (limit) {
+        option.limit = limit;
+      }
+      if (page) {
+        option.page = page;
+      }
+      const favorite = await this.userFavoriteApplication.list(
+        conditions,
+        option,
+      );
       return favorite;
     } catch (error) {
       console.error(error);
@@ -102,14 +131,10 @@ export class SummaryFavoriteController {
 
   @Post()
   async create(
-    @Param('userId') userId: string,
     @Param('summaryId') summaryId: string,
     @Body(new ValidationPipe()) body: FavoriteDTO,
   ): Promise<ReturnType<SummaryFavoriteApplication['create']>> {
     try {
-      if (!getId(userId)) {
-        throw new BadRequestException('user is required');
-      }
       if (!getId(summaryId)) {
         throw new BadRequestException('summary is required');
       }
