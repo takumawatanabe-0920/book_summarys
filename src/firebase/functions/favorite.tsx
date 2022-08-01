@@ -12,7 +12,7 @@ export const createFavorite = async (
     return { status: 400, error: 'user_id or summary_id is exist' };
   }
   values.create_date = firebase.firestore.Timestamp.now();
-  values.update_date = firebase.firestore.Timestamp.now();
+  values.updatedAt = firebase.firestore.Timestamp.now();
   const response = db
     .collection('favorite')
     .add({

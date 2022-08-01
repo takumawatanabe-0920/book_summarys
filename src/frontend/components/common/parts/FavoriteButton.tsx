@@ -45,7 +45,6 @@ const FavoliteButton: FC<Props> = (props) => {
       }
     } else {
       const newProps = {
-        user_name: currentUser.displayName ? currentUser.displayName : '',
         userId,
         summary_id: getId(summary),
       };

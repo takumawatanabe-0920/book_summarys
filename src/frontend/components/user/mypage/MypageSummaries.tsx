@@ -84,8 +84,8 @@ const MypageSummaries = () => {
                     <h2 className="sub-ttl">投稿記事一覧</h2>
                     {summaries && summaries.length > 0 && (
                       <>
-                        {summaries.map((summaryBook: Summary) => {
-                          return <MypageSummaryStackItem data={summaryBook} />;
+                        {summaries.map((summary) => {
+                          return <MypageSummaryStackItem data={summary} />;
                         })}
                         <Pager
                           fetchPager={fetchPager}

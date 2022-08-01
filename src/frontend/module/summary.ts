@@ -17,6 +17,7 @@ export interface Summary {
   user: string;
   updatedAt: Date;
   createdAt: Date;
+  favorites: any[];
 }
 
 type LoadAllArgs = {
