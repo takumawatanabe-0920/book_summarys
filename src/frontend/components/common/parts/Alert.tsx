@@ -1,14 +1,7 @@
-import React, { FC, useContext } from 'react';
+import React, { useContext } from 'react';
 import { GlobalContext } from '../../../hooks/context/Global';
 
-type props = {
-  is_show_alert?: boolean;
-  alert_status?: string;
-  alert_text?: string;
-};
-
-const Alert: FC<props> = (props) => {
-  //const { is_show_alert, alert_status, alert_text } = props
+const Alert = () => {
   const { alertState, alertStatus, alertText } = useContext(GlobalContext);
 
   return (

@@ -22,8 +22,7 @@ type Props = {
 
 const MediaCard: FC<Props> = (props) => {
   const { data, setting, elType } = props;
-  const { id, title, category, bookName, discription, thumbnail, updatedAt } =
-    data;
+  const { title, category, bookName, discription, user, updatedAt } = data;
   //const { isHiddenContent } = setting
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
   // const history = useNavigate();
@@ -124,7 +123,7 @@ const MediaCard: FC<Props> = (props) => {
                   )}
             </CardContent>
             <CardActions className="summary-bottom">
-              {/* <p className="user-name">@{user_name ? user_name : '名無し'}</p> */}
+              <p className="user-name">@{user?.dispalyName || '名無し'}</p>
               <div className="favorite-area">
                 <FavoriteIcon className="favorite-button isClick" />
                 <p className="favoriteNum">{favoriteCount || 0}</p>

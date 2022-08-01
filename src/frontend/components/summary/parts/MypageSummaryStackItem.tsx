@@ -55,7 +55,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
           に閲覧しました。
         </div>
       )}
-      <Link to={`/summary/${data.id}`} className="summaries-stack">
+      <Link to={`/summary/${getId(data)}`} className="summaries-stack">
         <div className="left-box">
           {loading && summaryThumbnail && (
             <img src={summaryThumbnail} alt={data.title} />
@@ -76,7 +76,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
           {isShowElementOnlyCurrentUser() && (
             <div className="_summary-edit-btn">
               <Link
-                to={`/summary/${data.id}/edit`}
+                to={`/summary/${getId(data)}/edit`}
                 className="_btn _edit _wd-6-btn"
               >
                 編集する

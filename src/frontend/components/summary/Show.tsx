@@ -17,8 +17,8 @@ const SummaryShowPage = () => {
 
   const { id } = useParams<'id'>();
 
-  const publicSummary = (_type: string, user_id: string) => {
-    if (_type === 'public' || getId(currentUser) === user_id) {
+  const publicSummary = (_type: string, userId: string) => {
+    if (_type === 'public' || getId(currentUser) === userId) {
       return (
         <div className="main-block article-block">
           <SummaryDetails
