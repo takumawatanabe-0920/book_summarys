@@ -5,6 +5,7 @@ import {
   loadAll as loadAllSummary,
   Summary,
 } from 'src/frontend/module/summary';
+import { getId } from 'src/config/objectId';
 
 const TopSummaryList = () => {
   const [rankingThisMonthSummaries, setRankingThisMonthSummaries] = useState<
@@ -79,7 +80,7 @@ const TopSummaryList = () => {
           {rankingThisMonthSummaries.map((data) => {
             return (
               <SummaryItem
-                key={data.id}
+                key={getId(data)}
                 data={data}
                 setting={settingsTopSlider}
                 elType="top-summary-list"

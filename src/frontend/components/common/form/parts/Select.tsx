@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { getId } from 'src/config/objectId';
 
 type Props = {
   title: string;
@@ -32,7 +33,7 @@ const Select: FC<Props> = (props) => {
             {dataList &&
               dataList.map((data) => {
                 return (
-                  <option value={data.id} key={data.id}>
+                  <option value={getId(data)} key={getId(data)}>
                     {data.name}
                   </option>
                 );

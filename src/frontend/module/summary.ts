@@ -14,7 +14,7 @@ export interface Summary {
   image: string;
   category: any;
   subCategory: any;
-  user: string;
+  user: any;
   updatedAt: Date;
   createdAt: Date;
   favorites: any[];
