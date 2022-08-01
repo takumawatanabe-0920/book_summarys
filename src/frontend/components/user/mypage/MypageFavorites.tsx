@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { ResultResponseList, ResFavorite, ResUser } from '../../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
-import { getMyFavorites, readQuery } from '../../../../firebase/functions';
-import { load as loadUser } from 'src/frontend/module/user';
-import { count as countFavorite } from 'src/frontend/module/favorite';
+import { readQuery } from '../../../../firebase/functions';
+import { load as loadUser, User } from 'src/frontend/module/user';
+import {
+  count as countFavorite,
+  loadFroUser,
+  Favorite,
+} from 'src/frontend/module/favorite';
 const MypageFavorites = () => {
-  const [user, setUser] = useState<ResUser>({});
-  const [favorites, setFavorites] = useState<ResFavorite[]>([]);
+  const [user, setUser] = useState<Partial<User>>({});
+  const [favorites, setFavorites] = useState<Partial<Favorite[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
@@ -24,18 +27,23 @@ const MypageFavorites = () => {
       try {
         const user = await loadUser(id);
         setUser(user);
-        const resMyFavoritesDataList: ResultResponseList<ResFavorite> =
-          await getMyFavorites(dataNumPerPage, page, id);
+        const myFavorites = await loadFroUser({
+          params: {
+            userId: id,
+            limit: dataNumPerPage,
+            page,
+          },
+        });
         const myFavoritesCount = await countFavorite({
           params: {
             userId: id,
           },
         });
         setMyFavoritesNum(myFavoritesCount);
-        if (resMyFavoritesDataList && resMyFavoritesDataList.status === 200) {
-          setFavorites(resMyFavoritesDataList.data);
-        }
-      } catch (e) {}
+        setFavorites(myFavorites);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     loadData();
@@ -55,9 +63,9 @@ const MypageFavorites = () => {
                     <h2 className="sub-ttl">いいねした記事一覧</h2>
                     {favorites &&
                       favorites.length > 0 &&
-                      favorites.map((favorite: ResFavorite) => {
+                      favorites.map((favorite) => {
                         return (
-                          <MypageSummaryStackItem data={favorite.summary_id} />
+                          <MypageSummaryStackItem data={favorite.summary} />
                         );
                       })}
                     <Pager

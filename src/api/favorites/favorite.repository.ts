@@ -19,7 +19,9 @@ export class FavoriteRepository {
     option: PaginationOptions,
   ): Promise<Favorite[]> {
     const query = getPaginationQuery(
-      this.favoriteModel.find(conditions),
+      this.favoriteModel.find(conditions).populate({
+        path: 'summary',
+      }),
       option,
     );
     return await query.exec();

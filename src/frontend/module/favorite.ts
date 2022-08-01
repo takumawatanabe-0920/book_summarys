@@ -1,5 +1,6 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
+import { Summary } from 'src/frontend/module/summary';
 
 const FavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/favorites`;
 const UserFavoriteBasePath = ({ userId }) =>
@@ -10,7 +11,7 @@ const SummaryFavoriteBasePath = ({ summaryId }) =>
 export interface Favorite {
   _id?: string;
   user: string;
-  summary: string;
+  summary: Summary;
   updatedAt: Date;
   createdAt: Date;
 }
@@ -54,7 +55,7 @@ type LoadForUserArgs = {
     userId: string;
   } & QueryOptions;
 };
-const loadFroUser = async (args: LoadForUserArgs): Promise<Favorite> => {
+const loadFroUser = async (args: LoadForUserArgs): Promise<Favorite[]> => {
   const { params = { userId: '' } } = args;
   try {
     const response = await client.get(

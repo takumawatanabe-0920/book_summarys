@@ -8,7 +8,6 @@ import {
   Body,
   ValidationPipe,
   BadRequestException,
-  NotFoundException,
   Query,
 } from '@nestjs/common';
 import { FavoriteDTO } from './favorite.dto';
@@ -94,9 +93,6 @@ export class UserFavoriteController {
         conditions,
         option,
       );
-      if (!favorite) {
-        throw new NotFoundException('favorite not found');
-      }
       return favorite;
     } catch (error) {
       console.error(error);

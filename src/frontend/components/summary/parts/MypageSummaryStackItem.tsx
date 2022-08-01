@@ -1,14 +1,15 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { ResSummaryBook, ResultResponse } from '../../../../types';
+import { ResultResponse } from '../../../../types';
 import clsx from 'clsx';
 import { getImage } from '../../../../firebase/functions';
 import { formatUpdateDate } from '../../../../utils/function';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
+import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
-  data: ResSummaryBook;
+  data: Summary;
   time?: firebase.firestore.Timestamp;
 };
 
@@ -16,7 +17,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
   const { data, time } = props;
   const [loading, setLoading] = useState<boolean>(false);
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const { currentUser } = useContext(GlobalContext);
 
   const formatPublishingStatus = (_status: string) => {
     switch (_status) {
@@ -41,7 +42,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
   };
 
   const isShowElementOnlyCurrentUser = (): boolean => {
-    return (data.user_id || data.user_id.id) === getId(currentUser);
+    return getId(data.user) === getId(currentUser);
   };
 
   useEffect(() => {
@@ -80,10 +81,10 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
             <span
               className={clsx(
                 'label',
-                `${formatPublishingStatusClassName(data.publishing_status)}`,
+                `${formatPublishingStatusClassName(data.publishingStatus)}`,
               )}
             >
-              {formatPublishingStatus(data.publishing_status)}
+              {formatPublishingStatus(data.publishingStatus)}
             </span>
           )}
           <h3 className="_title">{data.title}</h3>
@@ -101,7 +102,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
             <dt>投稿日時</dt>
             <dd>
               <p className="_description">
-                {formatUpdateDate(data.update_date as any)}
+                {formatUpdateDate(data.updatedAt as any)}
               </p>
             </dd>
           </dl>
