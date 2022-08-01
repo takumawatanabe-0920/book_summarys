@@ -58,7 +58,7 @@ const MypageFavorites = () => {
               <div className="user-mypage">
                 <h1 className="main-title blue-main-title">MY PAGE</h1>
                 <div className="mypage-content">
-                  <MypageSidebar user={user} />
+                  <MypageSidebar user={user as User} />
                   <div className="_mypage">
                     <h2 className="sub-ttl">いいねした記事一覧</h2>
                     {favorites &&

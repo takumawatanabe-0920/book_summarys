@@ -3,9 +3,3 @@ export type ResultResponse<T> = Partial<{
   data: T;
   error: any;
 }>;
-
-export type ResultResponseList<T> = Partial<{
-  data: T[];
-  error: any;
-  status: number;
-}>;

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ResUser, ResultResponse } from '../../../../types';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar } from '../..';
-import { load as loadUser } from 'src/frontend/module/user';
+import { load as loadUser, User } from 'src/frontend/module/user';
 
 const Mypage = () => {
-  const [user, setUser] = useState<ResUser>({});
+  const [user, setUser] = useState<Partial<User>>({});
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
   useEffect(() => {
@@ -29,7 +28,7 @@ const Mypage = () => {
               <div className="user-mypage">
                 <h1 className="main-title blue-main-title">MY PAGE</h1>
                 <div className="mypage-content">
-                  <MypageSidebar user={user} />
+                  <MypageSidebar user={user as User} />
                   <div className="_main-block"></div>
                 </div>
               </div>

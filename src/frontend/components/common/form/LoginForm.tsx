@@ -1,15 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '../..';
-import { Login } from '../../../../types';
-import { login } from 'src/frontend/module/user';
+import { login, User } from 'src/frontend/module/user';
 import useAlertState from '../../../hooks/useAlertState';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../../hooks/context/Global';
 
 const LoginForm = () => {
-  const [loginValues, setLogin] = useState<Login>({});
-  const [errorTexts, setErrorTexts] = useState<Login>({});
+  const [loginValues, setLogin] = useState<Partial<User>>({});
+  const [errorTexts, setErrorTexts] = useState<Partial<User>>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const history = useNavigate();
@@ -25,7 +24,7 @@ const LoginForm = () => {
 
   const validationCheck = async (): Promise<boolean> => {
     let isError = false;
-    const errorText: Login = {};
+    const errorText: Partial<User> = {};
     const { email, password } = loginValues;
     if (!email || !email.match(/\S/g)) {
       isError = true;

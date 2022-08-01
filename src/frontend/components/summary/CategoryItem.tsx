@@ -1,23 +1,18 @@
-import React, { useState, FC } from 'react';
+import React, { FC } from 'react';
 // components
-import { ResCategory } from '../../../types';
 import { Link } from 'react-router-dom';
+import { Category } from 'src/frontend/module/category';
 
 type Props = {
-  data: ResCategory;
+  data: Category;
   fetchData?: any;
 };
 
 const CategoryItem: FC<Props> = (props) => {
-  const [categories, setCategories] = useState<ResCategory[]>([]);
-  const { data, fetchData } = props;
-  const { id, name, slug } = data;
+  const { data } = props;
+  const { name, slug } = data;
 
-  return (
-    <>
-      <Link to={`/summary?category=${slug}`}>{name}</Link>
-    </>
-  );
+  return <Link to={`/summary?category=${slug}`}>{name}</Link>;
 };
 
 export default CategoryItem;
