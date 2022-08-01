@@ -1,10 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import clsx from 'clsx';
 // import Hammer from 'react-hammerjs';
-import { useNavigate } from 'react-router-dom';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { ResultResponse } from '../../types';
-import { getImage } from '../../firebase/functions';
 import {
   Card,
   CardMedia,
@@ -46,21 +43,6 @@ const MediaCard: FC<Props> = (props) => {
   // const onTapAndMove = () => {
   //   history(`/summary/${id}`);
   // };
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const resThumnail: ResultResponse<string> | void = await getImage(
-          thumbnail,
-        );
-        if (resThumnail && resThumnail.status === 200) {
-          setSummaryThumbnail(resThumnail.data);
-        }
-      } catch (e) {}
-    };
-
-    loadData();
-  }, []);
 
   return (
     // <Hammer onTap={onTapAndMove}>

@@ -1,9 +1,6 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, Textarea, Select } from '../..';
-import // uploadImage,
-// responseUploadImage,
-'../../../../firebase/functions';
 import {
   update as updateSummary,
   create as createSummary,
@@ -208,20 +205,6 @@ const SummaryForm: FC<Props> = (props) => {
       window.confirm(isEdit ? '修正分を反映しますか？' : '記事を作成しますか？')
     ) {
       try {
-        // if (imageUrl) {
-        //   const resUpload: ResultResponse<any> = await uploadImage(
-        //     image,
-        //     'summary',
-        //   );
-        //   if (resUpload.status === 200) {
-        //     values.thumbnail = resUpload.data;
-        //   } else {
-        //     return await throwAlert(
-        //       'danger',
-        //       '画像のアップロードに失敗しました。',
-        //     );
-        //   }
-        // }
         if (isEdit) {
           await updateSummary(getId(summary), values);
           history(`/summary/${getId(summary)}`);
@@ -359,9 +342,6 @@ const SummaryForm: FC<Props> = (props) => {
         });
         setCategories(_categories);
         if (isEdit && Object.keys(summary).length > 0) {
-          // const resThumnail: string = await responseUploadImage(
-          //   summary.thumbnail,
-          // );
           subCategorySelect(summary.category);
           setIsSelectCategory(true);
           // setThumnail(resThumnail);

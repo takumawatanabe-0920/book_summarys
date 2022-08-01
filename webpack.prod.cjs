@@ -50,7 +50,6 @@ module.exports = {
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
-    firebase: 'firebase',
     '@material-ui/core': 'MaterialUI',
   },
   devtool: 'source-map',

@@ -1,8 +1,6 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { ResultResponse } from '../../../../types';
 import clsx from 'clsx';
-import { getImage } from '../../../../firebase/functions';
 import { formatUpdateDate } from '../../../../utils/function';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
@@ -10,7 +8,7 @@ import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
   data: Summary;
-  time?: firebase.firestore.Timestamp;
+  time?: Date;
 };
 
 const MypageSummaryStackItem: FC<Props> = (props) => {
@@ -46,19 +44,6 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      if (Object.keys(data).length < 0) return;
-      try {
-        const resThumnail: ResultResponse<string> | void = await getImage(
-          data.thumbnail,
-        );
-        if (resThumnail && resThumnail.status === 200) {
-          setSummaryThumbnail(resThumnail.data);
-        }
-      } catch (e) {}
-    };
-
-    loadData();
     setLoading(true);
   }, []);
 
