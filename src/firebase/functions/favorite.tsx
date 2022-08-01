@@ -34,24 +34,6 @@ export const getFavorite = (
 };
 
 // done
-export const getFavorites = (): Promise<ResultResponseList<ResFavorite>> => {
-  const response = db
-    .collection('favorite')
-    .get()
-    .then((res) => {
-      const resData: ResFavorite[] = res.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
-      return { status: 200, data: resData };
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-
-  return response;
-};
-
-// done
 export const getMyFavorites = async (
   limit?: number,
   page?: number,

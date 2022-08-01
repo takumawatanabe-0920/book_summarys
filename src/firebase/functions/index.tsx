@@ -1,6 +1,5 @@
 import {
   getFavorite,
-  getFavorites,
   createFavorite,
   deleteFavorite,
   getMyFavorites,
@@ -15,7 +14,6 @@ import {
 
 export {
   getMyFavorites,
-  getFavorites,
   createFavorite,
   deleteFavorite,
   getFavorite,
