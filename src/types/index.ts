@@ -1,3 +1,3 @@
-import { ResultResponse, ResultResponseList } from './default';
+import { ResultResponse } from './default';
 
-export { ResultResponse, ResultResponseList };
+export { ResultResponse };

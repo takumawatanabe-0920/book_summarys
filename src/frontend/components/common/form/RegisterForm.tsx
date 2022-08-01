@@ -1,9 +1,8 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Input } from '../..';
-import { RegisterUser } from '../../../../types';
 import useAlertState from '../../../hooks/useAlertState';
-import { update as updateUser, signup } from 'src/frontend/module/user';
+import { update as updateUser, signup, User } from 'src/frontend/module/user';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from '../../../../config/objectId';
 
@@ -13,8 +12,8 @@ type Props = {
 
 const RegisterForm: FC<Props> = (props) => {
   const { isEdit } = props;
-  const [values, setValues] = useState<RegisterUser>({});
-  const [errorTexts, setErrorTexts] = useState<RegisterUser>({});
+  const [values, setValues] = useState<Partial<User>>({});
+  const [errorTexts, setErrorTexts] = useState<Partial<User>>({});
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { setCurrentUser, currentUser } = useContext(GlobalContext);
@@ -50,7 +49,7 @@ const RegisterForm: FC<Props> = (props) => {
 
   const validationCheck = async (): Promise<boolean> => {
     let isError = false;
-    const errorText: RegisterUser = {};
+    const errorText: Partial<User> = {};
     const { displayName, email, password } = values;
     if (!displayName || !displayName.match(/\S/g)) {
       isError = true;
