@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect } from 'react';
 import clsx from 'clsx';
 // import Hammer from 'react-hammerjs';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { ResultResponse } from '../../types';
 import {
   Card,
   CardMedia,

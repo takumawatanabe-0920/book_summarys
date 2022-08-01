@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { ResultResponse } from '../../../../types';
 import clsx from 'clsx';
 import { formatUpdateDate } from '../../../../utils/function';
 import { GlobalContext } from '../../../hooks/context/Global';
@@ -9,7 +8,7 @@ import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
   data: Summary;
-  time?: firebase.firestore.Timestamp;
+  time?: Date;
 };
 
 const MypageSummaryStackItem: FC<Props> = (props) => {
