@@ -1,7 +1,7 @@
 import React, { useState, FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
-import { readQuery } from '../../../../firebase/functions';
+import { readQuery } from 'src/utils/function';
 
 type props = {
   fetchPager: any;

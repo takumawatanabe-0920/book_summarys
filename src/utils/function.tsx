@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-
+import { useLocation } from 'react-router-dom';
 export const formatUpdateDate = (date: Date & { seconds?: any }) => {
   const dateTime = date.seconds;
   const messageTime = dateTime ? dayjs.unix(dateTime).format('MM/DD') : '';
@@ -42,4 +42,8 @@ export const formatTagColor = (_categoryName: string): string => {
     default:
       return 'all-tag';
   }
+};
+
+export const readQuery = (key?: string): string => {
+  return new URLSearchParams(useLocation().search).get(key);
 };

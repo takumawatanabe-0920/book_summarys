@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
-import { readQuery } from '../../../../firebase/functions';
+import { readQuery } from 'src/utils/function';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { load as loadUser } from 'src/frontend/module/user';
 import { getId } from 'src/config/objectId';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
-import { readQuery } from '../../../../firebase/functions';
+import { readQuery } from 'src/utils/function';
 import { load as loadUser, User } from 'src/frontend/module/user';
 import {
   count as countFavorite,

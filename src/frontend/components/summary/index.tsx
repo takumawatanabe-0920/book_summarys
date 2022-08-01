@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // components
 import { SummaryList, SummaryCategories, Pager, Loading } from '..';
-import { readQuery } from '../../../firebase/functions';
+import { readQuery } from 'src/utils/function';
 import {
   loadAll as loadAllSummary,
   count as countSummary,
