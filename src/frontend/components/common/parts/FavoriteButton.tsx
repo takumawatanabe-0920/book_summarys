@@ -1,12 +1,14 @@
-import React, { useEffect, useState, FC, useContext } from 'react';
-import { ResFavorite, ResultResponse } from '../../../../types';
-import { createFavorite, deleteFavorite } from '../../../../firebase/functions';
+import React, { useEffect, useState, FC } from 'react';
 import useAlertState from '../../../hooks/useAlertState';
 import { FavoriteIcon } from '../../../../utils/material';
-import { GlobalContext } from '../../../hooks/context/Global';
 import { Summary } from 'src/frontend/module/summary';
 import { getId } from 'src/config/objectId';
-import { loadSummaryFroUser, Favorite } from 'src/frontend/module/favorite';
+import {
+  loadSummaryFroUser,
+  Favorite,
+  create as createFavorite,
+  remove as deleteFavorite,
+} from 'src/frontend/module/favorite';
 
 type Props = {
   summary: Summary;
@@ -21,7 +23,6 @@ const FavoliteButton: FC<Props> = (props) => {
   const [favoritesNum, setFavoritesNum] = useState(0);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const { currentUser } = useContext(GlobalContext);
 
   const handleFavorite = async (event: React.MouseEvent<HTMLElement>) => {
     event.persist();
@@ -34,28 +35,26 @@ const FavoliteButton: FC<Props> = (props) => {
     }
     //レンダリングさせる必要がある
     if (Object.keys(currentUserfavorites).length > 0) {
-      const resDeleteFavorite: ResultResponse<ResFavorite> =
-        await deleteFavorite(currentUserfavorites.id);
-      if (resDeleteFavorite && resDeleteFavorite.status === 200) {
+      try {
+        await deleteFavorite(getId(currentUserfavorites));
         setCurrentUserFavorites({});
         setFavoritesNum(favoritesNum - 1);
         await throwAlert('danger', 'いいねを解除しました。');
-      } else {
+      } catch (e) {
+        console.error({ e });
         await throwAlert('danger', 'いいねの解除に失敗しました。');
       }
     } else {
-      const newProps = {
-        userId,
-        summary_id: getId(summary),
-      };
-      const resFavorite: ResultResponse<ResFavorite> = await createFavorite(
-        newProps,
-      );
-      if (resFavorite && resFavorite.status === 200) {
-        setCurrentUserFavorites({ id: resFavorite.data.id, ...props });
+      try {
+        const _favorite = await createFavorite({
+          user: userId,
+          summary: getId(summary),
+        });
+        setCurrentUserFavorites(_favorite);
         setFavoritesNum(favoritesNum + 1);
         await throwAlert('success', 'いいねしました。');
-      } else {
+      } catch (e) {
+        console.error({ e });
         await throwAlert('danger', 'いいねに失敗しました。');
       }
     }
