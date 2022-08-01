@@ -17,6 +17,7 @@ import {
   UserFavoriteApplication,
   SummaryFavoriteApplication,
 } from './favorite.application';
+import { PaginationOptions } from '../../config/mongoOption';
 import { getId } from '../../config/objectId';
 @Controller('favorites')
 export class FavoriteController {
@@ -28,13 +29,22 @@ export class FavoriteController {
   @Get()
   async list(
     @Query('userId') userId,
+    @Query('page') page,
+    @Query('limit') limit,
   ): Promise<ReturnType<FavoriteApplication['list']>> {
     try {
       const conditions = {};
       if (userId) {
         conditions['user'] = userId;
       }
-      return await this.favoriteApplication.list(conditions);
+      const option: PaginationOptions = {};
+      if (limit) {
+        option.limit = limit;
+      }
+      if (page) {
+        option.page = page;
+      }
+      return await this.favoriteApplication.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;
@@ -59,15 +69,31 @@ export class UserFavoriteController {
     private readonly userFavoriteApplication: UserFavoriteApplication,
   ) {}
 
-  @Get(':id')
+  @Get()
   async get(
-    @Param('id') id: string,
-  ): Promise<ReturnType<UserFavoriteApplication['get']>> {
+    @Param('userId') userId: string,
+    @Query('page') page,
+    @Query('limit') limit,
+  ): Promise<ReturnType<UserFavoriteApplication['list']>> {
     try {
-      if (!id) {
+      if (!userId) {
         throw new BadRequestException('id is required');
       }
-      const favorite = await this.userFavoriteApplication.get(id);
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      const option: PaginationOptions = {};
+      if (limit) {
+        option.limit = limit;
+      }
+      if (page) {
+        option.page = page;
+      }
+      const favorite = await this.userFavoriteApplication.list(
+        conditions,
+        option,
+      );
       if (!favorite) {
         throw new NotFoundException('favorite not found');
       }

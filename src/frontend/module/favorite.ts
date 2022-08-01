@@ -1,4 +1,6 @@
 import client from 'src/frontend/apiClient';
+import { QueryOptions } from 'src/types/common';
+
 const FavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/favorites`;
 const UserFavoriteBasePath = ({ userId }) =>
   `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users/${userId}/favorites`;
@@ -47,16 +49,17 @@ const load = async (id: string): Promise<Favorite> => {
   }
 };
 
-const loadFroUser = async ({
-  summaryId,
-  userId,
-}: {
-  summaryId: string;
-  userId: string;
-}): Promise<Favorite> => {
+type LoadForUserArgs = {
+  params: {
+    userId: string;
+  } & QueryOptions;
+};
+const loadFroUser = async (args: LoadForUserArgs): Promise<Favorite> => {
+  const { params = { userId: '' } } = args;
   try {
     const response = await client.get(
-      `${UserFavoriteBasePath({ userId })}/${summaryId}`,
+      `${UserFavoriteBasePath({ userId: params.userId })}`,
+      { params },
     );
     return response.data;
   } catch (error) {

@@ -4,6 +4,7 @@ import { SummaryRepository } from '../summaries/summary.repository';
 import { FavoriteDTO } from './favorite.dto';
 import { withTransaction } from '../../config/mongoOption';
 import { getId } from 'src/config/objectId';
+import { PaginationOptions } from '../../config/mongoOption';
 
 @Injectable()
 export class UserFavoriteApplication {
@@ -14,9 +15,10 @@ export class UserFavoriteApplication {
 
   async list(
     conditions: Partial<FavoriteDTO>,
+    option?: PaginationOptions,
   ): Promise<ReturnType<FavoriteRepository['list']>> {
     try {
-      return await this.favoriteRepository.list(conditions);
+      return await this.favoriteRepository.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;
@@ -42,9 +44,10 @@ export class FavoriteApplication {
 
   async list(
     conditions: Partial<FavoriteDTO>,
+    option: PaginationOptions,
   ): Promise<ReturnType<FavoriteRepository['list']>> {
     try {
-      return await this.favoriteRepository.list(conditions);
+      return await this.favoriteRepository.list(conditions, option);
     } catch (error) {
       console.error(error);
       throw error;
