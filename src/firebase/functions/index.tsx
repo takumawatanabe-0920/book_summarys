@@ -1,9 +1,4 @@
-import {
-  getFavorite,
-  createFavorite,
-  deleteFavorite,
-  getMyFavorites,
-} from './favorite';
+import { createFavorite, deleteFavorite, getMyFavorites } from './favorite';
 import {
   readQuery,
   formatDateHour,
@@ -16,7 +11,6 @@ export {
   getMyFavorites,
   createFavorite,
   deleteFavorite,
-  getFavorite,
   readQuery,
   formatDateHour,
   uploadImage,

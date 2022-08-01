@@ -1,7 +1,9 @@
 import client from 'src/frontend/apiClient';
 const FavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/favorites`;
-const UserFavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users/:userId/favorites`;
-const SummaryFavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/summaries/:summaryId/favorites`;
+const UserFavoriteBasePath = ({ userId }) =>
+  `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users/${userId}/favorites`;
+const SummaryFavoriteBasePath = ({ summaryId }) =>
+  `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/summaries/${summaryId}/favorites`;
 
 export interface Favorite {
   _id?: string;
@@ -45,19 +47,33 @@ const load = async (id: string): Promise<Favorite> => {
   }
 };
 
-const loadFroUser = async (id: string): Promise<Favorite> => {
+const loadFroUser = async ({
+  summaryId,
+  userId,
+}: {
+  summaryId: string;
+  userId: string;
+}): Promise<Favorite> => {
   try {
-    const response = await client.get(`${UserFavoriteBasePath}/${id}`);
+    const response = await client.get(
+      `${UserFavoriteBasePath({ userId })}/${summaryId}`,
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-const loadSummaryFroUser = async (userId: string): Promise<Favorite> => {
+const loadSummaryFroUser = async ({
+  userId,
+  summaryId,
+}: {
+  userId: string;
+  summaryId: string;
+}): Promise<Favorite> => {
   try {
     const response = await client.get(
-      `${SummaryFavoriteBasePath}/user/${userId}`,
+      `${SummaryFavoriteBasePath({ summaryId })}/user/${userId}`,
     );
     return response.data;
   } catch (error) {

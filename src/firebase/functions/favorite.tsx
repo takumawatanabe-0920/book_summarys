@@ -9,29 +9,6 @@ import {
   ResSummaryBook,
 } from '../../types';
 import { load as loadSummary } from 'src/frontend/module/summary';
-// done
-export const getFavorite = (
-  userId?: string,
-  summaryId?: string,
-): Promise<ResultResponseList<ResFavorite>> => {
-  if (!userId) return;
-  if (!summaryId) return;
-  const response = db
-    .collection('favorite')
-    .where('user_id', '==', userId)
-    .where('summary_id', '==', summaryId)
-    .get()
-    .then((res) => {
-      const resData: ResFavorite[] = res.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
-      return { status: 200, data: resData };
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-  return response;
-};
 
 // done
 export const getMyFavorites = async (
