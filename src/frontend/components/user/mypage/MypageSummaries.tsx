@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { ResSummaryBook, ResUser } from '../../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
 import { readQuery } from '../../../../firebase/functions';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { load as loadUser } from 'src/frontend/module/user';
 import { getId } from 'src/config/objectId';
+import { User } from 'src/frontend/module/user';
 import {
   loadAll as loadAllSummary,
   count as countSummary,
   Summary,
 } from 'src/frontend/module/summary';
+
 const MypageSummaries = () => {
-  const [user, setUser] = useState<ResUser>({});
+  const [user, setUser] = useState<Partial<User>>({});
   const [summaries, setSummaries] = useState<Partial<Summary[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
@@ -83,7 +84,7 @@ const MypageSummaries = () => {
                     <h2 className="sub-ttl">投稿記事一覧</h2>
                     {summaries && summaries.length > 0 && (
                       <>
-                        {summaries.map((summaryBook: ResSummaryBook) => {
+                        {summaries.map((summaryBook: Summary) => {
                           return <MypageSummaryStackItem data={summaryBook} />;
                         })}
                         <Pager

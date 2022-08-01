@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { ResSummaryBook } from '../../../types';
 import { MediaCard } from '../../../utils/material';
 import { SummaryStackItem } from '..';
+import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
-  data: ResSummaryBook;
+  data: Summary;
   setting?: any;
   elType?: string;
   articleType?: string;

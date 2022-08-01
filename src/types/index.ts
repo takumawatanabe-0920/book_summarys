@@ -3,7 +3,6 @@ import {
   SummaryBook,
   Category,
   SubCategory,
-  ResSummaryBook,
   ResCategory,
   ResSubCategory,
 } from './summary';
@@ -16,7 +15,6 @@ export {
   SummaryBook,
   Category,
   SubCategory,
-  ResSummaryBook,
   ResCategory,
   ResSubCategory,
   User,

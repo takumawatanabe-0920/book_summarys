@@ -30,10 +30,6 @@ export type SubCategory = Partial<{
   displayOrder: number;
 }>;
 
-export type ResSummaryBook = SummaryBook & {
-  id?: string;
-};
-
 export type ResCategory = Category & {
   id?: string;
 };

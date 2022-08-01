@@ -3,7 +3,7 @@ import clsx from 'clsx';
 // import Hammer from 'react-hammerjs';
 import { useNavigate } from 'react-router-dom';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
-import { ResSummaryBook, ResultResponse } from '../../types';
+import { ResultResponse } from '../../types';
 import { getImage } from '../../firebase/functions';
 import {
   Card,
@@ -15,9 +15,10 @@ import {
   FavoriteIcon,
 } from '.';
 import { formatTagColor } from '../../utils/function';
+import { Summary } from 'src/frontend/module/summary';
 
 type Props = {
-  data: ResSummaryBook;
+  data: Summary;
   setting?: any;
   elType?: string;
 };
