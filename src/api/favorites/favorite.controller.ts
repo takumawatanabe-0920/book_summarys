@@ -102,14 +102,10 @@ export class SummaryFavoriteController {
 
   @Post()
   async create(
-    @Param('userId') userId: string,
     @Param('summaryId') summaryId: string,
     @Body(new ValidationPipe()) body: FavoriteDTO,
   ): Promise<ReturnType<SummaryFavoriteApplication['create']>> {
     try {
-      if (!getId(userId)) {
-        throw new BadRequestException('user is required');
-      }
       if (!getId(summaryId)) {
         throw new BadRequestException('summary is required');
       }
