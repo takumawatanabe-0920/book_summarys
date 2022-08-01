@@ -9,6 +9,7 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { FavoriteDTO } from './favorite.dto';
 import {
@@ -25,9 +26,15 @@ export class FavoriteController {
   ) {}
 
   @Get()
-  async list(): Promise<ReturnType<FavoriteApplication['list']>> {
+  async list(
+    @Query('userId') userId,
+  ): Promise<ReturnType<FavoriteApplication['list']>> {
     try {
-      return await this.favoriteApplication.list();
+      const conditions = {};
+      if (userId) {
+        conditions['user'] = userId;
+      }
+      return await this.favoriteApplication.list(conditions);
     } catch (error) {
       console.error(error);
       throw error;

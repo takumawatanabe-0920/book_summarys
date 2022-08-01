@@ -13,17 +13,22 @@ export interface Favorite {
 
 const loadAll = async (): Promise<Favorite[]> => {
   try {
-    const response = await client.get(`${FavoriteBasePath}`, {
-      params,
-    });
+    const response = await client.get(`${FavoriteBasePath}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-const count = async (): Promise<number> => {
+type CountArgs = {
+  params: {
+    userId?: string;
+    summaryId?: string;
+  };
+};
+const count = async (args: CountArgs): Promise<number> => {
   try {
+    const { params = {} } = args;
     const response = await client.get(`${FavoriteBasePath}/count`, { params });
     return response.data;
   } catch (error) {

@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ResultResponseList, ResFavorite, ResUser } from '../../../../types';
 import { MypageSidebar, MypageSummaryStackItem, Pager } from '../..';
-import {
-  getMyFavorites,
-  getfavoriteNum,
-  readQuery,
-} from '../../../../firebase/functions';
+import { getMyFavorites, readQuery } from '../../../../firebase/functions';
 import { load as loadUser } from 'src/frontend/module/user';
-
+import { count as countFavorite } from 'src/frontend/module/favorite';
 const MypageFavorites = () => {
   const [user, setUser] = useState<ResUser>({});
   const [favorites, setFavorites] = useState<ResFavorite[]>([]);
@@ -16,7 +12,7 @@ const MypageFavorites = () => {
   const { id } = useParams<'id'>();
   const [page, setPage] = useState(Number(readQuery('pages') || 1));
   const [myFavoritesNum, setMyFavoritesNum] = useState(0);
-  const [dataNumPerPage, setDataNumPerPager] = useState(8);
+  const dataNumPerPage = 8;
 
   const fetchPager = (num: number) => {
     setPage(num);
@@ -30,11 +26,12 @@ const MypageFavorites = () => {
         setUser(user);
         const resMyFavoritesDataList: ResultResponseList<ResFavorite> =
           await getMyFavorites(dataNumPerPage, page, id);
-        const resMyFavoritesCount: number = await getfavoriteNum([
-          'user_id',
-          id,
-        ]);
-        setMyFavoritesNum(resMyFavoritesCount);
+        const myFavoritesCount = await countFavorite({
+          params: {
+            userId: id,
+          },
+        });
+        setMyFavoritesNum(myFavoritesCount);
         if (resMyFavoritesDataList && resMyFavoritesDataList.status === 200) {
           setFavorites(resMyFavoritesDataList.data);
         }

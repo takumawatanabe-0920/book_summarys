@@ -3,8 +3,6 @@ import {
   getFavorites,
   createFavorite,
   deleteFavorite,
-  getDonefavorite,
-  getfavoriteNum,
   getMyFavorites,
 } from './favorite';
 import {
@@ -17,12 +15,10 @@ import {
 
 export {
   getMyFavorites,
-  getDonefavorite,
   getFavorites,
   createFavorite,
   deleteFavorite,
   getFavorite,
-  getfavoriteNum,
   readQuery,
   formatDateHour,
   uploadImage,

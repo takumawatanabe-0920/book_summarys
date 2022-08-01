@@ -12,8 +12,8 @@ export class FavoriteRepository {
     private readonly favoriteModel: Model<FavoriteDocument>,
   ) {}
 
-  async list(): Promise<Favorite[]> {
-    return await this.favoriteModel.find().lean();
+  async list(conditions: Partial<FavoriteDTO>): Promise<Favorite[]> {
+    return await this.favoriteModel.find(conditions).lean();
   }
 
   async getById(id: string): Promise<Favorite> {

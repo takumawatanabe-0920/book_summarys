@@ -132,43 +132,6 @@ export const getMyFavorites = async (
 };
 
 // done
-export const getDonefavorite = (
-  id: string,
-): Promise<ResultResponse<ResFavorite>> => {
-  const response = db
-    .collection('favorite')
-    .doc(id)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const data = { id: doc.id, ...doc.data() };
-        return { status: 200, data };
-      }
-    })
-    .catch((error) => {
-      return { status: 400, error };
-    });
-
-  return response;
-};
-
-// done
-export const getfavoriteNum = async (queryList?: string[]): Promise<number> => {
-  let count = 0;
-  const [fieldPath, query] = queryList;
-  await db
-    .collection('favorite')
-    .where(fieldPath, '==', query)
-    .get()
-    .then((res) =>
-      res.docs.map((doc) => {
-        return count++;
-      }),
-    );
-  return count ? count : 0;
-};
-
-// done
 export const createFavorite = async (
   values: Favorite,
 ): Promise<ResultResponse<ResFavorite>> => {

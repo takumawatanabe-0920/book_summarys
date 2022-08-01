@@ -12,9 +12,11 @@ export class UserFavoriteApplication {
     private favoriteRepository: FavoriteRepository,
   ) {}
 
-  async list(): Promise<ReturnType<FavoriteRepository['list']>> {
+  async list(
+    conditions: Partial<FavoriteDTO>,
+  ): Promise<ReturnType<FavoriteRepository['list']>> {
     try {
-      return await this.favoriteRepository.list();
+      return await this.favoriteRepository.list(conditions);
     } catch (error) {
       console.error(error);
       throw error;
@@ -38,9 +40,11 @@ export class FavoriteApplication {
     private favoriteRepository: FavoriteRepository,
   ) {}
 
-  async list(): Promise<ReturnType<FavoriteRepository['list']>> {
+  async list(
+    conditions: Partial<FavoriteDTO>,
+  ): Promise<ReturnType<FavoriteRepository['list']>> {
     try {
-      return await this.favoriteRepository.list();
+      return await this.favoriteRepository.list(conditions);
     } catch (error) {
       console.error(error);
       throw error;
