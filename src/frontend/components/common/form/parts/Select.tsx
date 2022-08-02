@@ -33,7 +33,7 @@ const Select: FC<Props> = (props) => {
             {dataList &&
               dataList.map((data) => {
                 return (
-                  <option value={getId(data)} key={getId(data)}>
+                  <option value={data.id} key={data.id}>
                     {data.name}
                   </option>
                 );

@@ -33,10 +33,10 @@ export class SummaryDTO {
   @IsString()
   image: string;
 
-  @IsMongoId()
+  @IsString()
   category: string;
 
-  @IsMongoId()
+  @IsString()
   subCategory: string;
 
   @IsMongoId()
@@ -73,10 +73,10 @@ export class CreateSummaryDTO {
   @IsString()
   image: string;
 
-  @IsMongoId()
+  @IsString()
   category: string;
 
-  @IsMongoId()
+  @IsString()
   subCategory: string;
 
   @IsOptional()
@@ -115,10 +115,10 @@ export class UpdateSummaryDTO {
   @IsString()
   image: string;
 
-  @IsMongoId()
+  @IsString()
   category: string;
 
-  @IsMongoId()
+  @IsString()
   subCategory: string;
 
   @IsMongoId()
