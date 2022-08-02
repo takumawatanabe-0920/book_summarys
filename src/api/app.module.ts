@@ -6,8 +6,10 @@ import { CategoryModule } from './categories/category.module';
 import { SubCategoryModule } from './subCategories/subCategory.module';
 import { SummaryModule } from './summaries/summary.module';
 import { UserModule } from './users/user.module';
+import { CategoryCommand } from './categories/category.command';
 import { FavoriteModule } from './favorites/favorite.module';
 import { AuthModule } from './auth/auth.module';
+import { CommandModule } from 'nestjs-command';
 
 import * as config from 'config';
 @Module({
@@ -22,8 +24,9 @@ import * as config from 'config';
     SummaryModule,
     UserModule,
     AuthModule,
+    CommandModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CategoryCommand],
 })
 export class AppModule {}
