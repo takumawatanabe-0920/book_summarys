@@ -11,15 +11,8 @@ import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
-import {
-  loadAll as loadAllCategory,
-  Category,
-} from 'src/frontend/module/category';
-import {
-  loadAll as loadAllSubCategory,
-  SubCategory,
-} from 'src/frontend/module/subCategory';
-
+import { categories } from 'src/config/data/category';
+import { subCategories } from 'src/config/data/subCategory';
 type Props = {
   isEdit?: boolean;
   summary?: Summary;
@@ -28,10 +21,8 @@ type Props = {
 const SummaryForm: FC<Props> = (props) => {
   const { isEdit, summary } = props;
   const [values, setValues] = useState<Partial<Summary>>({});
-  const [categories, setCategories] = useState<Partial<Category[]>>([]);
-  const [subCategories, setSubCategories] = useState<Partial<SubCategory[]>>(
-    [],
-  );
+  const [selectSubCategories, setSelectSubCategories] =
+    useState<any>(subCategories);
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
   // const [image, setImage] = useState<File>();
@@ -78,7 +69,8 @@ const SummaryForm: FC<Props> = (props) => {
     const value = event.target.value;
     setValues({ ...values, category: value });
     setIsSelectCategory(true);
-    subCategorySelect(value);
+    console.log({ value });
+    subCategorySelect(getId(value));
   };
 
   const handleEditorChange = (value: any) => {
@@ -87,12 +79,11 @@ const SummaryForm: FC<Props> = (props) => {
 
   const subCategorySelect = async (categoryId?: string) => {
     try {
-      const _subCategories = await loadAllSubCategory({
-        params: {
-          categoryId,
-        },
-      });
-      setSubCategories(_subCategories);
+      const filterdSubCategories = subCategories.filter(
+        (sc) => getId(sc.category) === categoryId,
+      );
+      console.log({ filterdSubCategories, subCategories, categoryId });
+      setSelectSubCategories([...filterdSubCategories]);
     } catch (e) {
       console.error({ e });
       await throwAlert('danger', 'エラーが発生しました。');
@@ -223,6 +214,7 @@ const SummaryForm: FC<Props> = (props) => {
       }
     }
   };
+  console.log({ subCategories, setSelectSubCategories });
 
   const editForm = () => {
     return (
@@ -294,16 +286,16 @@ const SummaryForm: FC<Props> = (props) => {
           required={true}
           dataList={categories}
           onChange={handleSelectCategoryChange}
-          value={values && values.category ? values.category : ''}
+          value={getId(values?.category)}
           errorMessage={errorTexts.category ? errorTexts.category : ''}
         />
         {isSelectCategory && (
           <Select
             title="本のサブカテゴリー"
             name="subCategory"
-            value={values && values.subCategory ? values.subCategory : ''}
+            value={getId(values?.subCategory)}
             onChange={handleSelectChange}
-            dataList={subCategories}
+            dataList={selectSubCategories}
           />
         )}
         <Select
@@ -335,14 +327,8 @@ const SummaryForm: FC<Props> = (props) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const _categories = await loadAllCategory({
-          params: {
-            sortKey: 'displayOrder',
-          },
-        });
-        setCategories(_categories);
         if (isEdit && Object.keys(summary).length > 0) {
-          subCategorySelect(summary.category);
+          subCategorySelect(getId(summary.category));
           setIsSelectCategory(true);
           // setThumnail(resThumnail);
           setValues({
