@@ -64,7 +64,7 @@ export class FavoriteController {
 @Controller('users/:userId/favorites')
 export class UserFavoriteController {
   constructor(
-    @Inject(FavoriteApplication)
+    @Inject(UserFavoriteApplication)
     private readonly userFavoriteApplication: UserFavoriteApplication,
   ) {}
 
@@ -104,7 +104,7 @@ export class UserFavoriteController {
 @Controller('summaries/:summaryId/favorites')
 export class SummaryFavoriteController {
   constructor(
-    @Inject(FavoriteApplication)
+    @Inject(SummaryFavoriteApplication)
     private readonly summaryFavoriteApplication: SummaryFavoriteApplication,
   ) {}
 
@@ -135,9 +135,15 @@ export class SummaryFavoriteController {
     @Body(new ValidationPipe()) body: FavoriteDTO,
   ): Promise<ReturnType<SummaryFavoriteApplication['create']>> {
     try {
+      console.log(
+        ': ==========================================================',
+      );
       if (!getId(summaryId)) {
         throw new BadRequestException('summary is required');
       }
+      console.log({
+        summaryId,
+      });
       return await this.summaryFavoriteApplication.create(body);
     } catch (error) {
       console.error(error);

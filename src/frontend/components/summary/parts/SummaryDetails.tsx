@@ -16,6 +16,8 @@ const SummaryDetails: FC<Props> = (props) => {
   const { title, content, category, subCategory, bookName, updatedAt } =
     summary;
 
+  console.log({ updatedAt });
+
   return (
     <>
       <div className="prof-area">
