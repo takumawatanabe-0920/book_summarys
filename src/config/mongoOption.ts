@@ -1,12 +1,6 @@
 import * as mongoose from 'mongoose';
-import { ClientSession, startSession } from 'mongoose';
 export { ClientSession } from 'mongoose';
 
-const defaultOptions = {
-  defaultTransactionOptions: {
-    readPreference: 'primary',
-  },
-};
 type PaginationOptions = {
   page?: number;
   limit?: number;
@@ -20,20 +14,4 @@ namespace repositories {
   };
 }
 
-const withTransaction = async <T>(
-  block: (session: ClientSession) => Promise<T>,
-): Promise<T> => {
-  const session = await startSession();
-  let result: T;
-  try {
-    await session.withTransaction(async (session) => {
-      result = await block(session);
-    });
-  } catch (err) {
-    throw err;
-  } finally {
-    session.endSession();
-  }
-  return result;
-};
-export { PaginationOptions, repositories, withTransaction };
+export { PaginationOptions, repositories };
