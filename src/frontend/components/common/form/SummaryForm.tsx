@@ -30,7 +30,6 @@ const SummaryForm: FC<Props> = (props) => {
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser } = useContext(GlobalContext);
-
   const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +181,7 @@ const SummaryForm: FC<Props> = (props) => {
     const loadData = async () => {
       try {
         if (isEdit && Object.keys(summary).length > 0) {
-          subCategorySelect(summary.category?.id);
+          subCategorySelect(summary.category);
           setIsSelectCategory(true);
           setValues({
             ...summary,
@@ -265,14 +264,14 @@ const SummaryForm: FC<Props> = (props) => {
                   required={true}
                   dataList={categories}
                   onChange={handleSelectCategoryChange}
-                  value={values?.category?.id}
+                  value={values?.category?.id || values?.category}
                   errorMessage={errorTexts.category ? errorTexts.category : ''}
                 />
                 {isSelectCategory && (
                   <Select
                     title="本のサブカテゴリー"
                     name="subCategory"
-                    value={values?.subCategory?.id}
+                    value={values?.subCategory?.id || values?.subCategory}
                     onChange={handleSelectChange}
                     dataList={selectSubCategories}
                   />
@@ -280,11 +279,7 @@ const SummaryForm: FC<Props> = (props) => {
                 <Select
                   title="公開設定"
                   name="publishingStatus"
-                  value={
-                    values && values.publishingStatus
-                      ? values.publishingStatus
-                      : ''
-                  }
+                  value={values?.publishingStatus}
                   required={true}
                   dataList={publishingSettings}
                   onChange={handleSelectChange}

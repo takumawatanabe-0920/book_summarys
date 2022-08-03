@@ -10,7 +10,6 @@ import { CategoryCommand } from './categories/category.command';
 import { FavoriteModule } from './favorites/favorite.module';
 import { AuthModule } from './auth/auth.module';
 import { CommandModule } from 'nestjs-command';
-
 import * as config from 'config';
 @Module({
   imports: [
