@@ -135,15 +135,9 @@ export class SummaryFavoriteController {
     @Body(new ValidationPipe()) body: FavoriteDTO,
   ): Promise<ReturnType<SummaryFavoriteApplication['create']>> {
     try {
-      console.log(
-        ': ==========================================================',
-      );
       if (!getId(summaryId)) {
         throw new BadRequestException('summary is required');
       }
-      console.log({
-        summaryId,
-      });
       return await this.summaryFavoriteApplication.create(body);
     } catch (error) {
       console.error(error);

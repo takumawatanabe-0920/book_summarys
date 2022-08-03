@@ -69,6 +69,7 @@ export class SummaryFavoriteApplication {
   constructor(
     @Inject(FavoriteRepository)
     private favoriteRepository: FavoriteRepository,
+    @Inject(SummaryRepository)
     private summaryRepository: SummaryRepository,
   ) {}
 
@@ -87,21 +88,17 @@ export class SummaryFavoriteApplication {
     body: FavoriteDTO,
   ): Promise<ReturnType<FavoriteRepository['create']>> {
     try {
-      console.log({ body });
       return await withTransaction(async (session) => {
         const { summary } = body;
-        console.log({ summary });
         if (!summary) {
           throw new BadRequestException('summary is required');
         }
         const favorite = await this.favoriteRepository.create(body, {
           session,
         });
-        console.log({ favorite });
         if (!favorite) {
           throw new BadRequestException('summary is required');
         }
-        console.log({ favorite });
         await this.summaryRepository.update(
           summary,
           { $push: { favorites: getId(favorite) } },

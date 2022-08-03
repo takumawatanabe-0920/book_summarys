@@ -70,7 +70,6 @@ export class SummaryController {
       if (page) {
         option.page = page;
       }
-      console.log({ conditions, option });
 
       return await this.summaryApplication.list(conditions, option);
     } catch (error) {
