@@ -11,15 +11,8 @@ import useAlertState from '../../../hooks/useAlertState';
 import { RichEditor, ReadOnlyEditor } from '../../../../utils/richtext';
 import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
-import {
-  loadAll as loadAllCategory,
-  Category,
-} from 'src/frontend/module/category';
-import {
-  loadAll as loadAllSubCategory,
-  SubCategory,
-} from 'src/frontend/module/subCategory';
-
+import { categories } from 'src/config/data/category';
+import { subCategories } from 'src/config/data/subCategory';
 type Props = {
   isEdit?: boolean;
   summary?: Summary;
@@ -28,21 +21,15 @@ type Props = {
 const SummaryForm: FC<Props> = (props) => {
   const { isEdit, summary } = props;
   const [values, setValues] = useState<Partial<Summary>>({});
-  const [categories, setCategories] = useState<Partial<Category[]>>([]);
-  const [subCategories, setSubCategories] = useState<Partial<SubCategory[]>>(
-    [],
-  );
+  const [selectSubCategories, setSelectSubCategories] =
+    useState<any>(subCategories);
   const [isSelectCategory, setIsSelectCategory] = useState<boolean>(false);
   const [isPreview, setIsPreview] = useState<boolean>(false);
-  // const [image, setImage] = useState<File>();
-  // const [imageUrl, setImageUrl] = useState<string | void>('');
   const [errorTexts, setErrorTexts] = useState<Partial<Summary>>({});
-  // const [thumnail, setThumnail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser } = useContext(GlobalContext);
-
   const history = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,44 +74,15 @@ const SummaryForm: FC<Props> = (props) => {
 
   const subCategorySelect = async (categoryId?: string) => {
     try {
-      const _subCategories = await loadAllSubCategory({
-        params: {
-          categoryId,
-        },
-      });
-      setSubCategories(_subCategories);
+      const filterdSubCategories = subCategories.filter(
+        (subCategory) => subCategory.category === categoryId,
+      );
+      setSelectSubCategories([...filterdSubCategories]);
     } catch (e) {
       console.error({ e });
       await throwAlert('danger', 'エラーが発生しました。');
     }
   };
-
-  // const handleChangeThumbnail = (_fileImg: File): string | void => {
-  //   if (validateImageUploads(_fileImg)) return;
-  //   if (_fileImg.type.startsWith('image/')) {
-  //     const imgUrl = window.URL.createObjectURL(_fileImg);
-  //     return imgUrl;
-  //   }
-  // };
-
-  // const validateImageUploads = (_file: File): string | void => {
-  //   if (!_file) return;
-  //   if (_file.size > 1000000) {
-  //     setImageUrl(null);
-  //     setImage(undefined);
-  //     throwAlert('danger', 'ファイルサイズが1MBを超えています');
-  //     return 'err';
-  //   }
-  // };
-
-  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   event.persist();
-  //   const target = event.target;
-  //   const imgFile = target.files[0];
-  //   const resImgUrl = handleChangeThumbnail(imgFile);
-  //   setImageUrl(resImgUrl);
-  //   setImage(imgFile);
-  // };
 
   const onTogglePreview = (event: React.MouseEvent) => {
     event.persist();
@@ -139,7 +97,6 @@ const SummaryForm: FC<Props> = (props) => {
       title,
       content,
       category,
-      // thumbnail,
       discription,
       bookName,
       publishingStatus,
@@ -174,10 +131,6 @@ const SummaryForm: FC<Props> = (props) => {
         errorText.content = '50文字以上で入力してください。';
       }
     }
-    // if (!thumbnail && (!image || !imageUrl)) {
-    //   isError = true;
-    //   errorText.thumbnail = 'サムネイル画像を設定してください。';
-    // }
     if (!category || !category.match(/\S/g)) {
       isError = true;
       errorText.category = '本のカテゴリーを設定してください。';
@@ -224,127 +177,12 @@ const SummaryForm: FC<Props> = (props) => {
     }
   };
 
-  const editForm = () => {
-    return (
-      <>
-        <h2 className="main-title blue-main-title blue-back">記事編集画面</h2>
-        <Input
-          title="記事のタイトル"
-          name="title"
-          value={values && values.title ? values.title : ''}
-          placeholder="仲間を増やすコツ"
-          required={true}
-          onChange={handleInputChange}
-          errorMessage={errorTexts.title ? errorTexts.title : ''}
-        />
-        <Input
-          title="本のタイトル"
-          name="bookName"
-          value={values && values.bookName ? values.bookName : ''}
-          placeholder="人を動かす"
-          required={true}
-          onChange={handleInputChange}
-          errorMessage={errorTexts.bookName ? errorTexts.bookName : ''}
-        />
-        {/* <Input
-          title="サムネイル"
-          name="thumbnail"
-          required={true}
-          type="file"
-          onChange={handleImageChange}
-          errorMessage={errorTexts.thumbnail ? errorTexts.thumbnail : ''}
-        /> */}
-        {/* <div className="_thumnail-area">
-          {thumnail && (
-            <dl>
-              <dt>登録サムネイル</dt>
-              <dd>
-                <img src={thumnail} alt="登録サムネイル画像" />
-              </dd>
-            </dl>
-          )}
-          {imageUrl && (
-            <dl>
-              <dt>{isEdit ? '変更後サムネイル' : '登録サムネイル'}</dt>
-              <dd>
-                <img src={imageUrl} alt="表示画像" />
-              </dd>
-            </dl>
-          )}
-        </div> */}
-        <Textarea
-          title="リード文"
-          name="discription"
-          value={values && values.discription ? values.discription : ''}
-          placeholder="一覧表示時に表示される文章になります。"
-          required={true}
-          onChange={handleTextareaChange}
-          errorMessage={errorTexts.discription ? errorTexts.discription : ''}
-        />
-        <RichEditor
-          title="本の内容"
-          required={true}
-          handleEditorChange={handleEditorChange}
-          value={values && values.content ? values.content : ''}
-          errorMessage={errorTexts.content ? errorTexts.content : ''}
-        />
-        <Select
-          title="本のカテゴリー"
-          name="category"
-          required={true}
-          dataList={categories}
-          onChange={handleSelectCategoryChange}
-          value={values && values.category ? values.category : ''}
-          errorMessage={errorTexts.category ? errorTexts.category : ''}
-        />
-        {isSelectCategory && (
-          <Select
-            title="本のサブカテゴリー"
-            name="subCategory"
-            value={values && values.subCategory ? values.subCategory : ''}
-            onChange={handleSelectChange}
-            dataList={subCategories}
-          />
-        )}
-        <Select
-          title="公開設定"
-          name="publishingStatus"
-          value={
-            values && values.publishingStatus ? values.publishingStatus : ''
-          }
-          required={true}
-          dataList={publishingSettings}
-          onChange={handleSelectChange}
-          errorMessage={
-            errorTexts.publishingStatus ? errorTexts.publishingStatus : ''
-          }
-        />
-      </>
-    );
-  };
-
-  const preview = () => {
-    return (
-      <>
-        <h2 className="main-title blue-main-title blue-back">プレビュー画面</h2>
-        {values.content && <ReadOnlyEditor editorState={values.content} />}
-      </>
-    );
-  };
-
   useEffect(() => {
     const loadData = async () => {
       try {
-        const _categories = await loadAllCategory({
-          params: {
-            sortKey: 'displayOrder',
-          },
-        });
-        setCategories(_categories);
         if (isEdit && Object.keys(summary).length > 0) {
           subCategorySelect(summary.category);
           setIsSelectCategory(true);
-          // setThumnail(resThumnail);
           setValues({
             ...summary,
             user: getId(currentUser),
@@ -368,9 +206,91 @@ const SummaryForm: FC<Props> = (props) => {
     <>
       {loading && (
         <>
-          {isPreview && preview()}
+          {isPreview && (
+            <>
+              <h2 className="main-title blue-main-title blue-back">
+                プレビュー画面
+              </h2>
+              {values.content && (
+                <ReadOnlyEditor editorState={values.content} />
+              )}
+            </>
+          )}
           <form className="form-table">
-            {!isPreview && editForm()}
+            {!isPreview && (
+              <>
+                <h2 className="main-title blue-main-title blue-back">
+                  記事編集画面
+                </h2>
+                <Input
+                  title="記事のタイトル"
+                  name="title"
+                  value={values && values.title ? values.title : ''}
+                  placeholder="仲間を増やすコツ"
+                  required={true}
+                  onChange={handleInputChange}
+                  errorMessage={errorTexts.title ? errorTexts.title : ''}
+                />
+                <Input
+                  title="本のタイトル"
+                  name="bookName"
+                  value={values && values.bookName ? values.bookName : ''}
+                  placeholder="人を動かす"
+                  required={true}
+                  onChange={handleInputChange}
+                  errorMessage={errorTexts.bookName ? errorTexts.bookName : ''}
+                />
+                <Textarea
+                  title="リード文"
+                  name="discription"
+                  value={values && values.discription ? values.discription : ''}
+                  placeholder="一覧表示時に表示される文章になります。"
+                  required={true}
+                  onChange={handleTextareaChange}
+                  errorMessage={
+                    errorTexts.discription ? errorTexts.discription : ''
+                  }
+                />
+                <RichEditor
+                  title="本の内容"
+                  required={true}
+                  handleEditorChange={handleEditorChange}
+                  value={values && values.content ? values.content : ''}
+                  errorMessage={errorTexts.content ? errorTexts.content : ''}
+                />
+                <Select
+                  title="本のカテゴリー"
+                  name="category"
+                  required={true}
+                  dataList={categories}
+                  onChange={handleSelectCategoryChange}
+                  value={values?.category?.id || values?.category}
+                  errorMessage={errorTexts.category ? errorTexts.category : ''}
+                />
+                {isSelectCategory && (
+                  <Select
+                    title="本のサブカテゴリー"
+                    name="subCategory"
+                    value={values?.subCategory?.id || values?.subCategory}
+                    onChange={handleSelectChange}
+                    dataList={selectSubCategories}
+                  />
+                )}
+                <Select
+                  title="公開設定"
+                  name="publishingStatus"
+                  value={values?.publishingStatus}
+                  required={true}
+                  dataList={publishingSettings}
+                  onChange={handleSelectChange}
+                  errorMessage={
+                    errorTexts.publishingStatus
+                      ? errorTexts.publishingStatus
+                      : ''
+                  }
+                />
+              </>
+            )}
             <div className="_btns">
               {!isPreview && (
                 <>

@@ -19,7 +19,7 @@ const SummaryIndexPage = () => {
   );
   const [summariesNum, setSummariesNum] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [page, setPage] = useState(Number(readQuery('pages') || 1));
+  const [page, setPage] = useState(Number(readQuery('page') || 0));
   const [updateData, setUpdateData] = useState<UpdateData>({
     query: readQuery('category'),
     name: '',
@@ -42,7 +42,7 @@ const SummaryIndexPage = () => {
         const _summaries = await loadAllSummary({
           params: {
             limit: 6,
-            page: 1,
+            page: 0,
             publishingStatus: 'public',
             sortKey: 'updatedAt',
             order: 'desc',

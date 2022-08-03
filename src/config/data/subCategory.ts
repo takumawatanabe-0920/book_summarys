@@ -1,7 +1,7 @@
 export const subCategories = [
   // technology
   {
-    key: 'computer',
+    id: 'computer',
     name: 'コンピュータ',
     slug: 'computer',
     displayOrder: 10000,
@@ -9,7 +9,7 @@ export const subCategories = [
     category: 'technology',
   },
   {
-    key: 'programming',
+    id: 'programming',
     name: 'プログラミング',
     slug: 'programming',
     displayOrder: 99999,
@@ -17,7 +17,7 @@ export const subCategories = [
     category: 'technology',
   },
   {
-    key: 'gadget',
+    id: 'gadget',
     name: 'ジェット',
     slug: 'gadget',
     displayOrder: 99998,
@@ -25,7 +25,7 @@ export const subCategories = [
     category: 'technology',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 99997,
@@ -34,7 +34,7 @@ export const subCategories = [
   },
   // novel
   {
-    key: 'SF',
+    id: 'SF',
     name: 'SF',
     slug: 'sf',
     displayOrder: 95000,
@@ -42,7 +42,7 @@ export const subCategories = [
     category: 'novel',
   },
   {
-    key: 'history',
+    id: 'history',
     name: '歴史',
     slug: 'history',
     displayOrder: 94999,
@@ -50,7 +50,7 @@ export const subCategories = [
     category: 'novel',
   },
   {
-    key: 'fantasy',
+    id: 'fantasy',
     name: 'ファンタジー',
     slug: 'fantasy',
     displayOrder: 94998,
@@ -58,7 +58,7 @@ export const subCategories = [
     category: 'novel',
   },
   {
-    key: 'lightnovel',
+    id: 'lightnovel',
     name: 'ライトノベル',
     slug: 'lightnovel',
     displayOrder: 94997,
@@ -66,7 +66,7 @@ export const subCategories = [
     category: 'novel',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 94996,
@@ -75,7 +75,7 @@ export const subCategories = [
   },
   // history
   {
-    key: 'japan',
+    id: 'japan',
     name: '日本',
     slug: 'japan',
     displayOrder: 90000,
@@ -83,7 +83,7 @@ export const subCategories = [
     category: 'history',
   },
   {
-    key: 'europe',
+    id: 'europe',
     name: 'ヨーロッパ',
     slug: 'europe',
     displayOrder: 89999,
@@ -91,7 +91,7 @@ export const subCategories = [
     category: 'history',
   },
   {
-    key: 'america',
+    id: 'america',
     name: 'アメリカ',
     slug: 'america',
     displayOrder: 89998,
@@ -99,7 +99,7 @@ export const subCategories = [
     category: 'history',
   },
   {
-    key: 'asia',
+    id: 'asia',
     name: 'アジア',
     slug: 'asia',
     displayOrder: 89997,
@@ -107,7 +107,7 @@ export const subCategories = [
     category: 'history',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 89996,
@@ -116,7 +116,7 @@ export const subCategories = [
   },
   // language
   {
-    key: 'japanese',
+    id: 'japanese',
     name: '日本語',
     slug: 'japanese',
     displayOrder: 85000,
@@ -124,7 +124,7 @@ export const subCategories = [
     category: 'language',
   },
   {
-    key: 'english',
+    id: 'english',
     name: '英語',
     slug: 'english',
     displayOrder: 84999,
@@ -132,7 +132,7 @@ export const subCategories = [
     category: 'language',
   },
   {
-    key: 'chinese',
+    id: 'chinese',
     name: '中国語',
     slug: 'chinese',
     displayOrder: 84998,
@@ -140,7 +140,7 @@ export const subCategories = [
     category: 'language',
   },
   {
-    key: 'german',
+    id: 'german',
     name: 'ドイツ語',
     slug: 'german',
     displayOrder: 84997,
@@ -148,7 +148,7 @@ export const subCategories = [
     category: 'language',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 84996,
@@ -157,7 +157,7 @@ export const subCategories = [
   },
   // manga
   {
-    key: 'buttle',
+    id: 'buttle',
     name: 'バトル',
     slug: 'buttle',
     displayOrder: 800000,
@@ -165,7 +165,7 @@ export const subCategories = [
     category: 'manga',
   },
   {
-    key: 'comic',
+    id: 'comic',
     name: 'コミック',
     slug: 'comic',
     displayOrder: 799999,
@@ -173,7 +173,7 @@ export const subCategories = [
     category: 'manga',
   },
   {
-    key: 'love',
+    id: 'love',
     name: '恋愛',
     slug: 'love',
     displayOrder: 799998,
@@ -181,7 +181,7 @@ export const subCategories = [
     category: 'manga',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 799998,
@@ -189,7 +189,7 @@ export const subCategories = [
     category: 'manga',
   },
   {
-    key: 'other',
+    id: 'other',
     name: 'その他',
     slug: 'other',
     displayOrder: 100,

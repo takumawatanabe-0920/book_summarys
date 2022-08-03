@@ -13,7 +13,7 @@ import {
 } from '.';
 import { formatTagColor } from '../../utils/function';
 import { Summary } from 'src/frontend/module/summary';
-
+import * as dayjs from 'dayjs';
 type Props = {
   data: Summary;
   setting?: any;
@@ -22,16 +22,20 @@ type Props = {
 
 const MediaCard: FC<Props> = (props) => {
   const { data, setting, elType } = props;
-  const { title, category, bookName, discription, user, updatedAt } = data;
+  const {
+    title,
+    category,
+    bookName,
+    discription,
+    user,
+    updatedAt = new Date(),
+  } = data;
   //const { isHiddenContent } = setting
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
   // const history = useNavigate();
   const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
-    const now = new Date();
-    const nowTime = Math.floor(now.getTime() / 1000);
-    const updatedTime = Math.floor(updatedAt.getTime() / 1000);
-    const diffTime = nowTime - updatedTime;
+    const diffTime = dayjs().diff(dayjs(updatedAt), 'second');
     if (favoriteCount > 0) {
       return <span className="main-tag recommned-tag">人気！</span>;
     } else if (diffTime > 3600) {

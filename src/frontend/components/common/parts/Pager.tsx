@@ -10,7 +10,7 @@ type props = {
 };
 
 const Pager: FC<props> = (props) => {
-  const [page, setPage] = useState(Number(readQuery('pages') || 1));
+  const [page, setPage] = useState(Number(readQuery('page') || 0));
 
   const { fetchPager, dataNum, dataNumPerPage } = props;
   const navigate = useNavigate();

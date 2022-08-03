@@ -18,11 +18,7 @@ export class SummaryRepository {
     option: PaginationOptions,
   ): Promise<Summary[]> {
     const query = getPaginationQuery(
-      this.summaryModel
-        .find({ ...conditions })
-        .populate('category')
-        .populate('subCategory')
-        .populate('user'),
+      this.summaryModel.find({ ...conditions }).populate('user'),
       option,
     );
     return await query.exec();
@@ -36,11 +32,7 @@ export class SummaryRepository {
     id: string,
     option: repositories.BaseOptions = {},
   ): Promise<Summary> {
-    return (await this.summaryModel.findById(id, option))
-      .populated('user')
-      .populated('category')
-      .populated('subCategory')
-      .lean();
+    return (await this.summaryModel.findById(id, option)).populate('user');
   }
 
   async create(summary: CreateSummaryDTO): Promise<Summary> {

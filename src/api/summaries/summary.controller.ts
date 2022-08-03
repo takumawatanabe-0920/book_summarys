@@ -37,7 +37,7 @@ export class SummaryController {
     @Query('limit') limit,
   ): Promise<ReturnType<SummaryApplication['list']>> {
     try {
-      const conditions = {};
+      const conditions = {} as { [key: string]: any };
       if (userId) {
         conditions['user'] = userId;
       }
@@ -49,12 +49,13 @@ export class SummaryController {
       }
       if (startDate || endDate) {
         const startAt = dayjs(startDate);
+        conditions.createdAt = {};
         if (startDate && startAt.isValid()) {
-          conditions['createdAt.$gte'] = startAt.startOf('date').toDate();
+          conditions.createdAt.$gte = startAt.startOf('date').toDate();
         }
         const endAt = dayjs(endDate);
         if (endDate && endAt.isValid()) {
-          conditions['createdAt.$lte'] = endAt.endOf('date').toDate();
+          conditions.createdAt.$lte = endAt.endOf('date').toDate();
         }
       }
 

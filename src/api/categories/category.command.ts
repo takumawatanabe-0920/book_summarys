@@ -32,7 +32,5 @@ export class CategoryCommand {
       required: false,
     })
     saber: boolean,
-  ) {
-    console.log({ username, group, saber });
-  }
+  ) {}
 }

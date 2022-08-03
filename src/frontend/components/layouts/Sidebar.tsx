@@ -30,7 +30,7 @@ const Sidebar = () => {
         const summaries = await loadAllSummary({
           params: {
             limit: 3,
-            page: 1,
+            page: 0,
             publishingStatus: 'public',
           },
           dataRange: 'all',
@@ -38,7 +38,7 @@ const Sidebar = () => {
         const weekSummaries = await loadAllSummary({
           params: {
             limit: 3,
-            page: 1,
+            page: 0,
             publishingStatus: 'public',
           },
           dataRange: 'week',
@@ -46,7 +46,7 @@ const Sidebar = () => {
         const monthSummaries = await loadAllSummary({
           params: {
             limit: 3,
-            page: 1,
+            page: 0,
             publishingStatus: 'public',
           },
           dataRange: 'month',

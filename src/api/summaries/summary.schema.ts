@@ -5,7 +5,7 @@ import { Category } from '../categories/category.schema';
 import { SubCategory } from '../subCategories/subCategory.schema';
 import { Favorite } from '../favorites/favorite.schema';
 
-export const publishingStatuses = ['draft', 'published'] as const;
+export const publishingStatuses = ['private', 'public'] as const;
 
 export type SummaryDocument = Summary & Document;
 
@@ -32,11 +32,11 @@ export class Summary {
   @Prop({ type: String })
   image: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-  category: Category;
+  @Prop({ type: String })
+  category: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' })
-  subCategory: SubCategory;
+  @Prop({ type: String })
+  subCategory: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: User;

@@ -36,7 +36,10 @@ const FavoliteButton: FC<Props> = (props) => {
     //レンダリングさせる必要がある
     if (Object.keys(currentUserfavorites).length > 0) {
       try {
-        await deleteFavorite(getId(currentUserfavorites));
+        await deleteFavorite({
+          favoriteId: getId(currentUserfavorites),
+          summaryId: getId(summary),
+        });
         setCurrentUserFavorites({});
         setFavoritesNum(favoritesNum - 1);
         await throwAlert('danger', 'いいねを解除しました。');
@@ -50,7 +53,7 @@ const FavoliteButton: FC<Props> = (props) => {
           user: userId,
           summary: getId(summary),
         });
-        setCurrentUserFavorites(_favorite);
+        setCurrentUserFavorites(_favorite || {});
         setFavoritesNum(favoritesNum + 1);
         await throwAlert('success', 'いいねしました。');
       } catch (e) {
@@ -68,7 +71,8 @@ const FavoliteButton: FC<Props> = (props) => {
             userId,
             summaryId: getId(summary),
           });
-          setCurrentUserFavorites(favorites?.[0]);
+          console.log({ favorites });
+          setCurrentUserFavorites(favorites?.[0] || {});
         }
       } catch (e) {
         console.error({ e });
@@ -77,6 +81,7 @@ const FavoliteButton: FC<Props> = (props) => {
 
     loadData();
   }, []);
+  console.log({ currentUserfavorites });
 
   return (
     <>

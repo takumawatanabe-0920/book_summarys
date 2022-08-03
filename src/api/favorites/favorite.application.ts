@@ -2,7 +2,6 @@ import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { FavoriteRepository } from './favorite.repository';
 import { SummaryRepository } from '../summaries/summary.repository';
 import { FavoriteDTO } from './favorite.dto';
-import { withTransaction } from '../../config/mongoOption';
 import { getId } from 'src/config/objectId';
 import { PaginationOptions } from '../../config/mongoOption';
 
@@ -69,6 +68,7 @@ export class SummaryFavoriteApplication {
   constructor(
     @Inject(FavoriteRepository)
     private favoriteRepository: FavoriteRepository,
+    @Inject(SummaryRepository)
     private summaryRepository: SummaryRepository,
   ) {}
 
@@ -87,26 +87,18 @@ export class SummaryFavoriteApplication {
     body: FavoriteDTO,
   ): Promise<ReturnType<FavoriteRepository['create']>> {
     try {
-      return await withTransaction(async (session) => {
-        const { summary } = body;
-        if (!summary) {
-          throw new BadRequestException('summary is required');
-        }
-        const favorite = await this.favoriteRepository.create(body, {
-          session,
-        });
-        if (!favorite) {
-          throw new BadRequestException('summary is required');
-        }
-        await this.summaryRepository.update(
-          summary,
-          { $push: { favorites: getId(favorite) } },
-          {
-            session,
-          },
-        );
-        return favorite;
+      const { summary } = body;
+      if (!summary) {
+        throw new BadRequestException('summary is required');
+      }
+      const favorite = await this.favoriteRepository.create(body);
+      if (!favorite) {
+        throw new BadRequestException('summary is required');
+      }
+      await this.summaryRepository.update(summary, {
+        $push: { favorites: getId(favorite) },
       });
+      return favorite;
     } catch (error) {
       console.error(error);
       throw error;
@@ -121,21 +113,10 @@ export class SummaryFavoriteApplication {
     summaryId: string;
   }): Promise<ReturnType<FavoriteRepository['update']>> {
     try {
-      return await withTransaction(async (session) => {
-        if (!id) {
-          throw new BadRequestException('id is required');
-        }
-        await this.summaryRepository.update(
-          summaryId,
-          { $pull: { favorites: getId(id) } },
-          {
-            session,
-          },
-        );
-        return await this.favoriteRepository.delete(id, {
-          session,
-        });
+      await this.summaryRepository.update(summaryId, {
+        $pull: { favorites: getId(id) },
       });
+      return await this.favoriteRepository.delete(id);
     } catch (error) {
       console.error(error);
       throw error;

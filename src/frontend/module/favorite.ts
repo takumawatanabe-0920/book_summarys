@@ -1,5 +1,6 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
+import { getId } from 'src/config/objectId';
 
 const FavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/favorites`;
 const UserFavoriteBasePath = ({ userId }) =>
@@ -87,19 +88,32 @@ const loadSummaryFroUser = async ({
 const create = async (args: Partial<Favorite>): Promise<Favorite> => {
   try {
     const { summary, user } = args;
-    const response = await client.post(`${SummaryFavoriteBasePath}`, {
-      summary,
-      user,
-    });
+    const response = await client.post(
+      `${SummaryFavoriteBasePath({ summaryId: getId(summary) })}`,
+      {
+        summary,
+        user,
+      },
+    );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-const remove = async (id: string): Promise<Favorite> => {
+const remove = async ({
+  favoriteId,
+  summaryId,
+}: {
+  favoriteId: string;
+  summaryId: string;
+}): Promise<Favorite> => {
   try {
-    const response = await client.delete(`${SummaryFavoriteBasePath}/${id}`);
+    const response = await client.delete(
+      `${SummaryFavoriteBasePath({
+        summaryId,
+      })}/${favoriteId}`,
+    );
     return response.data;
   } catch (error) {
     throw error;

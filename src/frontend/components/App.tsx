@@ -17,14 +17,14 @@ const HomePage = () => {
         const _summaries = await loadAllSummary({
           params: {
             limit: 6,
-            page: 1,
+            page: 0,
             publishingStatus: 'public',
           },
         });
         const _newSummaries = await loadAllSummary({
           params: {
             limit: 4,
-            page: 1,
+            page: 0,
             sortKey: 'updatedAt',
             order: 'desc',
             publishingStatus: 'public',
