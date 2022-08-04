@@ -38,12 +38,6 @@ const SummaryDetails: FC<Props> = (props) => {
               <span className="tag">{subCategory.name}</span>
             )}
           </div>
-          <div className="_icons">
-            <div className="favorite-area">
-              <FavoriteIcon className="favorite-button isClick" />
-            </div>
-            {/* TODO: snsボタンを設置 */}
-          </div>
         </div>
         <div className="_body">
           <ReadOnlyEditor editorState={content} />
