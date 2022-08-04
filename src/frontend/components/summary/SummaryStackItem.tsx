@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { formatUpdateDate, formatTagColor } from '../../../utils/function';
-// import { UserIcon } from '..';
+import { UserIcon } from '..';
 import { Summary } from 'src/frontend/module/summary';
 import { getId } from 'src/config/objectId';
 
@@ -17,7 +17,7 @@ const SummaryStackItem: FC<Props> = (props) => {
     <>
       <Link to={`/summary/${getId(data)}`} className="summaries-stack">
         <div className="_stack-header">
-          {/* <UserIcon user={data.user} size="min" /> */}
+          <UserIcon user={data.user} size="min" />
           <p className="_date">
             が{formatUpdateDate(data.updatedAt as any)}に投稿しました。
           </p>

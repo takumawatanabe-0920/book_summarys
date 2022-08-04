@@ -13,15 +13,13 @@ type Props = {
 
 const SummaryDetails: FC<Props> = (props) => {
   const { summary, currentUser } = props;
-  const { title, content, category, subCategory, bookName, updatedAt } =
+  const { title, content, category, subCategory, bookName, updatedAt, user } =
     summary;
-
-  console.log({ updatedAt });
 
   return (
     <>
       <div className="prof-area">
-        {/* <UserIcon user={user} /> */}
+        <UserIcon user={user} />
         <div className="_update-date">
           <p>{formatUpdateDate(updatedAt)}に更新</p>
         </div>

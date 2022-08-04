@@ -6,6 +6,8 @@ import { SummaryDTO, CreateSummaryDTO, UpdateSummaryDTO } from './summary.dto';
 import { PaginationOptions, repositories } from '../../config/mongoOption';
 import { getPaginationQuery } from '../../config/lib/repositories';
 import { UpdateBody } from '../../types/mongoose';
+import { categories } from 'src/config/data/category';
+import { subCategories } from 'src/config/data/subCategory';
 @Injectable()
 export class SummaryRepository {
   constructor(
@@ -16,12 +18,34 @@ export class SummaryRepository {
   async list(
     conditions: Partial<SummaryDTO>,
     option: PaginationOptions,
-  ): Promise<Summary[]> {
+  ): Promise<
+    (Summary &
+      Omit<Summary, 'category' | 'subCategory'> & {
+        category: Partial<typeof categories[number]>;
+        subCategory: Partial<typeof subCategories[number]>;
+      })[]
+  > {
     const query = getPaginationQuery(
-      this.summaryModel.find({ ...conditions }).populate('user'),
+      this.summaryModel
+        .find({ ...conditions })
+        .populate('user')
+        .lean(),
       option,
     );
-    return await query.exec();
+    const summaries = await query.exec();
+    for (const summary of summaries) {
+      if (summary?.category) {
+        const category = categories.find((c) => c.id === summary.category);
+        summary.category = category;
+      }
+      if (summary?.subCategory) {
+        const subCategory = subCategories.find(
+          (c) => c.id === summary.subCategory,
+        );
+        summary.subCategory = subCategory;
+      }
+    }
+    return summaries;
   }
 
   async count(conditions: Partial<SummaryDTO> = {}): Promise<number> {
@@ -31,8 +55,29 @@ export class SummaryRepository {
   async getById(
     id: string,
     option: repositories.BaseOptions = {},
-  ): Promise<Summary> {
-    return (await this.summaryModel.findById(id, option)).populate('user');
+  ): Promise<
+    Omit<Summary, 'category' | 'subCategory'> & {
+      category: Partial<typeof categories[number]>;
+      subCategory: Partial<typeof subCategories[number]>;
+    }
+  > {
+    const summary = (
+      await this.summaryModel.findById(id, option).populate('user')
+    ).toJSON() as Omit<Summary, 'category' | 'subCategory'> & {
+      category: Partial<typeof categories[number]>;
+      subCategory: Partial<typeof subCategories[number]>;
+    };
+    if (summary?.category) {
+      const category = categories.find((c) => c.id === summary.category);
+      summary.category = category;
+    }
+    if (summary?.subCategory) {
+      const subCategory = subCategories.find(
+        (c) => c.id === summary.subCategory,
+      );
+      summary.subCategory = subCategory;
+    }
+    return summary;
   }
 
   async create(summary: CreateSummaryDTO): Promise<Summary> {
