@@ -32,6 +32,7 @@ const MediaCard: FC<Props> = (props) => {
     user,
     updatedAt = new Date(),
   } = data;
+
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
   const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
@@ -122,7 +123,7 @@ const MediaCard: FC<Props> = (props) => {
                   )}
             </CardContent>
             <CardActions className="summary-bottom">
-              <p className="user-name">@{user?.dispalyName || '名無し'}</p>
+              <p className="user-name">@{user?.displayName || '名無し'}</p>
               <div className="favorite-area">
                 <FavoriteIcon className="favorite-button isClick" />
                 <p className="favoriteNum">{favoriteCount || 0}</p>
