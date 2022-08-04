@@ -19,10 +19,10 @@ const Pager: FC<props> = (props) => {
 
   const updateData = (num?: number) => {
     setPage(num);
-    const searchParams: { pages?: number } = {};
-    searchParams.pages = num;
+    const searchParams: { page?: number } = {};
+    searchParams.page = num;
     const searchQuery = queryString.stringify(searchParams);
-    const queryPath = location.search.replace(/[?&]+\pages=\d+/gi, '');
+    const queryPath = location.search.replace(/[?&]+\page=\d+/gi, '');
     if (location && !queryPath.match(/[?]/)) {
       navigate(`${`${path}`}?${`${queryPath}&`}${searchQuery}`);
     } else if (queryPath.match(/[?]/)) {

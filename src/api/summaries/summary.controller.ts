@@ -65,10 +65,10 @@ export class SummaryController {
         option.direction = order ? order : 'asc';
       }
       if (limit) {
-        option.limit = limit;
+        option.limit = Number(limit);
       }
       if (page) {
-        option.page = page;
+        option.page = Number(page);
       }
 
       return await this.summaryApplication.list(conditions, option);

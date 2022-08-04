@@ -77,15 +77,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     host: '0.0.0.0',
-    // hot: true,
-    // inline: true,
-    // stats: 'errors-only',
-    // proxy: {
-    //   '**': {
-    //     target: `http://0.0.0.0:${config.get('port')}'}`,
-    //     changeOrigin: true,
-    //   },
-    // },
     static: {
       directory: path.join(__dirname, '/public'),
     },
