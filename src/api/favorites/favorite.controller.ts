@@ -38,10 +38,10 @@ export class FavoriteController {
       }
       const option: PaginationOptions = {};
       if (limit) {
-        option.limit = limit;
+        option.limit = Number(limit);
       }
       if (page) {
-        option.page = page;
+        option.page = Number(page);
       }
       return await this.favoriteApplication.list(conditions, option);
     } catch (error) {
@@ -84,10 +84,10 @@ export class UserFavoriteController {
       }
       const option: PaginationOptions = {};
       if (limit) {
-        option.limit = limit;
+        option.limit = Number(limit);
       }
       if (page) {
-        option.page = page;
+        option.page = Number(page);
       }
       const favorite = await this.userFavoriteApplication.list(
         conditions,

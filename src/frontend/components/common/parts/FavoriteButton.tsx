@@ -71,7 +71,6 @@ const FavoliteButton: FC<Props> = (props) => {
             userId,
             summaryId: getId(summary),
           });
-          console.log({ favorites });
           setCurrentUserFavorites(favorites?.[0] || {});
         }
       } catch (e) {
@@ -81,7 +80,6 @@ const FavoliteButton: FC<Props> = (props) => {
 
     loadData();
   }, []);
-  console.log({ currentUserfavorites });
 
   return (
     <>

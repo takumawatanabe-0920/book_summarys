@@ -1,60 +1,37 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { FC } from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 // components
 import { Link } from 'react-router-dom';
-import {
-  loadAll as loadAllCategory,
-  Category,
-} from 'src/frontend/module/category';
-import { getId } from 'src/config/objectId';
-
+import { categories } from 'src/config/data/category';
 type Props = {
   fetchData: any;
 };
 
 const SummaryCategories: FC<Props> = (props) => {
-  const [categories, setCategories] = useState<Partial<Category[]>>([]);
   const { fetchData } = props;
 
   const updateData = (slug: string, name: string): void => {
     fetchData(slug, name);
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const _category = await loadAllCategory({
-          params: {
-            sortKey: 'displayOrder',
-          },
-        });
-        setCategories(_category);
-      } catch (e) {
-        console.error({ e });
-      }
-    };
-
-    loadData();
-  }, []);
-
   return (
     <>
       <div className="summary-category">
         <h2 className="_ttl">カテゴリーで選ぶ</h2>
         <div className="_category-body">
-          {categories.map((data) => {
+          {categories.map((category) => {
             return (
               <LazyLoadComponent>
                 <Link
                   style={{
-                    background: `url(${data.image}) no-repeat center center`,
+                    background: `url(${category.image}) no-repeat center center`,
                     backgroundSize: 'cover',
                   }}
-                  onClick={() => updateData(getId(data), data.name)}
-                  to={`/summary?category=${getId(data)}`}
+                  onClick={() => updateData(category.id, category.name)}
+                  to={`/summary?category=${category.id}`}
                   className="_data"
                 >
-                  <p className="_data-tag">{data.name}</p>
+                  <p className="_data-tag">{category.name}</p>
                 </Link>
               </LazyLoadComponent>
             );

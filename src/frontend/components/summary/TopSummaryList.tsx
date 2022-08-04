@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Slider from 'react-slick';
 import { SummaryItem } from '..';
 import {
   loadAll as loadAllSummary,
@@ -12,36 +11,6 @@ const TopSummaryList = () => {
     Partial<Summary[]>
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
-
-  // let settings;
-  // if (window.innerWidth < 768) {
-  //   settings = {
-  //     dots: true,
-  //     infinite: true,
-  //     speed: 500,
-  //     autoplay: true,
-  //     slidesToShow: 1,
-  //     slidesToScroll: 1,
-  //   };
-  // } else if (window.innerWidth < 1040) {
-  //   settings = {
-  //     dots: true,
-  //     infinite: true,
-  //     speed: 500,
-  //     autoplay: true,
-  //     slidesToShow: 2,
-  //     slidesToScroll: 2,
-  //   };
-  // } else {
-  //   settings = {
-  //     dots: true,
-  //     infinite: true,
-  //     speed: 500,
-  //     autoplay: true,
-  //     slidesToShow: 3,
-  //     slidesToScroll: 3,
-  //   };
-  // }
 
   const settingsTopSlider = {
     isHiddenContent: true,
@@ -75,7 +44,6 @@ const TopSummaryList = () => {
   return (
     <>
       {loading && (
-        // <Slider {...settings}>
         <>
           {rankingThisMonthSummaries.map((data) => {
             return (
@@ -88,7 +56,6 @@ const TopSummaryList = () => {
             );
           })}
         </>
-        // </Slider>
       )}
     </>
   );

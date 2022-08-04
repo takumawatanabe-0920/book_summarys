@@ -1,6 +1,5 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import clsx from 'clsx';
-// import Hammer from 'react-hammerjs';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import {
   Card,
@@ -14,6 +13,8 @@ import {
 import { formatTagColor } from '../../utils/function';
 import { Summary } from 'src/frontend/module/summary';
 import * as dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
+
 type Props = {
   data: Summary;
   setting?: any;
@@ -23,6 +24,7 @@ type Props = {
 const MediaCard: FC<Props> = (props) => {
   const { data, setting, elType } = props;
   const {
+    _id,
     title,
     category,
     bookName,
@@ -30,9 +32,8 @@ const MediaCard: FC<Props> = (props) => {
     user,
     updatedAt = new Date(),
   } = data;
-  //const { isHiddenContent } = setting
+
   const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
-  // const history = useNavigate();
   const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
     const diffTime = dayjs().diff(dayjs(updatedAt), 'second');
@@ -43,14 +44,9 @@ const MediaCard: FC<Props> = (props) => {
     }
   };
 
-  // const onTapAndMove = () => {
-  //   history(`/summary/${id}`);
-  // };
-
   return (
-    // <Hammer onTap={onTapAndMove}>
-    <div
-      //to={`/summary/${id}`}
+    <Link
+      to={`/summary/${_id}`}
       className={clsx(
         'summary-data-item',
         elType === 'top-summary-list' ? 'top-summary-list' : '',
@@ -127,7 +123,7 @@ const MediaCard: FC<Props> = (props) => {
                   )}
             </CardContent>
             <CardActions className="summary-bottom">
-              <p className="user-name">@{user?.dispalyName || '名無し'}</p>
+              <p className="user-name">@{user?.displayName || '名無し'}</p>
               <div className="favorite-area">
                 <FavoriteIcon className="favorite-button isClick" />
                 <p className="favoriteNum">{favoriteCount || 0}</p>
@@ -136,8 +132,7 @@ const MediaCard: FC<Props> = (props) => {
           </div>
         </CardActionArea>
       </Card>
-    </div>
-    // </Hammer>
+    </Link>
   );
 };
 
