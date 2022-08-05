@@ -18,7 +18,7 @@ const MypageSummaries = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
   const { currentUser } = useContext(GlobalContext);
-  const [page, setPage] = useState(Number(readQuery('page') || 0));
+  const [page, setPage] = useState(Number(readQuery('page') || 1));
   const [summariesNum, setSummariesNum] = useState(0);
   const dataNumPerPage = 6;
 

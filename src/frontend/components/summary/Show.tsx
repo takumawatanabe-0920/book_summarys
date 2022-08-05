@@ -60,7 +60,7 @@ const SummaryShowPage = () => {
             sortKey: 'updatedAt',
             order: 'desc',
             limit: 3,
-            page: 0,
+            page: 1,
           },
         });
 
