@@ -131,11 +131,11 @@ const SummaryForm: FC<Props> = (props) => {
         errorText.content = '50文字以上で入力してください。';
       }
     }
-    if (!category || !category.match(/\S/g)) {
+    if (!category) {
       isError = true;
       errorText.category = '本のカテゴリーを設定してください。';
     }
-    if (!publishingStatus || !category.match(/\S/g)) {
+    if (!publishingStatus) {
       isError = true;
       errorText.publishingStatus = 'この記事の公開設定をしてください。';
     }
@@ -183,6 +183,7 @@ const SummaryForm: FC<Props> = (props) => {
         if (isEdit && Object.keys(summary).length > 0) {
           subCategorySelect(summary.category);
           setIsSelectCategory(true);
+          subCategorySelect(summary.category?.id || summary.category);
           setValues({
             ...summary,
             user: getId(currentUser),

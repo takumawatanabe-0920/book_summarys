@@ -1,20 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { GlobalContext } from '../../../hooks/context/Global';
-
+import { showMe } from 'src/frontend/module/user';
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
-  const [isAuth, setIsAuth] = useState(!!currentUser);
+  const [currentUser, setCurrentUser] = React.useState(undefined);
 
-  if (isAuth) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
+  React.useEffect(() => {
+    const load = async () => {
+      const user = await showMe();
+      setCurrentUser(user);
+    };
+    load();
+  }, []);
+
+  if (!!currentUser) {
     return children;
   }
 
-  return <Navigate to="/" replace />;
+  return currentUser === null && <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;
