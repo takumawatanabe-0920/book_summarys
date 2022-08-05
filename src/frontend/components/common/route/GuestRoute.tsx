@@ -13,7 +13,7 @@ const GuestRoute = ({ children }: { children: JSX.Element }) => {
     load();
   }, []);
 
-  if (currentUser === null) {
+  if (!currentUser) {
     return children;
   }
 

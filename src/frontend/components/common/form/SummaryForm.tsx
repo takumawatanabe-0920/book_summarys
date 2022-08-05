@@ -159,10 +159,18 @@ const SummaryForm: FC<Props> = (props) => {
     ) {
       try {
         if (isEdit) {
-          await updateSummary(getId(summary), values);
+          await updateSummary(getId(summary), {
+            ...values,
+            category: values.category?.id || values.category,
+            subCategory: values.subCategory?.id || values.subCategory,
+          });
           history(`/summary/${getId(summary)}`);
         } else {
-          const createdSummary = await createSummary(values);
+          const createdSummary = await createSummary({
+            ...values,
+            category: values.category?.id || values.category,
+            subCategory: values.subCategory?.id || values.subCategory,
+          });
           history(`/summary/${getId(createdSummary)}`);
         }
         await throwAlert(
