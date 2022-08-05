@@ -13,7 +13,7 @@ const MypageFavorites = () => {
   const [favorites, setFavorites] = useState<Partial<Favorite[]>>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { id } = useParams<'id'>();
-  const [page, setPage] = useState(Number(readQuery('page') || 0));
+  const [page, setPage] = useState(Number(readQuery('page') || 1));
   const [myFavoritesNum, setMyFavoritesNum] = useState(0);
   const dataNumPerPage = 8;
 

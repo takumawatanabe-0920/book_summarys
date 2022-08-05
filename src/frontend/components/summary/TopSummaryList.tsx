@@ -33,7 +33,7 @@ const TopSummaryList = () => {
           const _summaries = await loadAllSummary({
             params: {
               limit: 6,
-              page: 0,
+              page: 1,
               publishingStatus: 'public',
             },
             dataRange: 'month',
