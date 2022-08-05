@@ -20,7 +20,7 @@ const MypageSummaries = () => {
   const { currentUser } = useContext(GlobalContext);
   const [page, setPage] = useState(Number(readQuery('page') || 0));
   const [summariesNum, setSummariesNum] = useState(0);
-  const dataNumPerPage = 8;
+  const dataNumPerPage = 6;
 
   const fetchPager = (num: number) => {
     setPage(num);

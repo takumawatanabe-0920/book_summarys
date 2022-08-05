@@ -11,12 +11,15 @@ import {
   BadRequestException,
   NotFoundException,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateSummaryDTO, CreateSummaryDTO } from './summary.dto';
 import { SummaryApplication } from './summary.application';
 import { PaginationOptions } from '../../config/mongoOption';
 import dayjs from 'dayjs';
-
+import { getId } from 'src/config/objectId';
+import { JwtAuthGuard } from 'src/api/auth/jwt-auth.guard';
 @Controller('summaries')
 export class SummaryController {
   constructor(
@@ -121,11 +124,16 @@ export class SummaryController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
+    @Req() req,
     @Body(new ValidationPipe()) body: CreateSummaryDTO,
   ): Promise<ReturnType<SummaryApplication['create']>> {
     try {
+      if (!req.user) {
+        throw new BadRequestException('user is required');
+      }
       return await this.summaryApplication.create(body);
     } catch (error) {
       console.error(error);
@@ -133,14 +141,26 @@ export class SummaryController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
+    @Req() req,
     @Param('id') id,
     @Body(new ValidationPipe()) body: UpdateSummaryDTO,
   ): Promise<ReturnType<SummaryApplication['update']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
+      }
+      if (!req.user) {
+        throw new BadRequestException('user is required');
+      }
+      const summary = await this.summaryApplication.get(id);
+      if (!summary) {
+        throw new NotFoundException('summary not found');
+      }
+      if (getId(summary.user) !== getId(req.user)) {
+        throw new BadRequestException('user is not match');
       }
       return await this.summaryApplication.update(id, body);
     } catch (error) {
@@ -149,8 +169,10 @@ export class SummaryController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(
+    @Req() req,
     @Param('id') id,
   ): Promise<ReturnType<SummaryApplication['delete']>> {
     try {

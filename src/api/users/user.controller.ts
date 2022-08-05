@@ -10,9 +10,14 @@ import {
   ValidationPipe,
   BadRequestException,
   NotFoundException,
+  UseGuards,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserDTO, UpdateDto } from './user.dto';
 import { UserApplication } from './user.application';
+import { JwtAuthGuard } from 'src/api/auth/jwt-auth.guard';
+import { getId } from 'src/config/objectId';
 @Controller('users')
 export class UserController {
   constructor(
@@ -61,14 +66,22 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
+    @Req() req,
     @Param('id') id,
     @Body(new ValidationPipe()) body: UpdateDto,
   ): Promise<ReturnType<UserApplication['update']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
+      }
+      if (!req.user) {
+        throw new BadRequestException('user is required');
+      }
+      if (getId(req.user) !== id) {
+        throw new UnauthorizedException('user is not authorized');
       }
       return await this.userApplication.update(id, body);
     } catch (error) {
@@ -79,11 +92,18 @@ export class UserController {
 
   @Delete(':id')
   async delete(
+    @Req() req,
     @Param('id') id,
   ): Promise<ReturnType<UserApplication['delete']>> {
     try {
       if (!id) {
         throw new BadRequestException('id is required');
+      }
+      if (!req.user) {
+        throw new BadRequestException('user is required');
+      }
+      if (req.user.id !== id) {
+        throw new UnauthorizedException('user is not authorized');
       }
       return await this.userApplication.delete(id);
     } catch (error) {
