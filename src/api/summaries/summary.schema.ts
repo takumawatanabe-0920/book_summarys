@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../users/user.schema';
-import { Category } from '../categories/category.schema';
-import { SubCategory } from '../subCategories/subCategory.schema';
 import { Favorite } from '../favorites/favorite.schema';
 
 export const publishingStatuses = ['private', 'public'] as const;

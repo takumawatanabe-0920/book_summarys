@@ -3,7 +3,6 @@ import { User } from 'src/frontend/module/user';
 import { formatUpdateDate } from '../../../../utils/function';
 import { FavoriteButton, UserIcon } from '../..';
 import { ReadOnlyEditor } from '../../../../utils/richtext';
-import { FavoriteIcon } from '../../../../utils/material';
 import { getId } from 'src/config/objectId';
 import { Summary } from 'src/frontend/module/summary';
 type Props = {

@@ -7,13 +7,6 @@ import {
 import { getId } from 'src/config/objectId';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-const arrowStyles = {
-  position: 'absolute',
-  width: 40,
-  height: 40,
-  zIndex: 2,
-  top: 'calc(50% - 15px)',
-};
 const TopSummaryList = () => {
   const [rankingThisMonthSummaries, setRankingThisMonthSummaries] = useState<
     Partial<Summary[]>
