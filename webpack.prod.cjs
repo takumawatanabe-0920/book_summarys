@@ -2,7 +2,6 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('config');
 
-console.log({ config, env: process.env.NODE_ENV });
 module.exports = {
   mode: 'production',
   entry: [path.resolve(__dirname, './src/pages/index.tsx')],

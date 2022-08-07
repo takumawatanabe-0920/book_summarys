@@ -11,7 +11,7 @@ module.exports = {
   port: 3010,
   webOrigin: 'http://localhost:',
   mongodb: {
-    uri: 'mongodb://127.0.0.1:27017/book_summarys?directConnection=true',
+    uri: 'mongodb+srv://takuma:Takuma0920@sharenotes.t8l9qnw.mongodb.net/test',
     options: mongoOptions,
     dbName: 'book_summarys',
   },
