@@ -1,23 +1,36 @@
 const path = require('path');
+const webpack = require('webpack');
+const config = require('config');
 
 module.exports = {
-  mode: 'production', // 本番モード
+  mode: 'production',
   entry: [path.resolve(__dirname, './src/pages/index.tsx')],
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist/public'),
+    publicPath: '/',
+    // 出力先ディレクトリ
+    path: path.join(__dirname, 'dist/public'),
+    filename: 'main.js',
   },
   module: {
     rules: [
       {
-        // ts-loaderの設定
-        test: /\.(js|ts|tsx)?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: { presets: ['@babel/preset-env', '@babel/react'] },
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: path.resolve(__dirname, 'tsconfig.json'),
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
-        use: 'css-loader',
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
@@ -42,15 +55,24 @@ module.exports = {
       { test: /\.(gif|png|jpg|svg|)$/, use: 'url-loader' },
     ],
   },
-  //plugins: [new UglifyJSPlugin()],
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        WEB_ORIGIN: JSON.stringify(config.get('webOrigin')),
+        PORT: JSON.stringify(config.get('port')),
+      },
+    }),
+  ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
-    alias: {},
+    alias: {
+      src: path.resolve(__dirname, '/src'),
+    },
   },
   externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
     '@material-ui/core': 'MaterialUI',
   },
-  devtool: 'source-map',
 };

@@ -8,6 +8,7 @@ import { SummaryModule } from './summaries/summary.module';
 import { UserModule } from './users/user.module';
 import { CategoryCommand } from './categories/category.command';
 import { FavoriteModule } from './favorites/favorite.module';
+import { HealthCheckModule } from './healthChecks/healthCheck.module';
 import { AuthModule } from './auth/auth.module';
 import { CommandModule } from 'nestjs-command';
 import * as config from 'config';
@@ -24,6 +25,7 @@ import * as config from 'config';
     UserModule,
     AuthModule,
     CommandModule,
+    HealthCheckModule,
   ],
   controllers: [AppController],
   providers: [AppService, CategoryCommand],
