@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = require('config');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -64,6 +65,10 @@ module.exports = {
         WEB_ORIGIN: JSON.stringify(config.get('webOrigin')),
         PORT: JSON.stringify(config.get('port')),
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html'), // パスの指定
+      filename: 'index.html',
     }),
   ],
   resolve: {

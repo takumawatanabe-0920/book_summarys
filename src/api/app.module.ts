@@ -12,12 +12,18 @@ import { HealthCheckModule } from './healthChecks/healthCheck.module';
 import { AuthModule } from './auth/auth.module';
 import { CommandModule } from 'nestjs-command';
 import * as config from 'config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { resolve } from 'path';
 @Module({
   imports: [
     MongooseModule.forRoot(
       config.get('mongodb.uri'),
       config.get('mongodb.options'),
     ),
+    ServeStaticModule.forRoot({
+      rootPath: resolve(__dirname, '../..', 'public'),
+      exclude: ['/api*'],
+    }),
     CategoryModule,
     FavoriteModule,
     SubCategoryModule,
