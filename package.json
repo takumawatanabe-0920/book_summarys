@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development concurrently \"run-p dev:*\"",
     "dev:client": "webpack-dev-server --hot --config webpack.dev.cjs",
     "dev:server": "nest start --watch",
-    "build": "webpack --config webpack.prod.cjs",
+    "build": "webpack --config webpack.prod.cjs --stats-error-details",
     "build-prod": "NODE_ENV=production yarn build",
     "prod:server": "NODE_ENV=production node dist/src/api/main.js",
     "nest:build": "NODE_ENV=production nest build",

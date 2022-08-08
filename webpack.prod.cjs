@@ -80,4 +80,7 @@ module.exports = {
   externals: {
     '@material-ui/core': 'MaterialUI',
   },
+  stats: {
+    errorDetails: true,
+  },
 };
