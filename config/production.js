@@ -9,7 +9,7 @@ const mongoOptions = {
 
 module.exports = {
   port: 3020,
-  webOrigin: 'http://shareNotes.com',
+  webOrigin: 'http://localhost:',
   mongodb: {
     uri: `mongodb+srv://takuma:Takuma0920@sharenotes.t8l9qnw.mongodb.net/test`,
     options: mongoOptions,
