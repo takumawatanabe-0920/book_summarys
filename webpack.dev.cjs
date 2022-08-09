@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = require('config');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/src/pages/index.tsx'),
@@ -64,6 +65,7 @@ module.exports = {
         PORT: JSON.stringify(config.get('port')),
       },
     }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
