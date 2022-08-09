@@ -83,4 +83,8 @@ module.exports = {
   stats: {
     errorDetails: true,
   },
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
 };
