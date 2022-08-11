@@ -1,12 +1,12 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
 import { getId } from 'src/config/objectId';
-
-const FavoriteBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/favorites`;
+import { WebOrigin } from 'src/frontend/config';
+const FavoriteBasePath = `${WebOrigin}/api/v1/favorites`;
 const UserFavoriteBasePath = ({ userId }) =>
-  `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users/${userId}/favorites`;
+  `${WebOrigin}/api/v1/users/${userId}/favorites`;
 const SummaryFavoriteBasePath = ({ summaryId }) =>
-  `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/summaries/${summaryId}/favorites`;
+  `${WebOrigin}/api/v1/summaries/${summaryId}/favorites`;
 
 export interface Favorite {
   _id?: string;

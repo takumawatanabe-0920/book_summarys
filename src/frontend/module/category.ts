@@ -1,6 +1,7 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
-const CategoryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/categories`;
+import { WebOrigin } from 'src/frontend/config';
+const CategoryBasePath = `${WebOrigin}/api/v1/categories`;
 
 export interface Category {
   _id?: string;

@@ -1,6 +1,7 @@
 import client from 'src/frontend/apiClient';
-const UserBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/users`;
-const AuthBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/auth`;
+import { WebOrigin } from 'src/frontend/config';
+const UserBasePath = `${WebOrigin}/api/v1/users`;
+const AuthBasePath = `${WebOrigin}/api/v1/auth`;
 export interface User {
   _id?: string;
   id?: string;

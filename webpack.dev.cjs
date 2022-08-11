@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const config = require('config');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+console.log({
+  webpack: JSON.stringify(config.get('host')),
+});
 module.exports = {
   mode: 'development',
   entry: path.join(__dirname, '/src/pages/index.tsx'),
@@ -61,7 +64,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        WEB_ORIGIN: JSON.stringify(config.get('webOrigin')),
+        HOST: JSON.stringify(config.get('host')),
         PORT: JSON.stringify(config.get('port')),
       },
     }),
