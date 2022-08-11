@@ -8,7 +8,7 @@
     "dev:client": "webpack-dev-server --hot --config webpack.dev.cjs",
     "dev:server": "nest start --watch",
     "prod:build-nest": "NODE_ENV=production nest build",
-    "prod:front-build": "NODE_ENV=production webpack --config webpack.prod.cjs --stats-error-details",
+    "prod:front-build": "NODE_OPTIONS=--max_old_space_size=2048 NODE_ENV=production webpack --config webpack.prod.cjs --stats-error-details",
     "prod:server": "NODE_ENV=production pm2 start dist/src/api/main.js",
     "prod": "yarn prod:build-nest && yarn prod:front-build && yarn prod:server",
     "ts-node": "ts-node",
