@@ -23,6 +23,11 @@ import { resolve } from 'path';
     ServeStaticModule.forRoot({
       rootPath: resolve(__dirname, '../..', 'public'),
       exclude: ['/api*'],
+      serveStaticOptions: {
+        setHeaders: (res, path) => {
+          res.setHeader('Access-Control-Allow-Origin', '*');
+        },
+      },
     }),
     CategoryModule,
     FavoriteModule,
