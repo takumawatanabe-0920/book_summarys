@@ -62,7 +62,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        WEB_ORIGIN: JSON.stringify(config.get('webOrigin')),
+        HOST: JSON.stringify(config.get('host')),
         PORT: JSON.stringify(config.get('port')),
       },
     }),

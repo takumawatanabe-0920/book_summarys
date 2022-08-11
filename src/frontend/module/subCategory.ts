@@ -1,6 +1,7 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
-const SubCategoryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/subCategories`;
+import { WebOrigin } from 'src/frontend/config';
+const SubCategoryBasePath = `${WebOrigin}/api/v1/subCategories`;
 
 export interface SubCategory {
   _id?: string;

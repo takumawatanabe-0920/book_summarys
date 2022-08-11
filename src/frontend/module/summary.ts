@@ -1,6 +1,7 @@
 import client from 'src/frontend/apiClient';
 import { QueryOptions } from 'src/types/common';
-const SummaryBasePath = `${process.env.WEB_ORIGIN}${process.env.PORT}/api/v1/summaries`;
+import { WebOrigin } from 'src/frontend/config';
+const SummaryBasePath = `${WebOrigin}/api/v1/summaries`;
 
 export interface Summary {
   _id?: string;
