@@ -34,6 +34,7 @@ import { resolve } from 'path';
             'Access-Control-Allow-Headers',
             'Origin, X-Requested-With, Content-Type, Accept',
           );
+          res.setHeader('Access-Control-Allow-Private-Network', 'true');
         },
       },
     }),
