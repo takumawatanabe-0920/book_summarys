@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoOptions = {
   socketTimeoutMS: 0,
   connectTimeoutMS: 0,
@@ -13,5 +14,10 @@ module.exports = {
     uri: `mongodb+srv://takuma:Takuma0920@sharenotes.t8l9qnw.mongodb.net/test`,
     options: mongoOptions,
     dbName: 'book_summarys',
+  },
+  aws: {
+    secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.secretAccessKey,
+    region: process.env.region,
   },
 };

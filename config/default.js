@@ -15,4 +15,10 @@ module.exports = {
     options: mongoOptions,
     dbName: 'book_summarys',
   },
+  aws: {
+    secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.secretAccessKey,
+    region: process.env.region,
+    bucket: 'sharesummary',
+  },
 };
