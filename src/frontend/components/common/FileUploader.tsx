@@ -7,23 +7,9 @@ import useAlertState from 'src/frontend/hooks/useAlertState';
 import { FileType } from 'src/frontend/components/common/fileType';
 import axios from 'axios';
 type Props = {
-  endPoint: ({
-    file,
-    type,
-    key,
-    fileType,
-  }: {
-    file: File;
-    type: FileType;
-    key: number;
-    fileType: 'pdf' | 'image' | 'audio' | 'file';
-  }) => string;
+  endPoint: ({ type }: { type: FileType }) => string;
   handleFile: ({
     data,
-    file,
-    type,
-    key,
-    fileType,
   }: {
     data: {
       id: string;
@@ -32,53 +18,30 @@ type Props = {
       key: string;
       imageUrl: string;
     };
-    file: File;
-    type: FileType;
-    key: number;
-    fileType: 'pdf' | 'image' | 'audio' | 'file';
   }) => void;
   children: React.ReactNode;
-  onCreateObjectURL?: (url: string, key: number) => void;
 } & Omit<FileHandlerProps, 'handleFile' | 'onError'>;
 
 const FileUploader = (props: Props) => {
-  const { endPoint, handleFile, children, onCreateObjectURL } = props;
+  const { endPoint, handleFile, children } = props;
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
-  const handleFileBase = async (file: File, type: any, key: number) => {
-    let fileType: 'pdf' | 'image';
-    const images = ['jpg', 'png', 'gif'];
-
-    if (type.ext === 'pdf') {
-      fileType = 'pdf';
-    } else if (images.includes(type.ext)) {
-      fileType = 'image';
-    } else {
-      throw new Error('未対応のファイルです');
-    }
-
+  const handleFileBase = async (file: File, type: any) => {
     let data = null;
     try {
-      const res = await client.get(endPoint({ file, type, key, fileType }));
+      const res = await client.get(endPoint({ type }));
       data = res.data;
 
       await axios.put(data.signedUrl, file, {
         headers: { 'Content-Type': type.mime },
       });
-      handleFile({ data, file, type, fileType, key });
+      handleFile({ data });
     } catch (e) {
       throwAlert('danger', e.message || '');
     }
   };
 
-  return (
-    <FileHandler
-      handleFile={handleFileBase}
-      onCreateObjectURL={onCreateObjectURL}
-    >
-      {children}
-    </FileHandler>
-  );
+  return <FileHandler handleFile={handleFileBase}>{children}</FileHandler>;
 };
 
 export default FileUploader;

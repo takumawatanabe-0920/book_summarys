@@ -31,7 +31,7 @@ export class SummaryDTO {
   publishingStatus: string;
 
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;
@@ -71,7 +71,7 @@ export class CreateSummaryDTO {
 
   @IsOptional()
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;
@@ -113,7 +113,7 @@ export class UpdateSummaryDTO {
 
   @IsOptional()
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;

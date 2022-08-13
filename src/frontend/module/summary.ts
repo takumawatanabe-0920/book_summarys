@@ -12,7 +12,7 @@ export interface Summary {
   discription: string;
   thumbnail: string;
   publishingStatus: string;
-  image: string;
+  imageKey: string;
   category: any;
   subCategory: any;
   user: any;
@@ -104,7 +104,7 @@ const create = async (args: Partial<Summary>): Promise<Summary> => {
       discription,
       thumbnail,
       publishingStatus,
-      image,
+      imageKey,
       category,
       subCategory,
       user,
@@ -116,7 +116,7 @@ const create = async (args: Partial<Summary>): Promise<Summary> => {
       discription,
       thumbnail,
       publishingStatus,
-      image,
+      imageKey,
       category,
       subCategory,
       user,
@@ -136,7 +136,7 @@ const update = async (id: string, args: Partial<Summary>): Promise<Summary> => {
       discription,
       thumbnail,
       publishingStatus,
-      image,
+      imageKey,
       category,
       subCategory,
       user,
@@ -148,7 +148,7 @@ const update = async (id: string, args: Partial<Summary>): Promise<Summary> => {
       discription,
       thumbnail,
       publishingStatus,
-      image,
+      imageKey,
       category,
       subCategory,
       user,

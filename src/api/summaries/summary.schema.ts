@@ -28,7 +28,7 @@ export class Summary {
   publishingStatus: string;
 
   @Prop({ type: String })
-  image: string;
+  imageKey: string;
 
   @Prop({ type: String })
   category: string;
