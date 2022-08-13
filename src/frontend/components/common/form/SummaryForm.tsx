@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { WebOrigin } from 'src/frontend/config';
 import { Input, Textarea, Select } from '../..';
 import {
   update as updateSummary,
@@ -257,7 +258,7 @@ const SummaryForm: FC<Props> = (props) => {
                 </h2>
                 <FileUploader
                   endPoint={({ type }) =>
-                    `/api/v1/summaries/getSignedUrl?ext=${type.ext}&mime=${type.mime}`
+                    `${WebOrigin}/api/v1/summaries/getSignedUrl?ext=${type.ext}&mime=${type.mime}`
                   }
                   handleFile={handleFile}
                   onCreateObjectURL={onCreateObjectURL}
