@@ -258,7 +258,7 @@ const SummaryForm: FC<Props> = (props) => {
                 </h2>
                 <FileUploader
                   endPoint={({ type }) =>
-                    `${WebOrigin}/api/v1/summaries/getSignedUrl?ext=${type.ext}&mime=${type.mime}`
+                    `${WebOrigin}/api/v1/summaries/signedUrl?ext=${type.ext}&mime=${type.mime}`
                   }
                   handleFile={handleFile}
                   onCreateObjectURL={onCreateObjectURL}

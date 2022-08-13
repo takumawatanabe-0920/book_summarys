@@ -1,11 +1,16 @@
 import * as config from 'config';
 import * as AWS from 'aws-sdk';
-export const S3 = {
-  self: new AWS.S3({
+
+AWS.config.update({
+  region: config.get('aws.region'),
+  credentials: {
     accessKeyId: config.get('aws.accessKeyId'),
     secretAccessKey: config.get('aws.secretAccessKey'),
-    region: config.get('aws.region'),
-  }),
+  },
+});
+
+export const S3 = {
+  self: new AWS.S3({ apiVersion: '2006-03-01' }),
 
   getObject: (option) => {
     const { key: Key, bucket: Bucket = config.get('aws.bucket') } = option;
@@ -14,22 +19,6 @@ export const S3 = {
       .getObject({
         Bucket,
         Key,
-      })
-      .promise();
-  },
-
-  upload: (option) => {
-    const {
-      key: Key,
-      body: Body,
-      bucket: Bucket = config.get('aws.bucket'),
-    } = option;
-
-    return S3.self
-      .upload({
-        Bucket,
-        Key,
-        Body,
       })
       .promise();
   },

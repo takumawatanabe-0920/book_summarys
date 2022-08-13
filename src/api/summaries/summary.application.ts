@@ -76,29 +76,20 @@ export class SummaryApplication {
   async signedUrl(ext: string, mime: string) {
     const id = new ObjectId();
     const key = `summaries/${id}.${ext}`;
-    console.log({
-      key,
-      mime,
-      ext,
-    });
     const signedUrl = await S3.getSignedUrl({
       key,
       contentType: mime,
     });
-    console.log({ signedUrl });
     const imageUrl = await S3.getSignedUrl({
       key,
       contentType: mime,
       method: 'getObject',
     });
-    console.log({
-      imageUrl,
-    });
 
     return {
       key,
-      signedUrl: decodeURIComponent(signedUrl),
-      imageUrl: decodeURIComponent(imageUrl),
+      signedUrl: signedUrl,
+      imageUrl: imageUrl,
     };
   }
 }

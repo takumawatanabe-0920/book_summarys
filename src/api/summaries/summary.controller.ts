@@ -105,7 +105,7 @@ export class SummaryController {
     }
   }
 
-  @Get('getSignedUrl')
+  @Get('signedUrl')
   async signedUrl(@Query('mime') mime, @Query('ext') ext) {
     return await this.summaryApplication.signedUrl(ext, mime);
   }
