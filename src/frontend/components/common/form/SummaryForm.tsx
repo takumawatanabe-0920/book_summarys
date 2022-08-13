@@ -13,6 +13,8 @@ import { GlobalContext } from '../../../hooks/context/Global';
 import { getId } from 'src/config/objectId';
 import { categories } from 'src/config/data/category';
 import { subCategories } from 'src/config/data/subCategory';
+import FileUploader from 'src/frontend/components/common/FileUploader';
+import Button from '@material-ui/core/Button';
 type Props = {
   isEdit?: boolean;
   summary?: Summary;
@@ -27,6 +29,11 @@ const SummaryForm: FC<Props> = (props) => {
   const [isPreview, setIsPreview] = useState<boolean>(false);
   const [errorTexts, setErrorTexts] = useState<Partial<Summary>>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [imageUpdateQueue, setImageUpdateQueue] = React.useState<
+    Record<string, any>
+  >({});
+  const [uploading, setUploading] = React.useState([]);
+  const [images, setImages] = React.useState([]);
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser } = useContext(GlobalContext);
@@ -211,6 +218,23 @@ const SummaryForm: FC<Props> = (props) => {
     loadData();
   }, [isEdit, summary]);
 
+  React.useEffect(() => {
+    const newImages = [...images];
+    newImages[imageUpdateQueue.idx] = imageUpdateQueue.image;
+    setImages(newImages);
+  }, [imageUpdateQueue]);
+
+  const onCreateObjectURL = (url, key) => {
+    uploading[key] = url;
+    setUploading([...uploading, { key, url }]);
+  };
+
+  const handleFile = ({ data, key }) => {
+    setUploading(uploading.filter((u) => u.key === key));
+    const image = data.key.includes('pdf') ? data.imageUrl : data.key + '?';
+    setImages([...images, { image }]);
+  };
+
   return (
     <>
       {loading && (
@@ -231,6 +255,17 @@ const SummaryForm: FC<Props> = (props) => {
                 <h2 className="main-title blue-main-title blue-back">
                   記事編集画面
                 </h2>
+                <FileUploader
+                  endPoint={({ type }) =>
+                    `/api/v1/summaries/getSignedUrl?ext=${type.ext}&mime=${type.mime}`
+                  }
+                  handleFile={handleFile}
+                  onCreateObjectURL={onCreateObjectURL}
+                >
+                  <Button size="small" color="primary" variant="contained">
+                    画像をアップロード
+                  </Button>
+                </FileUploader>
                 <Input
                   title="記事のタイトル"
                   name="title"

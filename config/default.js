@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const mongoOptions = {
   socketTimeoutMS: 0,
   connectTimeoutMS: 0,

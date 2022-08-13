@@ -185,4 +185,9 @@ export class SummaryController {
       throw error;
     }
   }
+
+  @Get('getSignedUrl')
+  async signedUrl(@Query('mime') mime, @Query('ext') ext) {
+    return await this.summaryApplication.signedUrl(ext, mime);
+  }
 }

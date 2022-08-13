@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@nestjs/common';
 import { SummaryRepository } from './summary.repository';
 import { SummaryDTO, CreateSummaryDTO, UpdateSummaryDTO } from './summary.dto';
 import { PaginationOptions } from '../../config/mongoOption';
+import { S3 } from 'src/api/lib/aws';
+import { ObjectId } from 'mongodb';
 @Injectable()
 export class SummaryApplication {
   constructor(
@@ -69,5 +71,25 @@ export class SummaryApplication {
       console.error(error);
       throw error;
     }
+  }
+
+  async signedUrl(ext: string, mime: string) {
+    const id = new ObjectId();
+    const key = `summaries/${id}.${ext}`;
+    const signedUrl = await S3.getSignedUrl({
+      key,
+      contentType: mime,
+    });
+    const imageUrl = await S3.getSignedUrl({
+      key,
+      contentType: mime,
+      method: 'getObject',
+    });
+
+    return {
+      key,
+      signedUrl,
+      imageUrl,
+    };
   }
 }

@@ -1,7 +1,7 @@
 import * as config from 'config';
 import * as AWS from 'aws-sdk';
 
-const S3 = {
+export const S3 = {
   self: new AWS.S3({
     accessKeyId: config.get('aws.accessKeyId'),
     secretAccessKey: config.get('aws.secretAccessKey'),
