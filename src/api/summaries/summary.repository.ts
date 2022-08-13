@@ -61,9 +61,10 @@ export class SummaryRepository {
       subCategory: Partial<typeof subCategories[number]>;
     }
   > {
+    console.log({ id });
     const summary = (
       await this.summaryModel.findById(id, option).populate('user')
-    ).toJSON() as Omit<Summary, 'category' | 'subCategory'> & {
+    )?.toJSON() as Omit<Summary, 'category' | 'subCategory'> & {
       category: Partial<typeof categories[number]>;
       subCategory: Partial<typeof subCategories[number]>;
     };

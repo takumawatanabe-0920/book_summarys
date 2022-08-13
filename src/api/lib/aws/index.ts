@@ -1,13 +1,16 @@
 import * as config from 'config';
 import * as AWS from 'aws-sdk';
 
-export const S3 = {
-  self: new AWS.S3({
+AWS.config.update({
+  region: config.get('aws.region'),
+  credentials: {
     accessKeyId: config.get('aws.accessKeyId'),
     secretAccessKey: config.get('aws.secretAccessKey'),
-    region: config.get('aws.region'),
-  }),
-  StorageClass: 'STANDARD',
+  },
+});
+
+export const S3 = {
+  self: new AWS.S3({ apiVersion: '2006-03-01' }),
 
   getObject: (option) => {
     const { key: Key, bucket: Bucket = config.get('aws.bucket') } = option;
@@ -16,23 +19,6 @@ export const S3 = {
       .getObject({
         Bucket,
         Key,
-      })
-      .promise();
-  },
-
-  upload: (option) => {
-    const {
-      key: Key,
-      body: Body,
-      bucket: Bucket = config.get('aws.bucket'),
-    } = option;
-
-    return S3.self
-      .upload({
-        Bucket,
-        Key,
-        Body,
-        StorageClass: S3.StorageClass,
       })
       .promise();
   },
@@ -49,7 +35,6 @@ export const S3 = {
         Bucket,
         Key,
         Body,
-        StorageClass: S3.StorageClass,
       })
       .promise();
   },
@@ -68,7 +53,7 @@ export const S3 = {
   getSignedUrl: (option) => {
     const {
       key: Key,
-      contentType = 'image/jpeg',
+      contentType = `image/png`,
       method = 'putObject',
       bucket: Bucket = config.get('aws.bucket'),
     } = option;
@@ -80,9 +65,7 @@ export const S3 = {
     };
     if (method === 'putObject') {
       params.ContentType = contentType;
-      params.StorageClass = S3.StorageClass;
     }
-
     return S3.self.getSignedUrlPromise(method, params);
   },
 };

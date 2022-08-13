@@ -5,6 +5,7 @@ import FileHandler, {
 import client from 'src/frontend/apiClient';
 import useAlertState from 'src/frontend/hooks/useAlertState';
 import { FileType } from 'src/frontend/components/common/fileType';
+import axios from 'axios';
 type Props = {
   endPoint: ({
     file,
@@ -61,7 +62,7 @@ const FileUploader = (props: Props) => {
       const res = await client.get(endPoint({ file, type, key, fileType }));
       data = res.data;
 
-      await client.put(data.signedUrl, file, {
+      await axios.put(data.signedUrl, file, {
         headers: { 'Content-Type': type.mime },
       });
       handleFile({ data, file, type, fileType, key });

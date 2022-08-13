@@ -88,8 +88,8 @@ export class SummaryApplication {
 
     return {
       key,
-      signedUrl,
-      imageUrl,
+      signedUrl: signedUrl,
+      imageUrl: imageUrl,
     };
   }
 }

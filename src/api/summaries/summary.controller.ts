@@ -105,6 +105,11 @@ export class SummaryController {
     }
   }
 
+  @Get('signedUrl')
+  async signedUrl(@Query('mime') mime, @Query('ext') ext) {
+    return await this.summaryApplication.signedUrl(ext, mime);
+  }
+
   @Get(':id')
   async get(
     @Param('id') id: string,
@@ -184,10 +189,5 @@ export class SummaryController {
       console.error(error);
       throw error;
     }
-  }
-
-  @Get('getSignedUrl')
-  async signedUrl(@Query('mime') mime, @Query('ext') ext) {
-    return await this.summaryApplication.signedUrl(ext, mime);
   }
 }
