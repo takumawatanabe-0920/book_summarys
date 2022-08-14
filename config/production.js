@@ -7,7 +7,7 @@ const mongoOptions = {
   readPreference: 'primaryPreferred',
   maxStalenessSeconds: 90,
 };
-
+console.log({ env: process.env });
 module.exports = {
   port: 3020,
   mongodb: {
