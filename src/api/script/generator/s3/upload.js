@@ -14,7 +14,11 @@ AWS.config.update({
 var s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
 // call S3 to retrieve upload file to specified bucket
-var uploadParams = { Bucket: config.get('aws.bucket'), Key: '', Body: '' };
+var uploadParams = {
+  Bucket: config.get('aws.bucket'),
+  Key: '',
+  Body: undefined,
+};
 var file = process.argv[2];
 
 // Configure the file stream and obtain the upload parameters

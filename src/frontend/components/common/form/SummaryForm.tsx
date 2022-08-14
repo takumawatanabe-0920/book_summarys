@@ -223,9 +223,6 @@ const SummaryForm: FC<Props> = (props) => {
     setValues({ ...values, imageKey: data.key });
     setPreviewImage(data?.imageUrl);
   };
-  console.log({
-    previewImage,
-  });
 
   return (
     <>

@@ -22,21 +22,4 @@ function getPaginationQuery(query: any, options: PaginationOptions = {}) {
   return newQuery;
 }
 
-// function getDataSelectQuery<T, K extends Record<string, unknown>>(
-//   query: Query<T>,
-//   conditions: K,
-//   selectFields: string[],
-//   populates: string[],
-// ) {
-//   query.find({
-//     ...conditions,
-//   });
-//   if (selectFields) {
-//     query.select(selectFields);
-//   }
-//   if (populates) {
-//     query.populate(populates);
-//   }
-// }
-
 export { getPaginationQuery };

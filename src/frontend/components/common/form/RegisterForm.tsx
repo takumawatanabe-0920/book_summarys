@@ -116,7 +116,6 @@ const RegisterForm: FC<Props> = (props) => {
             email,
             password,
             displayName,
-            // photoURL: values.photoURL,
           });
           setCurrentUser(user);
           await throwAlert('success', '会員情報に成功しました。');

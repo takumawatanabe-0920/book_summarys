@@ -33,7 +33,6 @@ const MediaCard: FC<Props> = (props) => {
     updatedAt = new Date(),
     image,
   } = data;
-  console.log({ data });
   const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
     const diffTime = dayjs().diff(dayjs(updatedAt), 'second');
@@ -92,13 +91,6 @@ const MediaCard: FC<Props> = (props) => {
                 >
                   {category && category.name}
                 </span>
-                {/* {setting
-                  ? !setting.isHiddenCategory
-                  : true && (
-                      <span className="main-tag sub-tag">
-                        {sub_category && sub_category.name}
-                      </span>
-                    )} */}
                 {formatTag()}
               </div>
               <Typography

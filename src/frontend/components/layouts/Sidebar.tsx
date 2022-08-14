@@ -69,7 +69,7 @@ const Sidebar = () => {
         {rankingThisWeekSummaries &&
           rankingThisWeekSummaries.map((summary, _index) => {
             return (
-              <dl>
+              <dl key={getId(summary)}>
                 <dt>
                   <span className={clsx('ranking', `ranking-week`)}>
                     {_index + 1}
@@ -93,7 +93,7 @@ const Sidebar = () => {
         {rankingThisMonthSummaries &&
           rankingThisMonthSummaries.map((summary, _index) => {
             return (
-              <dl>
+              <dl key={getId(summary)}>
                 <dt>
                   <span className={clsx('ranking', `ranking-month`)}>
                     {_index + 1}
@@ -117,7 +117,7 @@ const Sidebar = () => {
         {allRankingSummaries &&
           allRankingSummaries.map((summary, _index) => {
             return (
-              <dl>
+              <dl key={getId(summary)}>
                 <dt>
                   <span className={clsx('ranking', `ranking-total`)}>
                     {_index + 1}

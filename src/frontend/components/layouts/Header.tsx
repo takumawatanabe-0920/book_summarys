@@ -127,7 +127,6 @@ const Header = () => {
               ログイン
             </Link>
           )}
-          {/* <Navbar /> */}
         </div>
       </div>
     </header>

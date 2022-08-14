@@ -31,7 +31,6 @@ const SummaryDetails: FC<Props> = (props) => {
             <dd>{bookName}</dd>
           </dl>
           <div className="tags">
-            {/* TODO リンク：カテゴリー記事に飛ばす */}
             <span className="tag">{category.name}</span>
             {subCategory.name && (
               <span className="tag">{subCategory.name}</span>
