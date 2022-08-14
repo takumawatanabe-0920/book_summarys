@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { CategoryRepository } from './category.repository';
 import { CategoryDTO } from './category.dto';
-import { PaginationOptions } from '../../config/mongoOption';
+import { S3 } from 'src/api/lib/aws';
+import { categories } from 'src/config/data/category';
 @Injectable()
 export class CategoryApplication {
   constructor(
@@ -9,11 +10,20 @@ export class CategoryApplication {
     private categoryRepository: CategoryRepository,
   ) {}
 
-  async list(
-    option: PaginationOptions,
-  ): Promise<ReturnType<CategoryRepository['list']>> {
+  async list(): Promise<(typeof categories[number] & { image: string })[]> {
     try {
-      return await this.categoryRepository.list(option);
+      return await Promise.all(
+        categories.map(async (category) => {
+          const imageUrl = await S3.getSignedUrl({
+            key: category.imageKey,
+            method: 'getObject',
+          });
+          return {
+            ...category,
+            image: imageUrl,
+          };
+        }),
+      );
     } catch (error) {
       console.error(error);
       throw error;

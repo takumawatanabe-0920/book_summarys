@@ -5,7 +5,6 @@ export const subCategories = [
     name: 'コンピュータ',
     slug: 'computer',
     displayOrder: 10000,
-    image: '',
     category: 'technology',
   },
   {
@@ -13,7 +12,6 @@ export const subCategories = [
     name: 'プログラミング',
     slug: 'programming',
     displayOrder: 99999,
-    image: '',
     category: 'technology',
   },
   {
@@ -21,7 +19,6 @@ export const subCategories = [
     name: 'ジェット',
     slug: 'gadget',
     displayOrder: 99998,
-    image: '',
     category: 'technology',
   },
   {
@@ -29,7 +26,6 @@ export const subCategories = [
     name: 'その他',
     slug: 'other',
     displayOrder: 99997,
-    image: '',
     category: 'technology',
   },
   // novel
@@ -38,7 +34,6 @@ export const subCategories = [
     name: 'SF',
     slug: 'sf',
     displayOrder: 95000,
-    image: '',
     category: 'novel',
   },
   {
@@ -46,7 +41,6 @@ export const subCategories = [
     name: '歴史',
     slug: 'history',
     displayOrder: 94999,
-    image: '',
     category: 'novel',
   },
   {
@@ -54,7 +48,6 @@ export const subCategories = [
     name: 'ファンタジー',
     slug: 'fantasy',
     displayOrder: 94998,
-    image: '',
     category: 'novel',
   },
   {
@@ -62,7 +55,6 @@ export const subCategories = [
     name: 'ライトノベル',
     slug: 'lightnovel',
     displayOrder: 94997,
-    image: '',
     category: 'novel',
   },
   {
@@ -70,7 +62,6 @@ export const subCategories = [
     name: 'その他',
     slug: 'other',
     displayOrder: 94996,
-    image: '',
     category: 'novel',
   },
   // history
@@ -79,7 +70,6 @@ export const subCategories = [
     name: '日本',
     slug: 'japan',
     displayOrder: 90000,
-    image: '',
     category: 'history',
   },
   {
@@ -87,7 +77,6 @@ export const subCategories = [
     name: 'ヨーロッパ',
     slug: 'europe',
     displayOrder: 89999,
-    image: '',
     category: 'history',
   },
   {
