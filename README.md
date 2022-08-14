@@ -1,6 +1,8 @@
-# sharenote
+# sharesummary
 
-#### 【サービス名】 sharenote
+#### 【サービス名】 sharesummary
+
+https://sharesummary.com/
 
 #### 【用途】 本の要約をユーザー同士で共有するアプリ
 
@@ -16,15 +18,11 @@
 - 週刊ランキング、月間ランキング、総合ランキング
 - 記事閲覧
 - 記事作成・プレビュー・編集
-- 通知機能
 - いいね機能
-- コメント機能
 - マイページ
   - ユーザー編集
   - 記事一覧・記事編集
-  - 記事閲覧履歴
   - いいね一覧
-  - コメント一覧
   - ログアウト
 
 ##### 記事ステータスについて
@@ -48,21 +46,31 @@
 
 #### 開発言語
 
-##### javascript(React TypeScript)
+##### javascript(React TypeScript Nestjs)
 
 #### 主要ライブラリ
 
-- react hook
-- draft-js 記事編集（リッチテキストエディター）
-- react-slick（カルーセル)
+- フロントエンド
+  - React
+  - TypeScript
+  - draft-js 記事編集（リッチテキストエディター）
+  - react-slick（カルーセル)
+  - material ui
+- バックエンド
+  - nestjs
+  - mongoose
+- インフラ
+  - EC2
+  - Route53
+  - S3
 
 #### ビルド
 
 ```bash
 # install dependencies
-% npm install
+% yarn
 
-# serve with hot reload at http://localhost:3016
-% npm run dev
+# serve with hot reload at http://localhost:3015
+% yarn dev
 
 ```
