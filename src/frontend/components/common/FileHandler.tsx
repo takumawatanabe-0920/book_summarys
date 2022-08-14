@@ -4,7 +4,6 @@ import useAlertState from 'src/frontend/hooks/useAlertState';
 export type Props = {
   handleFile?: (file: File, type: any, key: number) => Promise<void>;
   children: React.ReactNode;
-  onCreateObjectURL?: (url: string, key: number) => void;
 };
 
 const FileHandler = (props: Props) => {
@@ -16,9 +15,6 @@ const FileHandler = (props: Props) => {
       /* empty */
     },
     children,
-    onCreateObjectURL = () => {
-      /* empty */
-    },
   } = props;
   const upload = React.useRef(null);
 
@@ -31,31 +27,9 @@ const FileHandler = (props: Props) => {
         throw new Error('許可されていないファイルの種類です');
       }
 
-      createObjectURL(file, key);
       await handleFile(file, type, key);
     } catch (e) {
       throwAlert('danger', e.message || '');
-    }
-  };
-
-  const createObjectURL = (file, key) => {
-    if (!onCreateObjectURL) return;
-
-    const createObjectURL =
-      window.URL && window.URL.createObjectURL
-        ? window.URL.createObjectURL
-        : null;
-
-    if (createObjectURL) {
-      const url = createObjectURL(file);
-      onCreateObjectURL(url, key);
-    } else {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const url = e.target.result as string;
-        onCreateObjectURL(url, key);
-      };
-      reader.readAsDataURL(file);
     }
   };
 

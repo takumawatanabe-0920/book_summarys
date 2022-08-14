@@ -30,11 +30,7 @@ const SummaryForm: FC<Props> = (props) => {
   const [isPreview, setIsPreview] = useState<boolean>(false);
   const [errorTexts, setErrorTexts] = useState<Partial<Summary>>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [imageUpdateQueue, setImageUpdateQueue] = React.useState<
-    Record<string, any>
-  >({});
-  const [uploading, setUploading] = React.useState([]);
-  const [images, setImages] = React.useState([]);
+  const [previewImage, setPreviewImage] = React.useState('');
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser } = useContext(GlobalContext);
@@ -194,6 +190,10 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    setPreviewImage(summary.image);
+  }, [summary]);
+
+  useEffect(() => {
     const loadData = async () => {
       try {
         if (isEdit && Object.keys(summary).length > 0) {
@@ -219,22 +219,13 @@ const SummaryForm: FC<Props> = (props) => {
     loadData();
   }, [isEdit, summary]);
 
-  React.useEffect(() => {
-    const newImages = [...images];
-    newImages[imageUpdateQueue.idx] = imageUpdateQueue.image;
-    setImages(newImages);
-  }, [imageUpdateQueue]);
-
-  const onCreateObjectURL = (url, key) => {
-    uploading[key] = url;
-    setUploading([...uploading, { key, url }]);
+  const handleFile = ({ data }) => {
+    setValues({ ...values, imageKey: data.key });
+    setPreviewImage(data?.imageUrl);
   };
-
-  const handleFile = ({ data, key }) => {
-    setUploading(uploading.filter((u) => u.key === key));
-    const image = data.key.includes('pdf') ? data.imageUrl : data.key + '?';
-    setImages([...images, { image }]);
-  };
+  console.log({
+    previewImage,
+  });
 
   return (
     <>
@@ -256,15 +247,27 @@ const SummaryForm: FC<Props> = (props) => {
                 <h2 className="main-title blue-main-title blue-back">
                   記事編集画面
                 </h2>
+                {previewImage && (
+                  <div className="preview-image">
+                    <img src={previewImage} alt="preview" />
+                  </div>
+                )}
                 <FileUploader
                   endPoint={({ type }) =>
                     `${WebOrigin}/api/v1/summaries/signedUrl?ext=${type.ext}&mime=${type.mime}`
                   }
                   handleFile={handleFile}
-                  onCreateObjectURL={onCreateObjectURL}
                 >
-                  <Button size="small" color="primary" variant="contained">
-                    画像をアップロード
+                  <Button
+                    size="small"
+                    color="default"
+                    variant="outlined"
+                    classes={{
+                      root: 'button-root',
+                      label: 'button-label',
+                    }}
+                  >
+                    画像をアップロードする
                   </Button>
                 </FileUploader>
                 <Input

@@ -12,7 +12,6 @@ type Props = {
 };
 
 const MypageSummaryStackItem: FC<Props> = (props) => {
-  const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
   const { data, time } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const { currentUser } = useContext(GlobalContext);
@@ -57,9 +56,7 @@ const MypageSummaryStackItem: FC<Props> = (props) => {
       )}
       <Link to={`/summary/${getId(data)}`} className="summaries-stack">
         <div className="left-box">
-          {loading && summaryThumbnail && (
-            <img src={summaryThumbnail} alt={data.title} />
-          )}
+          {loading && data.image && <img src={data.image} alt={data.title} />}
         </div>
         <div className="right-box">
           {isShowElementOnlyCurrentUser() && (

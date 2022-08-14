@@ -24,14 +24,11 @@ export class SummaryDTO {
   @IsString()
   discription: string;
 
-  @IsString()
-  thumbnail: string;
-
   @IsEnum(publishingStatuses)
   publishingStatus: string;
 
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;
@@ -62,16 +59,12 @@ export class CreateSummaryDTO {
   @IsString()
   discription: string;
 
-  @IsOptional()
-  @IsString()
-  thumbnail: string;
-
   @IsEnum(publishingStatuses)
   publishingStatus: string;
 
   @IsOptional()
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;
@@ -104,16 +97,12 @@ export class UpdateSummaryDTO {
   @IsString()
   discription: string;
 
-  @IsOptional()
-  @IsString()
-  thumbnail: string;
-
   @IsEnum(publishingStatuses)
   publishingStatus: string;
 
   @IsOptional()
   @IsString()
-  image: string;
+  imageKey: string;
 
   @IsString()
   category: string;
