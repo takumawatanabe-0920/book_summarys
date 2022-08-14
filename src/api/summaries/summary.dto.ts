@@ -24,9 +24,6 @@ export class SummaryDTO {
   @IsString()
   discription: string;
 
-  @IsString()
-  thumbnail: string;
-
   @IsEnum(publishingStatuses)
   publishingStatus: string;
 
@@ -61,10 +58,6 @@ export class CreateSummaryDTO {
   @IsOptional()
   @IsString()
   discription: string;
-
-  @IsOptional()
-  @IsString()
-  thumbnail: string;
 
   @IsEnum(publishingStatuses)
   publishingStatus: string;
@@ -103,10 +96,6 @@ export class UpdateSummaryDTO {
   @IsOptional()
   @IsString()
   discription: string;
-
-  @IsOptional()
-  @IsString()
-  thumbnail: string;
 
   @IsEnum(publishingStatuses)
   publishingStatus: string;

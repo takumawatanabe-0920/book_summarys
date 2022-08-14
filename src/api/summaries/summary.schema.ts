@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../users/user.schema';
 import { Favorite } from '../favorites/favorite.schema';
-
+import { S3 } from 'src/api/lib/aws';
 export const publishingStatuses = ['private', 'public'] as const;
 
 export type SummaryDocument = Summary & Document;
@@ -20,9 +20,6 @@ export class Summary {
 
   @Prop({ type: String })
   discription: string;
-
-  @Prop({ type: String })
-  thumbnail: string;
 
   @Prop({ type: String, enum: publishingStatuses })
   publishingStatus: string;
@@ -44,6 +41,18 @@ export class Summary {
     default: [],
   })
   favorites: (Favorite | string)[];
+
+  async getImageFullPath() {
+    if (!this.imageKey) {
+      return null;
+    }
+    const imageUrl = await S3.getSignedUrl({
+      key: this.imageKey,
+      method: 'getObject',
+    });
+    return imageUrl;
+  }
 }
 
 export const SummarySchema = SchemaFactory.createForClass(Summary);
+SummarySchema.loadClass(Summary);

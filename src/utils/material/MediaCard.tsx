@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import clsx from 'clsx';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 import {
@@ -31,9 +31,9 @@ const MediaCard: FC<Props> = (props) => {
     discription,
     user,
     updatedAt = new Date(),
+    image,
   } = data;
-
-  const [summaryThumbnail, setSummaryThumbnail] = useState<string>('');
+  console.log({ data });
   const favoriteCount = data.favorites?.length || 0;
   const formatTag = () => {
     const diffTime = dayjs().diff(dayjs(updatedAt), 'second');
@@ -65,7 +65,7 @@ const MediaCard: FC<Props> = (props) => {
                 setting && setting.topSlider ? 'sliderImg' : 'media',
                 elType === 'top-summary-list' ? 'top-summary-img' : '',
               )}
-              image={summaryThumbnail}
+              image={image}
               title="Contemplative Reptile"
             />
           </LazyLoadComponent>

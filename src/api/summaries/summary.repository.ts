@@ -23,29 +23,25 @@ export class SummaryRepository {
       Omit<Summary, 'category' | 'subCategory'> & {
         category: Partial<typeof categories[number]>;
         subCategory: Partial<typeof subCategories[number]>;
+        image: string;
       })[]
   > {
     const query = getPaginationQuery(
-      this.summaryModel
-        .find({ ...conditions })
-        .populate('user')
-        .lean(),
+      this.summaryModel.find({ ...conditions }).populate('user'),
       option,
     );
     const summaries = await query.exec();
-    for (const summary of summaries) {
-      if (summary?.category) {
-        const category = categories.find((c) => c.id === summary.category);
-        summary.category = category;
-      }
-      if (summary?.subCategory) {
+    if (!summaries?.length) return [];
+    return await Promise.all(
+      summaries.map(async (summary) => {
         const subCategory = subCategories.find(
           (c) => c.id === summary.subCategory,
         );
-        summary.subCategory = subCategory;
-      }
-    }
-    return summaries;
+        const category = categories.find((c) => c.id === summary.category);
+        const image = await summary.getImageFullPath();
+        return { ...summary.toJSON(), subCategory, category, image };
+      }),
+    );
   }
 
   async count(conditions: Partial<SummaryDTO> = {}): Promise<number> {
@@ -59,26 +55,32 @@ export class SummaryRepository {
     Omit<Summary, 'category' | 'subCategory'> & {
       category: Partial<typeof categories[number]>;
       subCategory: Partial<typeof subCategories[number]>;
+      image: string;
     }
   > {
-    console.log({ id });
-    const summary = (
-      await this.summaryModel.findById(id, option).populate('user')
-    )?.toJSON() as Omit<Summary, 'category' | 'subCategory'> & {
+    const summary = (await this.summaryModel
+      .findById(id, option)
+      .populate('user')) as Omit<Summary, 'category' | 'subCategory'> & {
       category: Partial<typeof categories[number]>;
       subCategory: Partial<typeof subCategories[number]>;
+    } & {
+      toJSON: () => Omit<Summary, 'category' | 'subCategory'> & {
+        category: Partial<typeof categories[number]>;
+        subCategory: Partial<typeof subCategories[number]>;
+      };
     };
-    if (summary?.category) {
-      const category = categories.find((c) => c.id === summary.category);
-      summary.category = category;
-    }
-    if (summary?.subCategory) {
-      const subCategory = subCategories.find(
-        (c) => c.id === summary.subCategory,
-      );
-      summary.subCategory = subCategory;
-    }
-    return summary;
+    if (!summary) return null;
+
+    const image = await summary.getImageFullPath();
+    const category = categories.find((c) => c.id === summary.category);
+    const subCategory = subCategories.find((c) => c.id === summary.subCategory);
+
+    return {
+      ...summary.toJSON(),
+      image,
+      category,
+      subCategory,
+    };
   }
 
   async create(summary: CreateSummaryDTO): Promise<Summary> {

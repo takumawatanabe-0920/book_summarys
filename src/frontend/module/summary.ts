@@ -10,7 +10,6 @@ export interface Summary {
   bookName: string;
   content: string;
   discription: string;
-  thumbnail: string;
   publishingStatus: string;
   imageKey: string;
   category: any;
@@ -19,6 +18,7 @@ export interface Summary {
   updatedAt: Date;
   createdAt: Date;
   favorites: any[];
+  image: string;
 }
 
 type LoadAllArgs = {
@@ -102,7 +102,6 @@ const create = async (args: Partial<Summary>): Promise<Summary> => {
       bookName,
       content,
       discription,
-      thumbnail,
       publishingStatus,
       imageKey,
       category,
@@ -114,7 +113,6 @@ const create = async (args: Partial<Summary>): Promise<Summary> => {
       bookName,
       content,
       discription,
-      thumbnail,
       publishingStatus,
       imageKey,
       category,
@@ -134,7 +132,6 @@ const update = async (id: string, args: Partial<Summary>): Promise<Summary> => {
       bookName,
       content,
       discription,
-      thumbnail,
       publishingStatus,
       imageKey,
       category,
@@ -146,7 +143,6 @@ const update = async (id: string, args: Partial<Summary>): Promise<Summary> => {
       bookName,
       content,
       discription,
-      thumbnail,
       publishingStatus,
       imageKey,
       category,

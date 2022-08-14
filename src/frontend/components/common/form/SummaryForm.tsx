@@ -30,8 +30,7 @@ const SummaryForm: FC<Props> = (props) => {
   const [isPreview, setIsPreview] = useState<boolean>(false);
   const [errorTexts, setErrorTexts] = useState<Partial<Summary>>({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [image, setImage] = React.useState();
-  const [previewImage, setPreviewImage] = React.useState();
+  const [previewImage, setPreviewImage] = React.useState('');
   const [isShowAlert, alertStatus, alertText, throwAlert, closeAlert] =
     useAlertState(false);
   const { currentUser } = useContext(GlobalContext);
@@ -191,6 +190,10 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    setPreviewImage(summary.image);
+  }, [summary]);
+
+  useEffect(() => {
     const loadData = async () => {
       try {
         if (isEdit && Object.keys(summary).length > 0) {
@@ -221,7 +224,6 @@ const SummaryForm: FC<Props> = (props) => {
     setPreviewImage(data?.imageUrl);
   };
   console.log({
-    image,
     previewImage,
   });
 
