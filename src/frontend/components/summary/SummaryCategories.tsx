@@ -21,7 +21,7 @@ const SummaryCategories: FC<Props> = (props) => {
         <div className="_category-body">
           {categories.map((category) => {
             return (
-              <LazyLoadComponent>
+              <LazyLoadComponent key={category.id}>
                 <Link
                   style={{
                     background: `url(${category.image}) no-repeat center center`,

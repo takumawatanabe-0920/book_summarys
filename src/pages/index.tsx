@@ -40,7 +40,6 @@ const UserDetailPage = lazy(
 );
 const SummaryPage = lazy(() => import('../frontend/components/summary'));
 
-// コンポーネント読み込み
 const root = createRoot(document.getElementById('root'));
 root.render(
   <div>
