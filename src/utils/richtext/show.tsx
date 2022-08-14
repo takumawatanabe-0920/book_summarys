@@ -1,7 +1,6 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { EditorState, convertFromRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
-import { json } from 'body-parser';
 type Props = {
   editorState: any;
 };

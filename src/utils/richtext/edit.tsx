@@ -23,11 +23,15 @@ type Props = {
 
 const RichEditor: FC<Props> = (props) => {
   const { title, required, handleEditorChange, errorMessage, value } = props;
-  const [editorState, setEditorState] = useState(
-    value
-      ? EditorState.createWithContent(convertFromRaw(JSON.parse(value)))
-      : EditorState.createEmpty(),
-  );
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  React.useEffect(() => {
+    setEditorState(
+      value
+        ? EditorState.createWithContent(convertFromRaw(JSON.parse(value)))
+        : EditorState.createEmpty(),
+    );
+  }, [value]);
   const editor = useRef(null);
 
   const focus = () => {

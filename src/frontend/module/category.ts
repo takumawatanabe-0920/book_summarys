@@ -1,5 +1,4 @@
 import client from 'src/frontend/apiClient';
-import { QueryOptions } from 'src/types/common';
 import { WebOrigin } from 'src/frontend/config';
 const CategoryBasePath = `${WebOrigin}/api/v1/categories`;
 
@@ -13,16 +12,9 @@ export interface Category {
   createdAt: Date;
 }
 
-type LoadAllArgs = {
-  params: QueryOptions;
-};
-
-const loadAll = async (args: LoadAllArgs): Promise<Category[]> => {
-  const { params = {} } = args;
+const loadAll = async (): Promise<Category[]> => {
   try {
-    const response = await client.get(`${CategoryBasePath}`, {
-      params,
-    });
+    const response = await client.get(`${CategoryBasePath}`);
     return response.data;
   } catch (error) {
     throw error;

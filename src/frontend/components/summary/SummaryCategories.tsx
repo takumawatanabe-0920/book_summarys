@@ -1,18 +1,27 @@
 import React, { FC } from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { loadAll as loadAllCategory } from 'src/frontend/module/category';
 // components
 import { Link } from 'react-router-dom';
-import { categories } from 'src/config/data/category';
 type Props = {
   fetchData: any;
 };
 
 const SummaryCategories: FC<Props> = (props) => {
+  const [categories, setCategories] = React.useState([]);
   const { fetchData } = props;
 
   const updateData = (slug: string, name: string): void => {
     fetchData(slug, name);
   };
+
+  React.useEffect(() => {
+    const load = async () => {
+      const _categories = await loadAllCategory();
+      setCategories(_categories);
+    };
+    load();
+  }, []);
 
   return (
     <>
