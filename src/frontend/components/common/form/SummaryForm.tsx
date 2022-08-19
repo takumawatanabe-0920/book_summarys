@@ -190,7 +190,7 @@ const SummaryForm: FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    setPreviewImage(summary.image);
+    setPreviewImage(summary?.image);
   }, [summary]);
 
   useEffect(() => {
