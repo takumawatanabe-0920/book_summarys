@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  Generator: 'former2'
+Description: ''
+Resources:
+  EC2VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: '10.0.0.0/16'
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: 'default'
+      Tags:
+        - Key: 'Name'
+          Value: 'VPC領域'
+
+  EC2Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !GetAtt EC2Subnet2.AvailabilityZone
+      CidrBlock: '10.0.1.0/24'
+      VpcId: !GetAtt EC2Subnet2.VpcId
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: 'Name'
+          Value: 'パブリックサブネット'
+
+  EC2Subnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: '10.0.2.0/24'
+      VpcId: 'vpc-0bad0f1c25add1033'
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: 'Name'
+          Value: 'プライベートサブネット'
+
+  EC2RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !GetAtt EC2Subnet.VpcId
+      Tags:
+        - Key: 'Name'
+          Value: 'パブリックルートテーブル'
