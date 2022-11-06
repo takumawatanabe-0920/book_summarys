@@ -8,7 +8,7 @@ module.exports = {
   output: {
     publicPath: '/',
     // 出力先ディレクトリ
-    path: path.join(__dirname, 'dist/public'),
+    path: path.join(__dirname, '/dist/public'),
     filename: 'main.js',
   },
   module: {

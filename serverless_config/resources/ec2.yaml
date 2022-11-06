@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  Generator: 'former2'
+Description: ''
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0de5311b2a443fb89'
+      InstanceType: 't2.micro'
+      KeyName: 'bs-takuma0920'
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      Tenancy: 'default'
+      SubnetId: 'subnet-072419ed2bcd12e9f'
+      EbsOptimized: false
+      SecurityGroupIds:
+        - 'sg-075277fce907ca721'
+      SourceDestCheck: true
+      BlockDeviceMappings:
+        - DeviceName: '/dev/xvda'
+          Ebs:
+            Encrypted: false
+            VolumeSize: 8
+            SnapshotId: 'snap-03f58d3d918e5bd0a'
+            VolumeType: 'gp2'
+            DeleteOnTermination: true
+      Tags:
+        - Key: 'Name'
+          Value: 'bs-web-server'
+      HibernationOptions:
+        Configured: false
+      EnclaveOptions:
+        Enabled: false
+
+    EC2SecurityGroup:
+      Type: 'AWS::EC2::SecurityGroup'
+      Properties:
+        GroupDescription: 'launch-wizard-2 created 2022-11-06T11:54:05.110Z'
+        GroupName: 'launch-wizard-2'
+        VpcId: 'vpc-0bad0f1c25add1033'
+        SecurityGroupIngress:
+          - CidrIp: '0.0.0.0/0'
+            FromPort: 80
+            IpProtocol: 'tcp'
+            ToPort: 80
+          - CidrIp: '60.114.189.106/32'
+            FromPort: 22
+            IpProtocol: 'tcp'
+            ToPort: 22
+          - CidrIp: '0.0.0.0/0'
+            FromPort: 443
+            IpProtocol: 'tcp'
+            ToPort: 443
+        SecurityGroupEgress:
+          - CidrIp: '0.0.0.0/0'
+            IpProtocol: '-1'
+
+    EC2KeyPair:
+      Type: 'AWS::EC2::KeyPair'
+      Properties:
+        KeyName: 'bs-takuma0920'
+        KeyType: 'rsa'

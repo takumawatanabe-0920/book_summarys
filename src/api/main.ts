@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import * as config from 'config';
-import * as bodyParser from 'body-parser';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as bodyParser from 'body-parser';
+import * as config from 'config';
+import { AppModule } from './app.module';
 
 async function init() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
