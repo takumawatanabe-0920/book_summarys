@@ -2,7 +2,7 @@
 
 #### 【サービス名】 sharesummary
 
-https://sharesummary.com/
+http://sharesummary.com/
 
 #### 【用途】 本の要約をユーザー同士で共有するアプリ
 
