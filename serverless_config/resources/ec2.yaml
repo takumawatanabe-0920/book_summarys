@@ -11,8 +11,10 @@ Resources:
       KeyName: 'bs-takuma0920'
       AvailabilityZone: !Sub '${AWS::Region}a'
       Tenancy: 'default'
-      SubnetId: 'subnet-072419ed2bcd12e9f'
-      EbsOptimized: false
+      SubnetId: !Ref EC2Subnet
+      EbsOptimized:
+        false
+        # 変える必要がある
       SecurityGroupIds:
         - 'sg-075277fce907ca721'
       SourceDestCheck: true
@@ -35,9 +37,11 @@ Resources:
     EC2SecurityGroup:
       Type: 'AWS::EC2::SecurityGroup'
       Properties:
-        GroupDescription: 'launch-wizard-2 created 2022-11-06T11:54:05.110Z'
+        GroupDescription:
+          'launch-wizard-2 created 2022-11-06T11:54:05.110Z'
+          # 変える必要がある
         GroupName: 'launch-wizard-2'
-        VpcId: 'vpc-0bad0f1c25add1033'
+        VpcId: !Ref EC2VPC
         SecurityGroupIngress:
           - CidrIp: '0.0.0.0/0'
             FromPort: 80
