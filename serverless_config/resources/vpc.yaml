@@ -30,7 +30,7 @@ Resources:
     Properties:
       AvailabilityZone: !Sub '${AWS::Region}a'
       CidrBlock: '10.0.2.0/24'
-      VpcId: 'vpc-0bad0f1c25add1033'
+      VpcId: !Ref EC2VPC
       MapPublicIpOnLaunch: false
       Tags:
         - Key: 'Name'
