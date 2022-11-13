@@ -2,7 +2,7 @@ version: '3.3'
 volumes:
   mongodb-volume:
     driver: 'local'
-  elasticsearch-volume:
+  localstack-volumes:
     driver: 'local'
 services:
   mongodb:
@@ -11,18 +11,22 @@ services:
       - mongodb-volume:/data/db
     ports:
       - 27017:27017
-  # localstack:
-  #   image: localstack/localstack
-  #   ports:
-  #     - '4566:4566'
-  #   environment:
-  #     - SERVICES=${SERVICES- }
-  #     - DEBUG=${DEBUG- }
-  #     - DATA_DIR=${DATA_DIR- }
-  #     - PORT_WEB_UI=${PORT_WEB_UI- }
-  #     - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
-  #     - DOCKER_HOST=unix:///var/run/docker.sock
-  #     - LAMBDA_DOCKER_NETWORK=host
-  #     - LAMBDA_EXECUTOR=docker-reuse
-  #   volumes:
-  #     - '/var/run/docker.sock:/var/run/docker.sock'
+  localstack:
+    image: localstack/localstack:0.14.4
+    ports:
+      - 4566:4566
+      - 8000:8080
+    volumes:
+      # 初回起動スクリプト
+      - ./docker/localstack:/docker-entrypoint-initaws.d
+      - /var/run/docker.sock:/var/run/docker.sock
+      # データのマウント
+      - localstack-volumes:/tmp/localstack
+    environment:
+      # s3のpresignedUrlを利用するためにはtestにしなければいけない
+      # https://docs.localstack.cloud/integrations/aws-cli/#setting-up-local-region-and-credentials-to-run-localstack
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=ap-northeast-1
+      - DATA_DIR=/tmp/localstack/data
+      - DISABLE_CORS_CHECKS=1
