@@ -1,30 +1,45 @@
 #!/bin/sh
 
+echo '
+====================================================================================
+S3のセットアップを初めています。
+===================================================================================='
 echo "S3 setup start!"
-echo "Creating S3 bucket..."
 
 # https://qiita.com/Shoma0210/items/258e8422d5341160624b
-aws s3 ls --endpoint-url=http://localhost:4566 --profile localstack | awk '{print $3}' > /tmp/s3buckets.txt
-
-if [ $? -ne 0 ]
+aws s3 ls --endpoint-url=http://localhost:4566 --profile localstack
+cmdstatus=$?
+if [ cmdstatus -ne 0 ]
 then
-echo -e "date : Error occurs while connecting aws s3.. "
+echo -e "S3の接続に失敗しました。aws configureのlocalstackの設定を確認してください。https://qiita.com/Shoma0210/items/258e8422d5341160624b"
+exit cmdstatus
 fi
 
-echo -e "date : S3 bucket list is created.."
-cat /tmp/s3buckets.txt
-cat .env.sample | grep -e '.*_bucket' | sed -e 's/_/-/g' -e 's/=//g' > /tmp/s3bucketNames.txt
-# cat /tmp/s3bucketNames.txt
-cat /tmp/s3bucketNames.txt | xargs -I BACKET_NAME echo BACKET_NAME
-# cat /tmp/s3bucketNames.txt | xargs -I BACKET_NAME aws --endpoint-url=http://localhost:4566 s3 mb s3://BACKET_NAME/ --profile localstack
+TEXT=''
+for v in `cat .env.sample | grep -e '.*_bucket'`;
+do
+  var=`echo $v | sed -e 's/_/-/g' -e 's/=//g'`
+  aws --endpoint-url=http://localhost:4566 s3 mb s3://$var/ --profile localstack
+  if [ $? -ne 0 ] 
+  then
+    echo -e "バケットは既に作成されています。"
+  else
+    echo -e "$varバケットが作成されました。"
+  fi
+  echo $v$var
+  TEXT+="$v$var \n"
+done
+
+echo '
+====================================================================================
+バケットが作成されました。local環境のenvファイルに以下の環境変数を追加してください。
+===================================================================================='
+echo $TEXT
 
 
-
-if [ $? -ne 0 ]
-then
-echo -e "bucket exists! your-bucket-name"
-fi
-
-echo "S3 setup Done!"
+echo '
+====================================================================================
+S3のセットアップが完了しました。
+===================================================================================='
 
 # 出力結果が吐き出されない...
