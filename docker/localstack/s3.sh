@@ -5,28 +5,26 @@ echo '
 S3のセットアップを初めています。
 ===================================================================================='
 echo "S3 setup start!"
-
 # https://qiita.com/Shoma0210/items/258e8422d5341160624b
-aws s3 ls --endpoint-url=http://localhost:4566 --profile localstack
-cmdstatus=$?
-if [ cmdstatus -ne 0 ]
+aws s3 ls --endpoint-url=http://localhost:4566
+if [ $? -ne 0 ]
 then
 echo -e "S3の接続に失敗しました。aws configureのlocalstackの設定を確認してください。https://qiita.com/Shoma0210/items/258e8422d5341160624b"
-exit cmdstatus
+exit 1
 fi
 
 TEXT=''
-for v in `cat .env.sample | grep -e '.*_bucket'`;
+for v in `cat ../.env.sample | grep -e '.*_bucket'`;
 do
   var=`echo $v | sed -e 's/_/-/g' -e 's/=//g'`
-  aws --endpoint-url=http://localhost:4566 s3 mb s3://$var/ --profile localstack
+  buckets=`aws s3 ls --endpoint-url=http://localhost:4566 | grep $var` && :
   if [ $? -ne 0 ] 
   then
-    echo -e "バケットは既に作成されています。"
-  else
+    aws --endpoint-url=http://localhost:4566 s3 mb s3://$var
     echo -e "$varバケットが作成されました。"
+  else
+    echo -e "バケットは既に作成されています。"
   fi
-  echo $v$var
   TEXT+="$v$var \n"
 done
 
@@ -34,12 +32,10 @@ echo '
 ====================================================================================
 バケットが作成されました。local環境のenvファイルに以下の環境変数を追加してください。
 ===================================================================================='
-echo $TEXT
+echo -e "$TEXT"
 
 
 echo '
 ====================================================================================
 S3のセットアップが完了しました。
 ===================================================================================='
-
-# 初回実行されない

@@ -17,12 +17,20 @@ services:
       - 4566:4566
       - 8000:8080
     volumes:
+      - type: bind
+        source: ./localstack
+        target: /tmp/localstack
+      - type: bind
+        source: ./.env.sample
+        target: /opt/code/.env.sample
       # 初回起動スクリプト
+      # - docker/localstack
       - ./docker/localstack:/docker-entrypoint-initaws.d
       - /var/run/docker.sock:/var/run/docker.sock
       # データのマウント
       - localstack-volumes:/tmp/localstack
     environment:
+      - SERVICES=s3
       # s3のpresignedUrlを利用するためにはtestにしなければいけない
       # https://docs.localstack.cloud/integrations/aws-cli/#setting-up-local-region-and-credentials-to-run-localstack
       - AWS_ACCESS_KEY_ID=test
