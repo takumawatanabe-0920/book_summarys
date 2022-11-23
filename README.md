@@ -63,6 +63,9 @@ http://sharesummary.com/
   - EC2
   - Route53
   - S3
+- CICD
+  - github actions
+    - 自動デプロイ
 
 #### ビルド
 
