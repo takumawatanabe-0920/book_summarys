@@ -1,8 +1,6 @@
 name: PullRequestNotify
 
-on:
-  pull_request:
-    types: [closed]
+on: push
 
 jobs:
   pull_request_notify:
