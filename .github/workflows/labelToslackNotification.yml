@@ -1,0 +1,31 @@
+name: PullRequestNotify
+
+on:
+  pull_request:
+    types: [labeled]
+jobs:
+  pull_request_notify:
+    runs-on: ubuntu-latest
+    if: github.event.action == 'labeled' && github.event.label.name == 'has conflicts'
+    steps:
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: tokorom/action-slack-incoming-webhook@master
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: Conflictが発生しました。
+          attachments: |
+            [
+              {
+                "color": "error",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}",
+                "fields": [
+                  {
+                    "title": "発生しているPR",
+                    "value": "${{ github.event.pull_request.title }} \n${{ github.event.pull_request.html_url }}"
+                  },
+                ]
+              }
+            ]
