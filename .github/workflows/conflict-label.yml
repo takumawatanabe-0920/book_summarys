@@ -1,9 +1,7 @@
-on:
-  push:
-    branches:
-      - master
+on: push
+
 jobs:
-  triage:
+  conflict-checker:
     runs-on: ubuntu-latest
     steps:
       - uses: mschilde/auto-label-merge-conflicts@master
