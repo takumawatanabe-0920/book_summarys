@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.action == 'labeled' && github.event.label.name == 'has conflicts'
     steps:
-      - uses: tokorom/action-slack-incoming-webhook@master
+      - uses: tokorom/action-slack-incoming-webhook@main
         env:
-          INCOMING_WEBHOOK_URL: https://hooks.slack.com/services/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
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           text: Conflictが発生しました。
           # attachments: |
