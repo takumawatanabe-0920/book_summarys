@@ -1,6 +1,5 @@
-import * as config from 'config';
 import * as AWS from 'aws-sdk';
-console.log({ aws: config.get('aws') });
+import * as config from 'config';
 AWS.config.update({
   region: config.get('aws.region'),
   credentials: {
