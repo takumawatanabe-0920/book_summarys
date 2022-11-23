@@ -17,15 +17,16 @@ jobs:
           attachments: |
             [
               {
-                "color": "warning",
+                "color": "good",
                 "author_name": "${{ github.actor }}",
                 "author_icon": "${{ github.event.sender.avatar_url }}",
                 "fields": [
                   {
-                    "title": "発生しているPRのタイトル",
-                    "value": "${{ github.event.pull_request.title }}"
+                    "title": "Commit Message",
+                    "value": "${{ github.event.head_commit.message }}"
                   },
                 ]
               }
             ]
+
 
