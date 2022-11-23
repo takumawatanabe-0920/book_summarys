@@ -2,7 +2,8 @@ name: PullRequestNotify
 
 on:
   pull_request:
-    types: [labeled]
+    types: [opened]
+
 jobs:
   pull_request_notify:
     runs-on: ubuntu-latest
