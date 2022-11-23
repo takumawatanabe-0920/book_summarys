@@ -17,21 +17,13 @@ jobs:
           attachments: |
             [
               {
-                "color": "good",
+                "color": "warning",
                 "author_name": "${{ github.actor }}",
                 "author_icon": "${{ github.event.sender.avatar_url }}",
                 "fields": [
                   {
-                    "title": "Commit Message",
-                    "value": "${{ github.event.head_commit.message }}"
-                  },
-                  {
-                    "title": "GitHub Actions URL",
-                    "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}"
-                  },
-                  {
-                    "title": "Compare URL",
-                    "value": "${{ github.event.compare }}"
+                    "title": "発生しているPRのタイトル",
+                    "value": "${{ github.event.pull_request.title }} \n${{ github.event.pull_request.html_url }}"
                   }
                 ]
               }
