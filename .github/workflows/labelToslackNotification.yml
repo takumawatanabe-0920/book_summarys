@@ -6,7 +6,7 @@ on:
 jobs:
   pull_request_notify:
     runs-on: ubuntu-latest
-    if: github.event.action == 'labeled' && github.event.label.name == 'has conflicts'
+    # if: github.event.action == 'labeled' && github.event.label.name == 'has conflicts'
     steps:
       - name: Send custom JSON data to Slack workflow
         id: slack
