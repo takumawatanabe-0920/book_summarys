@@ -9,23 +9,22 @@ jobs:
     # if: github.event.action == 'labeled' && github.event.label.name == 'has conflicts'
     steps:
       - name: Send custom JSON data to Slack workflow
-        id: slack
         uses: tokorom/action-slack-incoming-webhook@master
         env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          INCOMING_WEBHOOK_URL: https://hooks.slack.com/services/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
         with:
           text: Conflictが発生しました。
-          attachments: |
-            [
-              {
-                "color": "error",
-                "author_name": "${{ github.actor }}",
-                "author_icon": "${{ github.event.sender.avatar_url }}",
-                "fields": [
-                  {
-                    "title": "発生しているPR",
-                    "value": "${{ github.event.pull_request.title }} \n${{ github.event.pull_request.html_url }}"
-                  },
-                ]
-              }
-            ]
+          # attachments: |
+          #   [
+          #     {
+          #       "color": "error",
+          #       "author_name": "${{ github.actor }}",
+          #       "author_icon": "${{ github.event.sender.avatar_url }}",
+          #       "fields": [
+          #         {
+          #           "title": "発生しているPR",
+          #           "value": "${{ github.event.pull_request.title }} \n${{ github.event.pull_request.html_url }}"
+          #         },
+          #       ]
+          #     }
+          #   ]
