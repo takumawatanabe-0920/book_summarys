@@ -14,7 +14,7 @@ async function init() {
     allowedHeaders:
       'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   });
-  console.log('サーバーを初期化');
+  console.log('初期化します');
   await app.listen(config.get('port'));
 }
 init();
