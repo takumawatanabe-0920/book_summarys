@@ -1,8 +1,9 @@
 name: PullRequestNotify
-
+# なぜかコンフリクトが発生しているとpull_requestイベントが発火しない
 on:
-  pull_request:
-    types: [labeled]
+  issues:
+    types:
+      - labeled
 
 jobs:
   pull_request_notify:
@@ -28,5 +29,3 @@ jobs:
                 ]
               }
             ]
-
-
