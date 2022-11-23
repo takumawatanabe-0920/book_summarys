@@ -14,7 +14,7 @@ export class UserApplication {
     conditions: Partial<UserDTO>,
   ): Promise<ReturnType<UserRepository['getById']>> {
     try {
-      console.log('conditions', conditions);
+      console.log('conditions');
       return await this.userRepository.getOne(conditions);
     } catch (error) {
       console.error(error);
