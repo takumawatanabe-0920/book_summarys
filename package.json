@@ -161,7 +161,6 @@
     "testEnvironment": "node"
   },
   "resolutions": {
-    "@types/react": "17.0.30",
-    "@types/react-dom": "17.0.30"
+    "@types/react": "17.0.30"
   }
 }
