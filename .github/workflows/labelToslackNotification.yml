@@ -25,6 +25,14 @@ jobs:
                     "title": "Commit Message",
                     "value": "${{ github.event.head_commit.message }}"
                   },
+                  {
+                    "title": "GitHub Actions URL",
+                    "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}"
+                  },
+                  {
+                    "title": "Compare URL",
+                    "value": "${{ github.event.compare }}"
+                  }
                 ]
               }
             ]
