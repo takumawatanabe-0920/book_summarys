@@ -1,6 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { CreateUserDTO, UserDTO } from './user.dto';
 import { UserRepository } from './user.repository';
-import { UserDTO, CreateUserDTO } from './user.dto';
 
 export type User = any;
 @Injectable()
@@ -14,6 +14,7 @@ export class UserApplication {
     conditions: Partial<UserDTO>,
   ): Promise<ReturnType<UserRepository['getById']>> {
     try {
+      console.log('conditions', conditions);
       return await this.userRepository.getOne(conditions);
     } catch (error) {
       console.error(error);
