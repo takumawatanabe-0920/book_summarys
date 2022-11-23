@@ -2,7 +2,7 @@ name: PullRequestNotify
 
 on:
   pull_request:
-    types: [opened]
+    types: [closed]
 
 jobs:
   pull_request_notify:
