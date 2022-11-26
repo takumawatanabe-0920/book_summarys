@@ -2,7 +2,7 @@ version: '3.3'
 volumes:
   mongodb-volume:
     driver: 'local'
-  localstack-volumes:
+  localstack-data:
     driver: 'local'
 services:
   mongodb:
@@ -18,9 +18,6 @@ services:
       - 8000:8080
     volumes:
       - type: bind
-        source: ./localstack
-        target: /tmp/localstack
-      - type: bind
         source: ./.env.sample
         target: /opt/code/.env.sample
       # 初回起動スクリプト
@@ -28,7 +25,7 @@ services:
       - ./docker/localstack:/docker-entrypoint-initaws.d
       - /var/run/docker.sock:/var/run/docker.sock
       # データのマウント
-      - localstack-volumes:/tmp/localstack
+      - localstack-data:/tmp/localstack
     environment:
       - SERVICES=s3
       # s3のpresignedUrlを利用するためにはtestにしなければいけない
